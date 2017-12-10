@@ -35,12 +35,12 @@ export default class ConnectLinkPage extends Component {
 					link: "https://www.google.com"
 				},
 				{
-					name: "Gmail",
-					link: "https://www.twitter.com/petermilesdev"
+					name: "Facebook",
+					link: "https://www.facebook.com/"
 				},
 				{
-					name: "Facebook",
-					link: "https://www.twitter.com/petermilesdev"
+					name: "Medium",
+					link: "https://www.medium.com/"
 				}
 			]
 		};
@@ -51,12 +51,16 @@ export default class ConnectLinkPage extends Component {
 			<Grid>
 				{_.chunk(this.state.links, 2).map((items, i) => {
 					const rowContents = items.map(item => (
-						<Col key={item.link}>
+						<Col size={1.5} key={item.link}>
 							<ConnectLink link={item.link} name={item.name} />
 						</Col>
 					));
 
-					return <Row key={items[0].link + items[0].name}>{rowContents}</Row>;
+					return (
+						<Row key={items[0].link + items[0].name}>
+							{rowContents}
+						</Row>
+					);
 				})}
 			</Grid>
 		);

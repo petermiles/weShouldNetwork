@@ -26,8 +26,6 @@ export default class App extends React.Component {
 
 	render() {
 		const { checkedSignIn, signedIn } = this.state;
-
-		// If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
 		if (!checkedSignIn) {
 			return null;
 		}

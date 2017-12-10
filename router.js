@@ -45,8 +45,11 @@ export const SignedIn = TabNavigator(
     animationEnabled: true,
     swipeEnabled: true,
     tabBarOptions: {
-      showLabel: false,
-      activeTintColor: "#e91e63"
+      showLabel: true,
+      activeTintColor: "white",
+      inactiveTintColor: "white",
+      activeBackgroundColor: "#2196f3",
+      inactiveBackgroundColor: "#1e88e5"
     }
   }
 );
