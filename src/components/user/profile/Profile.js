@@ -94,12 +94,13 @@ export default class Profile extends Component {
 					<Tab style={{ backgroundColor: "#fafafa" }} heading="Messaging">
 						<Text> This where messaging will go </Text>
 					</Tab>
-					<Tab heading="Connect">
-						<ConnectLinkPage />
-					</Tab>
 					<Tab heading="Description">
 						<ProfileDescription style={{ flex: 1 }} />
 					</Tab>
+					<Tab heading="Connect">
+						<ConnectLinkPage />
+					</Tab>
+					
 				</Tabs>
 			</Container>
 		);
