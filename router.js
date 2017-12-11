@@ -3,8 +3,9 @@ import { StackNavigator, TabNavigator } from "react-navigation";
 
 import SignUp from "./src/components/navigation/screens/SignUp";
 import SignIn from "./src/components/navigation/screens/SignIn";
-import Home from "./src/components/home/Home";
+import Connect from "./src/components/connect/Connect";
 import Profile from "./src/components/user/profile/Profile";
+import Scan from "./src/components/scan/Scan";
 
 export const SignedOut = StackNavigator({
   SignUp: {
@@ -21,10 +22,6 @@ export const SignedOut = StackNavigator({
   }
 });
 
-/* Add Custom Component to add header, footer, and other content to drawer.
-https://reactnavigation.org/docs/navigators/drawer
-*/
-
 export const SignedIn = TabNavigator(
   {
     Profile: {
@@ -34,10 +31,10 @@ export const SignedIn = TabNavigator(
         swipeEnabled: true
       }
     },
-    Home: {
-      screen: Home,
+    Connect: {
+      screen: Connect,
       navigationOptions: {
-        tabBarLabel: "Home"
+        tabBarLabel: "Connect"
       }
     }
   },
@@ -45,9 +42,33 @@ export const SignedIn = TabNavigator(
     animationEnabled: true,
     swipeEnabled: true,
     tabBarOptions: {
-      showLabel: false,
-      activeTintColor: "#e91e63"
+      showLabel: true,
+      activeTintColor: "white",
+      inactiveTintColor: "white",
+      activeBackgroundColor: "#2196f3",
+      inactiveBackgroundColor: "#1e88e5"
+    },
+    initialRouteName: "Profile"
+  }
+);
+
+export const SignedInWrapper = StackNavigator(
+  {
+    SignedIn: {
+      screen: SignedIn,
+      navigationOptions: {
+        tabBarLabel: "Connect"
+      }
+    },
+    Scan: {
+      screen: Scan
+    },
+    Profile: {
+      screen: Profile
     }
+  },
+  {
+    mode: "modal"
   }
 );
 
@@ -59,6 +80,9 @@ export const createRootNavigator = (signedIn = false) => {
       },
       SignedOut: {
         screen: SignedOut
+      },
+      Scan: {
+        screen: Scan
       }
     },
     {

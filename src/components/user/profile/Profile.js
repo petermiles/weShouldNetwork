@@ -1,8 +1,20 @@
 import React, { Component } from "react";
-import { Container, Content, Button, Text, H2, Tab, Tabs } from "native-base";
+import {
+	Container,
+	Content,
+	Text,
+	Tab,
+	Tabs,
+	Footer,
+	FooterTab,
+	Button,
+	Icon
+} from "native-base";
 import styled from "styled-components/native";
-import { Image } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
+
+import QRCode from "react-native-qrcode";
 
 import { chunk } from "lodash";
 
@@ -12,10 +24,10 @@ import ProfileDescription from "./description/Description";
 import ProfileContent from "./ProfileContent";
 
 const ProfileImage = styled.Image`
-	height: 110;
-	width: 110;
+	height: 90;
+	width: 90;
 	border-radius: 63;
-	margin-top: 10;
+	margin-top: 15;
 	margin-bottom: 10;
 `;
 
@@ -25,83 +37,88 @@ const MainName = styled.Text`
 `;
 
 const JobPosition = styled.Text`
+	font-weight: 500;
 	text-align: center;
-	font-size: 20;
-	padding-top: 15;
-	padding-bottom: 15;
-	margin-top: 15;
-	margin-bottom: 15;
+	font-size: 17;
+	padding-top: 5;
+	padding-bottom: 2;
+	padding-left: 10;
+	padding-right: 10;
+`;
+
+const JobCompany = styled.Text`
+	text-align: center;
+	font-size: 16;
+	padding-top: 1;
+	padding-bottom: 12;
+	padding-left: 10;
+	padding-right: 10;
+`;
+
+const MessageButton = styled.TouchableOpacity`
+	flex: 1;
+	justify-content: center;
+	background-color: #0069c0;
+	height: 40;
+	width: 200;
+	margin-bottom: 20;
 `;
 
 export default class Profile extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			links: [
-				{
-					name: "LinkedIn",
-					link: "https://www.linkedin.com/in/peter-miles"
-				},
-				{
-					name: "Twitter",
-					link: "https://www.twitter.com/petermilesdev"
-				},
-				{
-					name: "Dribble",
-					link: "https://www.google.com"
-				},
-				{
-					name: "Gmail",
-					link: "https://www.twitter.com/petermilesdev"
-				},
-				{
-					name: "Facebook",
-					link: "https://www.twitter.com/petermilesdev"
-				}
-			]
-		};
-	}
-
 	render() {
-		console.log(this.props);
 		const { navigate } = this.props.navigation;
+
 		return (
 			<Container>
 				<Content>
 					<Grid>
-						<Row>
-							<Col
-								size={1}
-								style={{
-									alignItems: "center"
-								}}
-							>
-								<ProfileImage source={require("./profile.png")} />
-							</Col>
-							<Col size={1.7} style={{ alignItems: "center" }}>
-								<Row style={{ alignItems: "center" }}>
-									<MainName> Peter Miles </MainName>
-								</Row>
-								<Row>
-									<JobPosition> Student Mentor at DevMountain </JobPosition>
-								</Row>
-							</Col>
+						<Row style={{ flex: 1, justifyContent: "center" }}>
+							<ProfileImage source={require("./profile.png")} />
+						</Row>
+						<Row style={{ flex: 1, justifyContent: "center" }}>
+							<MainName> Peter Miles </MainName>
+						</Row>
+
+						<Row style={{ flex: 1, justifyContent: "center" }}>
+							<JobPosition> Senior Web Component Architect </JobPosition>
+						</Row>
+						<Row style={{ flex: 1, justifyContent: "center" }}>
+							<JobCompany> Amazon Web Services </JobCompany>
 						</Row>
 					</Grid>
+					<View style={{ alignItems: "center" }}>
+						<MessageButton
+							onPress={() => {
+								console.log("pressed");
+							}}
+						>
+							<Text style={{ textAlign: "center", color: "white" }}>
+								{" "}
+								Message Me{" "}
+							</Text>
+						</MessageButton>
+					</View>
+
+					<View style={{ alignItems: "center" }}>
+						<QRCode
+							value="google.com"
+							size={200}
+							bgColor="black"
+							fgColor="white"
+						/>
+					</View>
 				</Content>
-				<Tabs initialPage={2} tabBarPosition={"overlayBottom"}>
-					<Tab style={{ backgroundColor: "#fafafa" }} heading="Messaging">
-						<Text> This where messaging will go </Text>
-					</Tab>
-					<Tab heading="Description">
-						<ProfileDescription style={{ flex: 1 }} />
-					</Tab>
-					<Tab heading="Connect">
-						<ConnectLinkPage />
-					</Tab>
-					
-				</Tabs>
+				<Footer>
+					<FooterTab>
+						<Button
+							onPress={() => {
+								navigate("Scan");
+							}}
+						>
+							<Text> SCAN </Text>
+						</Button>
+					</FooterTab>
+				</Footer>
 			</Container>
 		);
 	}

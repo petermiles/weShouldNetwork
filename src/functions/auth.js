@@ -16,6 +16,14 @@ export const checkAuth = () => {
 	});
 };
 
+export const ScanOpen = () => {
+	return true;
+};
+
+export const Signout = () => {
+	AsyncStorage.setItem("USER_KEY", false);
+};
+
 // export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
 
 // export const isSignedIn = () => {
