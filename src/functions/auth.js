@@ -21,7 +21,9 @@ export const ScanOpen = () => {
 };
 
 export const Signout = () => {
-	AsyncStorage.setItem("USER_KEY", false);
+	firebase.signout().then(() => {
+		AsyncStorage.setItem("USER_KEY", false);
+	});
 };
 
 // export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
