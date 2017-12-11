@@ -17,31 +17,41 @@ import { withNavigation } from "react-navigation";
 
 import firebase from "react-native-firebase";
 
+import axios from "axios";
+
 export default class SignUp extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			username: "",
+			email: "",
 			password: "",
 			uid: "",
+			name: "",
 			authed: false
 		};
 
 		this.createAccount = this.createAccount.bind(this);
 	}
 
+	// move this over to auth functions
 	createAccount(state) {
-		if (this.state.username && this.state.password) {
+		if (this.state.username && this.state.password * this.state.name) {
 			firebase
 				.auth()
-				.createUserWithEmailAndPassword(
-					this.state.username,
-					this.state.password
-				)
+				.createUserWithEmailAndPassword(this.state.email, this.state.password)
 				.then(result => {
-					AsyncStorage.setItem("USER_KEY", result._user.uid);
-					this.setState({ uid: result._user.uid, authed: true });
+					axios
+						.post("/api/user/create", {
+							email: this.state.email,
+							uid: result._user.uid,
+							name: this.state.name
+						})
+						.then(() => {
+							AsyncStorage.setItem("USER_KEY", result._user.uid);
+							this.setState({ uid: result._user.uid, authed: true });
+						})
+						.catch(console.log);
 				})
 				.catch(error => {
 					// Error Handlers Needed.
@@ -54,7 +64,16 @@ export default class SignUp extends Component {
 		return (
 			<Form style={{ width: "75%" }}>
 				<Item floatingLabel>
-					<Label>Username</Label>
+					<Label>Name</Label>
+					<Input
+						floatingLabel={true}
+						onChangeText={text => {
+							this.setState({ name: text });
+						}}
+					/>
+				</Item>
+				<Item floatingLabel>
+					<Label>Email</Label>
 					<Input
 						floatingLabel={true}
 						onChangeText={text => {
@@ -67,7 +86,7 @@ export default class SignUp extends Component {
 					<Input
 						secureTextEntry={true}
 						onChangeText={text => {
-							this.setState({ password: text });
+							this.setState({ Email: text });
 						}}
 					/>
 				</Item>
