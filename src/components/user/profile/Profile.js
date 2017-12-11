@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Container, Content, Text, Tab, Tabs } from "native-base";
+import {
+	Container,
+	Content,
+	Text,
+	Tab,
+	Tabs,
+	Footer,
+	FooterTab,
+	Button,
+	Icon
+} from "native-base";
 import styled from "styled-components/native";
 import { Image, TouchableOpacity, View } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -57,6 +67,7 @@ const MessageButton = styled.TouchableOpacity`
 export default class Profile extends Component {
 	render() {
 		const { navigate } = this.props.navigation;
+
 		return (
 			<Container>
 				<Content>
@@ -69,10 +80,7 @@ export default class Profile extends Component {
 						</Row>
 
 						<Row style={{ flex: 1, justifyContent: "center" }}>
-							<JobPosition>
-								{" "}
-								Senior Web Component Architect{" "}
-							</JobPosition>
+							<JobPosition> Senior Web Component Architect </JobPosition>
 						</Row>
 						<Row style={{ flex: 1, justifyContent: "center" }}>
 							<JobCompany> Amazon Web Services </JobCompany>
@@ -84,9 +92,7 @@ export default class Profile extends Component {
 								console.log("pressed");
 							}}
 						>
-							<Text
-								style={{ textAlign: "center", color: "white" }}
-							>
+							<Text style={{ textAlign: "center", color: "white" }}>
 								{" "}
 								Message Me{" "}
 							</Text>
@@ -96,29 +102,23 @@ export default class Profile extends Component {
 					<View style={{ alignItems: "center" }}>
 						<QRCode
 							value="google.com"
-							size={250}
+							size={200}
 							bgColor="black"
 							fgColor="white"
 						/>
 					</View>
 				</Content>
-
-				{/* Implement ANOTHER navigation unless there is some way to fix the first tab not showing.*/}
-
-				{/* <Tabs initialPage={1} tabBarPosition={"overlayBottom"}>
-					<Tab
-						style={{ backgroundColor: "#fafafa" }}
-						heading="Messaging"
-					>
-						<Text> This where messaging will go </Text>
-					</Tab>
-					<Tab heading="Description">
-						<ProfileDescription style={{ flex: 1 }} />
-					</Tab>
-					<Tab heading="Connect">
-						<ConnectLinkPage />
-					</Tab>
-				</Tabs> */}
+				<Footer>
+					<FooterTab>
+						<Button
+							onPress={() => {
+								navigate("Scan");
+							}}
+						>
+							<Text> SCAN </Text>
+						</Button>
+					</FooterTab>
+				</Footer>
 			</Container>
 		);
 	}

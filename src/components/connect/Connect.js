@@ -5,13 +5,9 @@ import styled from "styled-components/native";
 import ConnectLinkPage from "./../user/profile/connectLink/ConnectLinkPage";
 import ConnectLink from "./../user/profile/connectLink/ConnectLink";
 
-const StyledText = styled.Text`
-	color: palevioletred;
-`;
-
-export default class Home extends Component {
+// change to functional component
+export default class Connect extends Component {
 	render() {
-		const { navigate } = this.props.navigation;
 		return (
 			<Container>
 				<Content>
