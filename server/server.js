@@ -1,13 +1,13 @@
-const express = require("express");
-const { json } = require("body-parser");
-const massive = require("massive");
-const cors = require("cors");
-const axios = require("axios");
+const express = require('express');
+const { json } = require('body-parser');
+const massive = require('massive');
+const cors = require('cors');
+const axios = require('axios');
 
-const { herokuDb } = require("./config.js");
+const { herokuDB } = require('./config.js');
 
-massive(herokuDb).then(db => {
-	app.set("db", db);
+massive(herokuDB).then(db => {
+	app.set('db', db);
 });
 
 const port = 3001;
@@ -17,8 +17,11 @@ const app = express();
 app.use(json());
 app.use(cors());
 
-const authCtrl = require("./controllers/auth/authCtrl");
-app.post("/api/user/create", authCtrl.createUser);
+const authCtrl = require('./controllers/auth/authCtrl');
+const userCtrl = require('./controllers/user/userCtrl');
+
+app.post('/api/user/create', authCtrl.createUser);
+app.get('/api/user/getInfo/:id', userCtrl.getUser);
 
 app.listen(port, () => {
 	console.log(`Listening on ${port}.`);

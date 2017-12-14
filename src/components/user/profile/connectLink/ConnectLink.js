@@ -1,31 +1,30 @@
-import React, { Component } from "react";
-import styled from "styled-components/native";
-import { Text } from "native-base";
+import React, { Component } from 'react';
+import styled from 'styled-components/native';
+import { Text } from 'native-base';
 import {
 	TouchableWithoutFeedback,
 	View,
 	Animated,
-	StyleSheet,
 	TouchableOpacity
-} from "react-native";
-import { Col } from "react-native-easy-grid";
+} from 'react-native';
 
 // Figure out why I can't align items in center plz
 const JobPosition = styled.Text`
-	flex: 1;
+	flex: 0.95;
 	text-align: center;
+	justify-content: center;
 	font-size: 30;
 	color: white;
-	height: 150;
 `;
 
 const NetworkContainer = styled.TouchableWithoutFeedback`
 	flex: 1;
 	align-items: center;
+	justify-content: center;
 	flex-direction: row;
-`;
 
-var COLORS = ["rgb(255,255,255)", "rgb(111,235,62)"];
+	width: 100%;
+`;
 
 export default class ConnectLink extends Component {
 	constructor(props) {
@@ -33,22 +32,26 @@ export default class ConnectLink extends Component {
 
 		this.state = {
 			editable: false,
-			clicked: false,
+			held: false,
 			pressAction: new Animated.Value(0),
 			brandColors: {
-				LinkedIn: "#008CC9",
-				LinkedInActive: "#006794",
-				Dribble: "#ea4c89",
-				DribbleActive: "#E32B72",
-				Facebook: "#3b5998",
-				FacebookActive: "#14306B",
-				Twitter: "#1da1f2",
-				TwitterActive: "#036EAE",
-				Medium: "black",
-				MediumActive: "#464646"
-			},
-			buttonWidth: 0,
-			buttonHeight: 0
+				LinkedIn: '#008CC9',
+				LinkedInActive: '#006794',
+				Dribble: '#ea4c89',
+				DribbleActive: '#E32B72',
+				Facebook: '#3b5998',
+				FacebookActive: '#14306B',
+				Twitter: '#1da1f2',
+				TwitterActive: '#036EAE',
+				Medium: 'black',
+				MediumActive: '#464646',
+				Phone: '#ff9800',
+				PhoneActive: '#c66900',
+				Email: '#f44336',
+				EmailActive: '#ba000d',
+				Website: '#4caf50',
+				WebsiteActive: '#087f23'
+			}
 		};
 		this.pressIn = this.pressIn.bind(this);
 		this.pressOut = this.pressOut.bind(this);
@@ -94,20 +97,24 @@ export default class ConnectLink extends Component {
 	render() {
 		return (
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
-				<View>
-					<Animated.View>
-						<JobPosition
-							style={{
-								backgroundColor: !this.state.held
-									? this.state.brandColors[`${this.props.name}`]
-									: this.state.brandColors[`${this.props.name}Active`]
-							}}
-						>
-							{" "}
-							{this.props.name}{" "}
-						</JobPosition>
-					</Animated.View>
-				</View>
+				<Animated.View
+					style={{
+						alignItems: 'center',
+						flex: 1,
+						flexDirection: 'row',
+						justifyContent: 'center'
+					}}>
+					<JobPosition
+						style={{
+							backgroundColor: !this.state.held
+								? this.state.brandColors[`${this.props.name}`]
+								: this.state.brandColors[`${this.props.name}Active`],
+							height: 120
+						}}>
+						{' '}
+						{this.props.name}{' '}
+					</JobPosition>
+				</Animated.View>
 			</NetworkContainer>
 		);
 	}

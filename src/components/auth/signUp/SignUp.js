@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import {
 	Container,
@@ -10,24 +10,25 @@ import {
 	Button,
 	connectStyle,
 	Label
-} from "native-base";
-import { StyleSheet, Text, View, AsyncStorage } from "react-native";
+} from 'native-base';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
-import { withNavigation } from "react-navigation";
+import { withNavigation } from 'react-navigation';
 
-import firebase from "react-native-firebase";
+import firebase from 'react-native-firebase';
 
-import axios from "axios";
+import axios from 'axios';
 
+@withNavigation
 export default class SignUp extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			email: "",
-			password: "",
-			uid: "",
-			name: "",
+			email: '',
+			password: '',
+			uid: '',
+			name: '',
 			authed: false
 		};
 
@@ -36,25 +37,26 @@ export default class SignUp extends Component {
 
 	// move this over to auth functions
 	createAccount(state) {
-		if (this.state.username && this.state.password * this.state.name) {
+		if (this.state.email && this.state.password) {
 			firebase
 				.auth()
 				.createUserWithEmailAndPassword(this.state.email, this.state.password)
 				.then(result => {
 					axios
-						.post("/api/user/create", {
+						.post('http://172.31.99.35:3001/api/user/create', {
 							email: this.state.email,
 							uid: result._user.uid,
 							name: this.state.name
 						})
-						.then(() => {
-							AsyncStorage.setItem("USER_KEY", result._user.uid);
-							this.setState({ uid: result._user.uid, authed: true });
+						.then(result => {
+							AsyncStorage.setItem('USER_KEY', result.data.id);
+							this.props.navigation.navigate('SignedIn', {
+								user: result.data.id
+							});
 						})
 						.catch(console.log);
 				})
 				.catch(error => {
-					// Error Handlers Needed.
 					console.log(error);
 				});
 		}
@@ -62,7 +64,7 @@ export default class SignUp extends Component {
 
 	render() {
 		return (
-			<Form style={{ width: "75%" }}>
+			<Form style={{ width: '75%' }}>
 				<Item floatingLabel>
 					<Label>Name</Label>
 					<Input
@@ -77,7 +79,7 @@ export default class SignUp extends Component {
 					<Input
 						floatingLabel={true}
 						onChangeText={text => {
-							this.setState({ username: text });
+							this.setState({ email: text });
 						}}
 					/>
 				</Item>
@@ -86,7 +88,7 @@ export default class SignUp extends Component {
 					<Input
 						secureTextEntry={true}
 						onChangeText={text => {
-							this.setState({ Email: text });
+							this.setState({ password: text });
 						}}
 					/>
 				</Item>
@@ -94,23 +96,10 @@ export default class SignUp extends Component {
 					style={{ marginTop: 15 }}
 					block
 					success
-					onPress={this.createAccount}
-				>
+					onPress={this.createAccount}>
 					<Text> Sign Up Component </Text>
 				</Button>
 			</Form>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center"
-	},
-	textInput: {
-		height: 50,
-		width: 250
-	}
-});
