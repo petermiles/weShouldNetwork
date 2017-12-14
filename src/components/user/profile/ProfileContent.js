@@ -1,22 +1,14 @@
-import React from "react";
-import { TabNavigator } from "react-navigation";
+import React from 'react';
+import { TabNavigator } from 'react-navigation';
 
-import Description from "./description/Description";
-import ConnectLinkPage from "./connectLink/ConnectLinkPage";
+import ConnectLinkPage from './connectLink/ConnectLinkPage';
 
 export default (ProfileContent = TabNavigator(
   {
-    Description: {
-      screen: Description,
-      navigationOptions: {
-        tabBarLabel: "Description",
-        swipeEnabled: true
-      }
-    },
     Connect: {
       screen: ConnectLinkPage,
       navigationOptions: {
-        tabBarLabel: "Connect",
+        tabBarLabel: 'Connect',
         swipeEnabled: true
       }
     }
@@ -25,7 +17,7 @@ export default (ProfileContent = TabNavigator(
     animationEnabled: true,
     tabBarOptions: {
       showLabel: true,
-      activeTintColor: "#e91e63"
+      activeTintColor: '#e91e63'
     }
   }
 ));

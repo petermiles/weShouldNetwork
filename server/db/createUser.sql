@@ -1,0 +1,1 @@
+INSERT INTO users (id, email, name) VALUES (${uid}, ${email}, ${name}) RETURNING *;

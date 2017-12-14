@@ -1,13 +1,15 @@
 const createUser = (req, res) => {
 	req.app
-		.get("db")
-		.createUser({ email: req.body.email, name: rq.body.name })
+		.get('db')
+		.createUser(req.body)
 		.then(result => {
-			console.log(result);
+			res.json(result[0]);
 		})
-		.catch(console.log(error));
+		.catch(err => {
+			console.log;
+			res.json(err);
+		});
 };
-
 module.exports = {
 	createUser
 };

@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { AppRegistry, AsyncStorage } from "react-native";
-import { createRootNavigator } from "./router";
+import { AppRegistry, AsyncStorage } from 'react-native';
+import { createRootNavigator } from './router';
 
-import { checkAuth } from "./src/functions/auth";
+import { checkAuth } from './src/functions/auth';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -21,7 +21,10 @@ export default class App extends React.Component {
 			.then(result => {
 				this.setState({ signedIn: result, checkedSignIn: true });
 			})
-			.catch(error => alert("An error occured 😔😔"));
+			.catch(error => {
+				console.log(error);
+				alert('An error occured 😔😔');
+			});
 	}
 
 	render() {
@@ -29,10 +32,9 @@ export default class App extends React.Component {
 		if (!checkedSignIn) {
 			return null;
 		}
-
 		const Layout = createRootNavigator(signedIn);
-		return <Layout />;
+		return <Layout props={checkAuth} />;
 	}
 }
 
-AppRegistry.registerComponent("android", () => App);
+AppRegistry.registerComponent('android', () => App);

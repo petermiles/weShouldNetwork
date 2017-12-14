@@ -1,13 +1,13 @@
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from 'react-native';
 
-import firebase from "react-native-firebase";
+import firebase from 'react-native-firebase';
 
 export const checkAuth = () => {
 	return new Promise((resolve, reject) => {
-		AsyncStorage.getItem("USER_KEY")
+		AsyncStorage.getItem('USER_KEY')
 			.then(res => {
 				if (res !== null) {
-					resolve(true);
+					resolve(res);
 				} else {
 					resolve(false);
 				}
@@ -22,7 +22,7 @@ export const ScanOpen = () => {
 
 export const Signout = () => {
 	firebase.signout().then(() => {
-		AsyncStorage.setItem("USER_KEY", false);
+		AsyncStorage.setItem('USER_KEY', false);
 	});
 };
 

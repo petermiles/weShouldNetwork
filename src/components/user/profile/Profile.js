@@ -1,27 +1,21 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
 	Container,
 	Content,
 	Text,
-	Tab,
-	Tabs,
 	Footer,
 	FooterTab,
-	Button,
-	Icon
-} from "native-base";
-import styled from "styled-components/native";
-import { Image, TouchableOpacity, View } from "react-native";
-import { Col, Row, Grid } from "react-native-easy-grid";
-
-import QRCode from "react-native-qrcode";
-
-import { chunk } from "lodash";
-
-import ConnectLink from "./connectLink/ConnectLink";
-import ConnectLinkPage from "./connectLink/ConnectLinkPage";
-import ProfileDescription from "./description/Description";
-import ProfileContent from "./ProfileContent";
+	Button
+} from 'native-base';
+import styled from 'styled-components/native';
+import { View, AsyncStorage } from 'react-native';
+import QRCode from 'react-native-qrcode';
+import ConnectLink from './connectLink/ConnectLink';
+import ConnectLinkPage from './connectLink/ConnectLinkPage';
+import ProfileHead from './profileHead/ProfileHead';
+import ProfileContent from './ProfileContent';
+import ProfileFavoriteButton from './favorites/ProfileFavoriteButton';
+import axios from 'axios';
 
 const ProfileImage = styled.Image`
 	height: 90;
@@ -55,71 +49,79 @@ const JobCompany = styled.Text`
 	padding-right: 10;
 `;
 
-const MessageButton = styled.TouchableOpacity`
-	flex: 1;
-	justify-content: center;
-	background-color: #0069c0;
-	height: 40;
-	width: 200;
-	margin-bottom: 20;
+const CenteredView = styled.View`
+	align-items: center;
 `;
 
 export default class Profile extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: true,
+			uid: '',
+			name: '',
+			position: '',
+			profilePicURL: '',
+			company: ''
+		};
+	}
+
+	componentDidMount() {
+		AsyncStorage.getItem('USER_KEY').then(result => {
+			this.props.navigation.setParams({ user: result });
+			axios
+				.get('http://172.31.99.35:3001/api/user/getInfo/' + result)
+				.then(result => {
+					this.setState({
+						name: result.data.name,
+						position: result.data.position,
+						company: result.data.company,
+						profilePicURL: result.data.profilepic,
+						loading: false,
+						uid: result.data.uid
+					});
+				});
+		});
+	}
 	render() {
 		const { navigate } = this.props.navigation;
-
-		return (
-			<Container>
-				<Content>
-					<Grid>
-						<Row style={{ flex: 1, justifyContent: "center" }}>
-							<ProfileImage source={require("./profile.png")} />
-						</Row>
-						<Row style={{ flex: 1, justifyContent: "center" }}>
-							<MainName> Peter Miles </MainName>
-						</Row>
-
-						<Row style={{ flex: 1, justifyContent: "center" }}>
-							<JobPosition> Senior Web Component Architect </JobPosition>
-						</Row>
-						<Row style={{ flex: 1, justifyContent: "center" }}>
-							<JobCompany> Amazon Web Services </JobCompany>
-						</Row>
-					</Grid>
-					<View style={{ alignItems: "center" }}>
-						<MessageButton
-							onPress={() => {
-								console.log("pressed");
-							}}
-						>
-							<Text style={{ textAlign: "center", color: "white" }}>
-								{" "}
-								Message Me{" "}
-							</Text>
-						</MessageButton>
-					</View>
-
-					<View style={{ alignItems: "center" }}>
-						<QRCode
-							value="google.com"
-							size={200}
-							bgColor="black"
-							fgColor="white"
+		if (this.state.loading) {
+			return <Text> Loading </Text>;
+		} else {
+			return (
+				<Container>
+					<Content>
+						<ProfileHead
+							name={this.state.name}
+							company={this.state.company}
+							position={this.state.position}
+							picURL={this.state.profilePicURL}
 						/>
-					</View>
-				</Content>
-				<Footer>
-					<FooterTab>
-						<Button
-							onPress={() => {
-								navigate("Scan");
-							}}
-						>
-							<Text> SCAN </Text>
-						</Button>
-					</FooterTab>
-				</Footer>
-			</Container>
-		);
+						<CenteredView>
+							<ProfileFavoriteButton />
+						</CenteredView>
+
+						<CenteredView>
+							<QRCode
+								value={this.props.navigation.state.params.user}
+								size={200}
+								bgColor="black"
+								fgColor="white"
+							/>
+						</CenteredView>
+					</Content>
+					<Footer>
+						<FooterTab>
+							<Button
+								onPress={() => {
+									navigate('Scan');
+								}}>
+								<Text> SCAN </Text>
+							</Button>
+						</FooterTab>
+					</Footer>
+				</Container>
+			);
+		}
 	}
 }
