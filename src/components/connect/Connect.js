@@ -9,11 +9,9 @@ import {
 } from 'native-base';
 import styled from 'styled-components/native';
 
-import ConnectLinkPage from './../user/profile/connectLink/ConnectLinkPage';
-import ConnectLink from './../user/profile/connectLink/ConnectLink';
-import EditModal, {
-	FooterEditButton
-} from './../user/profile/connectLink/EditModal';
+import ConnectLinkPage from './connectLink/ConnectLinkPage';
+import ConnectLink from './connectLink/ConnectLink';
+import EditModal, { FooterEditButton } from './connectLink/EditModal';
 
 const EditButton = styled.Text`
 	font-size: 25;

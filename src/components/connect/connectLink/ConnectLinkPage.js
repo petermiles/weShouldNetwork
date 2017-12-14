@@ -94,60 +94,7 @@ export default class ConnectLinkPage extends Component {
 						</View>
 					);
 				})}
-				<Modal
-					visible={this.state.editable}
-					animationType={'fade'}
-					transparent={true}
-					onRequestClose={() => {
-						this.setState({ editable: false });
-					}}
-					hardwareAccelerated={true}>
-					<View
-						style={{
-							flex: 1,
-							flexDirection: 'column',
-							justifyContent: 'center',
-							alignItems: 'center',
-							backgroundColor: '#00000080'
-						}}>
-						<View
-							style={{
-								width: 300,
-								height: 200,
-								alignItems: 'center',
-								justifyContent: 'center',
-								backgroundColor: 'white'
-							}}>
-							<View
-								style={{
-									position: 'absolute',
-									top: 0,
-									left: 0,
-									right: 0,
-									backgroundColor: this.state.color,
-									alignItems: 'center',
-									justifyContent: 'center'
-								}}>
-								<EditableName>{this.state.editableName}</EditableName>
-							</View>
-							<EditableInput
-								style={{ width: 250, marginTop: 40 }}
-								onChangeText={text => {
-									this.setState({ editableLink: text });
-								}}
-								value={this.state.editableLink}
-							/>
-
-							<Button
-								title="Save"
-								onPress={() => {
-									console.log(this.state);
-								}}
-								color="cornflowerblue"
-							/>
-						</View>
-					</View>
-				</Modal>
+				{/* Might be removing this. */}
 			</View>
 		);
 	}

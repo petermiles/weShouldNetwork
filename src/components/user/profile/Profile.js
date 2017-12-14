@@ -10,10 +10,7 @@ import {
 import styled from 'styled-components/native';
 import { View, AsyncStorage } from 'react-native';
 import QRCode from 'react-native-qrcode';
-import ConnectLink from './connectLink/ConnectLink';
-import ConnectLinkPage from './connectLink/ConnectLinkPage';
 import ProfileHead from './profileHead/ProfileHead';
-import ProfileContent from './ProfileContent';
 import ProfileFavoriteButton from './favorites/ProfileFavoriteButton';
 import axios from 'axios';
 
