@@ -8,6 +8,7 @@ import {
 	Text
 } from 'native-base';
 import styled from 'styled-components/native';
+import { Vibration } from 'react-native';
 
 import ConnectLinkPage from './connectLink/ConnectLinkPage';
 import ConnectLink from './connectLink/ConnectLink';
@@ -54,6 +55,10 @@ export default class Connect extends Component {
 				{
 					name: 'Facebook',
 					link: 'https://www.facebook.com/'
+				},
+				{
+					name: 'Add',
+					link: 'none'
 				}
 			]
 		};
@@ -62,6 +67,7 @@ export default class Connect extends Component {
 	}
 
 	openEditModal() {
+		Vibration.vibrate(15);
 		this.setState({ editable: !this.state.editable });
 	}
 

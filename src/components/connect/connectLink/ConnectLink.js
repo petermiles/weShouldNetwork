@@ -12,7 +12,7 @@ import {
 const JobPosition = styled.Text`
 	flex: 0.95;
 	text-align: center;
-	justify-content: center;
+	justify-content: space-around;
 	font-size: 30;
 	color: white;
 `;
@@ -21,9 +21,8 @@ const NetworkContainer = styled.TouchableWithoutFeedback`
 	flex: 1;
 	align-items: center;
 	justify-content: center;
-	flex-direction: row;
-
-	width: 100%;
+	flex-direction: column;
+	width: 98%;
 `;
 
 export default class ConnectLink extends Component {
@@ -47,8 +46,8 @@ export default class ConnectLink extends Component {
 				MediumActive: '#464646',
 				Phone: '#ff9800',
 				PhoneActive: '#c66900',
-				Email: '#f44336',
-				EmailActive: '#ba000d',
+				Email: '#00BCD4',
+				EmailActive: '#00ACC1',
 				Website: '#4caf50',
 				WebsiteActive: '#087f23'
 			}
@@ -100,7 +99,6 @@ export default class ConnectLink extends Component {
 				<Animated.View
 					style={{
 						alignItems: 'center',
-						flex: 1,
 						flexDirection: 'row',
 						justifyContent: 'center'
 					}}>

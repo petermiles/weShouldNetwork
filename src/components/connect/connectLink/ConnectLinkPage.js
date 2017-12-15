@@ -63,18 +63,20 @@ export default class ConnectLinkPage extends Component {
 
 	render() {
 		return (
-			<View
-				onLayout={event => {
-					this.setState({ containerHeight: event.nativeEvent.layout.height });
-				}}>
+			<View>
 				{_.chunk(this.props.links, 2).map((items, i) => {
 					const rowContents = items.map(item => (
 						<View
 							key={item.name}
-							style={{ width: `${items.length % 2 === 0 ? '50%' : '100%'}` }}>
+							style={{
+								width: `${items.length % 2 === 0 ? '50%' : '100%'}`
+							}}>
 							<ConnectLink
-								height={this.state.containerHeight}
-								length={this.props.links.length}
+								length={
+									this.props.links.length % 2 === 0
+										? this.props.links.length
+										: this.props.links.length + 1
+								}
 								editable={this.handleEdit}
 								link={item.link}
 								name={item.name}
@@ -94,7 +96,6 @@ export default class ConnectLinkPage extends Component {
 						</View>
 					);
 				})}
-				{/* Might be removing this. */}
 			</View>
 		);
 	}
