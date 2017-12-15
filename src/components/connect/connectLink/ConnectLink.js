@@ -23,6 +23,7 @@ const NetworkContainer = styled.TouchableWithoutFeedback`
 	justify-content: center;
 	flex-direction: column;
 	width: 100%;
+	elevation: 2;
 `;
 
 export default class ConnectLink extends Component {
@@ -97,8 +98,6 @@ export default class ConnectLink extends Component {
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
 				<Animated.View
 					style={{
-						alignItems: 'center',
-						flexDirection: 'row',
 						justifyContent: 'center'
 					}}>
 					<JobPosition

@@ -8,7 +8,8 @@ import {
 	Text
 } from 'native-base';
 import styled from 'styled-components/native';
-import { Vibration } from 'react-native';
+import { Vibration, AsyncStorage } from 'react-native';
+import axios from 'axios';
 
 import ConnectLinkPage from './connectLink/ConnectLinkPage';
 import ConnectLink from './connectLink/ConnectLink';
@@ -27,6 +28,7 @@ export default class Connect extends Component {
 
 		this.state = {
 			editable: false,
+			loading: true,
 			links: [
 				{
 					name: 'Phone',
@@ -43,6 +45,18 @@ export default class Connect extends Component {
 				{
 					name: 'LinkedIn',
 					link: 'https://www.linkedin.com/in/peter-miles'
+				},
+				{
+					name: 'Twitter',
+					link: 'https://www.twitter.com/petermilesdev'
+				},
+				{
+					name: 'Dribble',
+					link: 'https://www.google.com'
+				},
+				{
+					name: 'Add',
+					link: 'none'
 				}
 			],
 			editableName: '',
@@ -51,6 +65,7 @@ export default class Connect extends Component {
 		};
 
 		this.openEditModal = this.openEditModal.bind(this);
+		this.editInfo = this.editInfo.bind(this);
 	}
 
 	openEditModal(val) {
@@ -63,6 +78,24 @@ export default class Connect extends Component {
 		});
 	}
 
+	editInfo(state) {
+		let editLink = this.state.links;
+		this.setState({ editable: false, editLink: state.link });
+		console.log(state);
+	}
+
+	componentDidMount() {
+		AsyncStorage.getItem('USER_KEY')
+			.then(result => {
+				axios
+					.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${result}`)
+					.then(result => {
+						console.log(result);
+					});
+			})
+			.catch(console.log);
+	}
+
 	render() {
 		return (
 			<Container>
@@ -72,6 +105,7 @@ export default class Connect extends Component {
 						editable={this.openEditModal}
 					/>
 					<EditModal
+						editInfo={this.editInfo}
 						visible={this.state.editable}
 						handleModal={this.openEditModal}
 						name={this.state.editableName}

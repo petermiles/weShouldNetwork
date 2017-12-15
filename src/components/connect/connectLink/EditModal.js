@@ -28,15 +28,15 @@ export default class EditModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			editLink: '',
-			editName: '',
+			editLink: props.link,
+			editName: props.name,
 			delete: false,
-			primary: ''
+			primary: '',
+			typing: false
 		};
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<Modal
 				visible={this.props.visible}
@@ -57,17 +57,38 @@ export default class EditModal extends Component {
 							}}>
 							<TextInput
 								onChangeText={text => {
-									this.setState({ editText: text });
+									this.setState({ editLink: text });
 								}}
 								defaultValue={this.props.link}
 								editable={true}
 								style={{ fontSize: 20, flex: 0.8 }}
 								returnKeyType={'done'}
+								onFocus={() => {
+									this.setState({ typing: true });
+								}}
+								onEndEditing={() => {
+									this.setState({ typing: false });
+								}}
 							/>
 						</View>
+						{!this.state.typing ? (
+							<View
+								style={{
+									flexDirection: 'row',
+									justifyContent: 'center',
+									marginTop: '5%'
+								}}>
+								<Text> Make Primary </Text>
+							</View>
+						) : null}
 
 						<ModalFooter>
-							<FooterButton save activeOpacity={0.7}>
+							<FooterButton
+								save
+								activeOpacity={0.7}
+								onPress={() => {
+									this.props.editInfo(this.state);
+								}}>
 								<FooterButtonText> Save </FooterButtonText>
 							</FooterButton>
 							<FooterButton

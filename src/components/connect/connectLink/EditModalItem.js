@@ -11,7 +11,7 @@ import {
 	TouchableOpacity
 } from 'react-native';
 
-import Swipeable from 'react-native-swipeable';
+// import Swipeable from 'react-native-swipeable';
 
 const colors = {
 	LinkedIn: '#008CC9',

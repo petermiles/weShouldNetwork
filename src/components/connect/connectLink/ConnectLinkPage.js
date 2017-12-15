@@ -81,11 +81,7 @@ export default class ConnectLinkPage extends Component {
 								margin: '1%'
 							}}>
 							<ConnectLink
-								length={
-									this.props.links.length % 2 === 0
-										? this.props.links.length
-										: this.props.links.length + 1
-								}
+								style={{}}
 								editable={this.handleEdit}
 								link={x.link}
 								name={x.name}
