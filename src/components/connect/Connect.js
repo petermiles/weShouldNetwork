@@ -8,12 +8,11 @@ import {
 	Text
 } from 'native-base';
 import styled from 'styled-components/native';
+import { Vibration } from 'react-native';
 
-import ConnectLinkPage from './../user/profile/connectLink/ConnectLinkPage';
-import ConnectLink from './../user/profile/connectLink/ConnectLink';
-import EditModal, {
-	FooterEditButton
-} from './../user/profile/connectLink/EditModal';
+import ConnectLinkPage from './connectLink/ConnectLinkPage';
+import ConnectLink from './connectLink/ConnectLink';
+import EditModal, { FooterEditButton } from './connectLink/EditModal';
 
 const EditButton = styled.Text`
 	font-size: 25;
@@ -56,6 +55,10 @@ export default class Connect extends Component {
 				{
 					name: 'Facebook',
 					link: 'https://www.facebook.com/'
+				},
+				{
+					name: 'Add',
+					link: 'none'
 				}
 			]
 		};
@@ -64,6 +67,7 @@ export default class Connect extends Component {
 	}
 
 	openEditModal() {
+		Vibration.vibrate(15);
 		this.setState({ editable: !this.state.editable });
 	}
 

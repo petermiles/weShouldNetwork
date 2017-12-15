@@ -63,18 +63,20 @@ export default class ConnectLinkPage extends Component {
 
 	render() {
 		return (
-			<View
-				onLayout={event => {
-					this.setState({ containerHeight: event.nativeEvent.layout.height });
-				}}>
+			<View>
 				{_.chunk(this.props.links, 2).map((items, i) => {
 					const rowContents = items.map(item => (
 						<View
 							key={item.name}
-							style={{ width: `${items.length % 2 === 0 ? '50%' : '100%'}` }}>
+							style={{
+								width: `${items.length % 2 === 0 ? '50%' : '100%'}`
+							}}>
 							<ConnectLink
-								height={this.state.containerHeight}
-								length={this.props.links.length}
+								length={
+									this.props.links.length % 2 === 0
+										? this.props.links.length
+										: this.props.links.length + 1
+								}
 								editable={this.handleEdit}
 								link={item.link}
 								name={item.name}
@@ -94,60 +96,6 @@ export default class ConnectLinkPage extends Component {
 						</View>
 					);
 				})}
-				<Modal
-					visible={this.state.editable}
-					animationType={'fade'}
-					transparent={true}
-					onRequestClose={() => {
-						this.setState({ editable: false });
-					}}
-					hardwareAccelerated={true}>
-					<View
-						style={{
-							flex: 1,
-							flexDirection: 'column',
-							justifyContent: 'center',
-							alignItems: 'center',
-							backgroundColor: '#00000080'
-						}}>
-						<View
-							style={{
-								width: 300,
-								height: 200,
-								alignItems: 'center',
-								justifyContent: 'center',
-								backgroundColor: 'white'
-							}}>
-							<View
-								style={{
-									position: 'absolute',
-									top: 0,
-									left: 0,
-									right: 0,
-									backgroundColor: this.state.color,
-									alignItems: 'center',
-									justifyContent: 'center'
-								}}>
-								<EditableName>{this.state.editableName}</EditableName>
-							</View>
-							<EditableInput
-								style={{ width: 250, marginTop: 40 }}
-								onChangeText={text => {
-									this.setState({ editableLink: text });
-								}}
-								value={this.state.editableLink}
-							/>
-
-							<Button
-								title="Save"
-								onPress={() => {
-									console.log(this.state);
-								}}
-								color="cornflowerblue"
-							/>
-						</View>
-					</View>
-				</Modal>
 			</View>
 		);
 	}

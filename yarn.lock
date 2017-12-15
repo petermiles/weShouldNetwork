@@ -4801,6 +4801,16 @@ react-native-qrcode@^0.2.6:
     prop-types "^15.5.10"
     qr.js "0.0.0"
 
+react-native-sortable-list@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/react-native-sortable-list/-/react-native-sortable-list-0.0.19.tgz#53905100abb3a306d6bdd25107f0e6b38a402072"
+  dependencies:
+    prop-types "^15.5.10"
+
+react-native-sortable-listview@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-sortable-listview/-/react-native-sortable-listview-0.2.6.tgz#d1ed6bb552fa5190994e507c03de5a2921688ca6"
+
 react-native-tab-view@^0.0.70:
   version "0.0.70"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.70.tgz#1dd2ded32acd0cb6bfef38d26e53675db733b37b"
