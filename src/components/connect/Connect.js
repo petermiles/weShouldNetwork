@@ -43,52 +43,42 @@ export default class Connect extends Component {
 				{
 					name: 'LinkedIn',
 					link: 'https://www.linkedin.com/in/peter-miles'
-				},
-				{
-					name: 'Twitter',
-					link: 'https://www.twitter.com/petermilesdev'
-				},
-				{
-					name: 'Dribble',
-					link: 'https://www.google.com'
-				},
-				{
-					name: 'Facebook',
-					link: 'https://www.facebook.com/'
-				},
-				{
-					name: 'Add',
-					link: 'none'
 				}
-			]
+			],
+			editableName: '',
+			editableLink: '',
+			editableColor: ''
 		};
 
 		this.openEditModal = this.openEditModal.bind(this);
 	}
 
-	openEditModal() {
+	openEditModal(val) {
 		Vibration.vibrate(15);
-		this.setState({ editable: !this.state.editable });
+		this.setState({
+			editable: !this.state.editable,
+			editableName: val.name,
+			editableLink: val.link,
+			editableColor: val.color
+		});
 	}
 
 	render() {
 		return (
 			<Container>
 				<Content>
-					<ConnectLinkPage links={this.state.links} />
+					<ConnectLinkPage
+						links={this.state.links}
+						editable={this.openEditModal}
+					/>
 					<EditModal
 						visible={this.state.editable}
 						handleModal={this.openEditModal}
-						links={this.state.links}
+						name={this.state.editableName}
+						link={this.state.editableLink}
+						color={this.state.editableColor}
 					/>
 				</Content>
-				<Footer>
-					<FooterTab>
-						<Button onPress={this.openEditModal}>
-							<EditButton> EDIT </EditButton>
-						</Button>
-					</FooterTab>
-				</Footer>
 			</Container>
 		);
 	}

@@ -10,7 +10,7 @@ import {
 
 // Figure out why I can't align items in center plz
 const JobPosition = styled.Text`
-	flex: 0.95;
+	flex: 1;
 	text-align: center;
 	justify-content: space-around;
 	font-size: 30;
@@ -22,7 +22,7 @@ const NetworkContainer = styled.TouchableWithoutFeedback`
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	width: 98%;
+	width: 100%;
 `;
 
 export default class ConnectLink extends Component {
@@ -77,7 +77,6 @@ export default class ConnectLink extends Component {
 			toValue: 0
 		}).start();
 		this.setState({ held: false });
-		this.state.pressAction._value = 0;
 	}
 
 	completePress() {
@@ -87,7 +86,7 @@ export default class ConnectLink extends Component {
 			color: this.state.brandColors[this.props.name]
 		};
 		if (this.state.pressAction._value === 1) {
-			this.handleEdit(Object.assign({}, editInfo, { editable: true }));
+			this.handleEdit(editInfo);
 		}
 
 		this.val = 0;

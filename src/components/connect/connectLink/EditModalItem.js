@@ -6,9 +6,12 @@ import {
 	View,
 	Animated,
 	Modal,
-	StyleSheet,
-	TextInput
+	TextInput,
+	ScrollView,
+	TouchableOpacity
 } from 'react-native';
+
+import Swipeable from 'react-native-swipeable';
 
 const colors = {
 	LinkedIn: '#008CC9',
@@ -25,127 +28,34 @@ const colors = {
 export default class EditModalItem extends Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			value: 0,
-			visible: false
-		};
-		this.flipCard = this.flipCard.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({ links: nextProps.links });
 	}
 
-	componentWillMount() {
-		this.animatedValue = new Animated.Value(0);
-		this.value = 0;
-		this.animatedValue.addListener(({ value }) => {
-			this.value = value;
-		});
-		this.frontInterpolate = this.animatedValue.interpolate({
-			inputRange: [0, 180],
-			outputRange: ['0deg', '180deg']
-		});
-		this.backInterpolate = this.animatedValue.interpolate({
-			inputRange: [180, 360],
-			outputRange: ['0deg', '180deg']
-		});
-	}
-
-	flipCard() {
-		if (this.value >= 90) {
-			this.setState({ visible: !this.state.visible });
-			Animated.spring(this.animatedValue, {
-				toValue: 0,
-				friction: 8,
-				tension: 10
-			}).start();
-		} else {
-			this.setState({ visible: !this.state.visible });
-			Animated.spring(this.animatedValue, {
-				toValue: 180,
-				friction: 8,
-				tension: 10
-			}).start();
-		}
-	}
-
 	render() {
-		console.log(this.props);
-		const frontAnimatedStyle = {
-			transform: [{ rotateX: this.frontInterpolate }]
-		};
-		const backAnimatedStyle = {
-			transform: [{ rotateX: this.backInterpolate }]
-		};
-
 		return (
-			<TouchableWithoutFeedback
-				style={{
-					flex: 0.5,
-					alignItems: 'center',
-					justifyContent: 'center'
-				}}
-				onPress={() => this.flipCard()}>
+			<View>
 				<LinkContainer>
 					<View style={{ justifyContent: 'center' }}>
 						<LinkLogo color={colors[this.props.name]} />
 					</View>
-					{this.state.visible ? (
-						<Animated.View
-							style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
-							<LinkContainer>
-								<TextInput
-									defaultValue={this.props.name}
-									onTextChange={text => {
-										console.log(text);
-									}}
-								/>
-							</LinkContainer>
-						</Animated.View>
-					) : (
-						<Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
-							<LinkText> {this.props.name} </LinkText>
-						</Animated.View>
-					)}
+					<LinkText> {this.props.name} </LinkText>
 				</LinkContainer>
-			</TouchableWithoutFeedback>
+			</View>
 		);
 	}
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	flipCard: {
-		flexDirection: 'row',
-		width: '90%',
-		marginTop: '1.5%',
-		marginBottom: '1.5%',
-		paddingTop: '1.5%',
-		paddingBottom: '1.5%',
-		marginLeft: '3.5%',
-		marginRight: '3.5%',
-		elevation: 2,
-		backfaceVisibility: 'hidden'
-	},
-	backCard: {
-		transform: [{ rotate: '-180deg' }],
-		position: 'absolute',
-		top: 0
-	}
-});
-
 const LinkContainer = styled.View`
 	flex-direction: row;
 	width: 93%;
-	margin-top: 1.5%;
-	margin-bottom: 1.5%;
+	margin-top: 1.7%;
+	margin-bottom: 1.7%;
 	margin-left: 3.5%;
+	padding-top: 2.5%;
+	padding-bottom: 2.5%;
 	paddingLeft: 3%;
 	margin-right 3.5%;
 	background-color: #F5F5F5;

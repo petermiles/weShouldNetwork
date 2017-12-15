@@ -42,6 +42,7 @@ const ModalHeader = styled.View`
 
 export default class ConnectLinkPage extends Component {
 	constructor(props) {
+		console.log(props);
 		super(props);
 		this.state = {
 			editable: false,
@@ -49,27 +50,35 @@ export default class ConnectLinkPage extends Component {
 			editableLink: '',
 			containerHeight: ''
 		};
+		this.openModal = props.editable.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
 	}
 
 	handleEdit(val) {
-		this.setState({
-			editable: val.editable,
-			editableName: val.name,
-			editableLink: val.link,
-			color: val.color
-		});
+		this.props.editable(val);
 	}
 
 	render() {
+		let linksArr = _.chunk(this.props.links, 2);
+		linksArr.unshift(linksArr.pop());
+		console.log(linksArr);
 		return (
-			<View>
-				{_.chunk(this.props.links, 2).map((items, i) => {
-					const rowContents = items.map(item => (
+			<View
+				style={{
+					paddingTop: '3%',
+					flexDirection: 'row',
+					flexWrap: 'wrap',
+					marginLeft: '3%',
+					marginRight: '3%',
+					width: '93%'
+				}}>
+				{this.props.links.map((x, i) => {
+					return (
 						<View
-							key={item.name}
+							key={i}
 							style={{
-								width: `${items.length % 2 === 0 ? '50%' : '100%'}`
+								width: i === 0 ? '98%' : '48%',
+								margin: '1%'
 							}}>
 							<ConnectLink
 								length={
@@ -78,21 +87,9 @@ export default class ConnectLinkPage extends Component {
 										: this.props.links.length + 1
 								}
 								editable={this.handleEdit}
-								link={item.link}
-								name={item.name}
+								link={x.link}
+								name={x.name}
 							/>
-						</View>
-					));
-
-					return (
-						<View
-							style={{
-								flexDirection: 'row',
-								flex: 1,
-								marginTop: '2%'
-							}}
-							key={items[0].link + items[0].name}>
-							{rowContents}
 						</View>
 					);
 				})}
