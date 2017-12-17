@@ -42,7 +42,7 @@ const ModalHeader = styled.View`
 
 export default class ConnectLinkPage extends Component {
 	constructor(props) {
-		console.log(props);
+		// console.log(props, 'from connectLinkPage');
 		super(props);
 		this.state = {
 			editable: false,
@@ -55,13 +55,11 @@ export default class ConnectLinkPage extends Component {
 	}
 
 	handleEdit(val) {
+		// console.log(val, 'from connectLinkPage');
 		this.props.editable(val);
 	}
 
 	render() {
-		let linksArr = _.chunk(this.props.links, 2);
-		linksArr.unshift(linksArr.pop());
-		console.log(linksArr);
 		return (
 			<View
 				style={{
@@ -81,10 +79,11 @@ export default class ConnectLinkPage extends Component {
 								margin: '1%'
 							}}>
 							<ConnectLink
-								style={{}}
 								editable={this.handleEdit}
+								editInfo={this.props.editInfo}
+								id={x.id}
 								link={x.link}
-								name={x.name}
+								name={x.servicename}
 							/>
 						</View>
 					);

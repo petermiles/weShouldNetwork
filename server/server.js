@@ -23,6 +23,7 @@ const userCtrl = require('./controllers/user/userCtrl');
 app.post('/api/user/create', authCtrl.createUser);
 app.get('/api/user/getInfo/:id', userCtrl.getUser);
 app.get('/api/user/getConnectLinks/:id', userCtrl.getConnectLinks);
+app.put('/api/user/connectLink/update', userCtrl.updateConnectLink);
 
 app.listen(port, () => {
 	console.log(`Listening on ${port}.`);
