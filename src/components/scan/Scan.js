@@ -1,4 +1,3 @@
-'use strict';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -11,7 +10,7 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
-
+import { NavigationActions } from 'react-navigation';
 import { once } from 'lodash';
 import Camera from 'react-native-camera';
 
@@ -35,12 +34,12 @@ export default class Scan extends Component {
   }
 
   onBarCodeRead(e) {
-    Vibration.vibrate(200);
-
-    axios.post('http://172.31.99.35:3001/api/user/create', {
-      name: 'name here'
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'ScannedProfile',
+      params: { uid: e.data }
     });
-    this.props.navigation.navigate('SignedIn');
+    this.props.navigation.dispatch(navigateAction);
+    Vibration.vibrate(200);
   }
 }
 
