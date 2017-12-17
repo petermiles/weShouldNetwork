@@ -50,7 +50,7 @@ export default class FavoritesPage extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={{ marginTop: '4%' }}>
 				{this.state.favorites.map((item, i) => {
 					return (
 						<IndivFavorite

@@ -7,10 +7,10 @@ import {
 	Animated,
 	TouchableOpacity,
 	Modal,
-	StyleSheet
+	TextInput
 } from 'react-native';
 
-import EditModalItem from './EditModalItem';
+import { EditModalItem } from './EditModalItem';
 
 const colors = {
 	LinkedIn: '#008CC9',
@@ -28,79 +28,81 @@ export default class EditModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			links: ''
+			editLink: props.link,
+			editName: props.name,
+			delete: false,
+			primary: '',
+			typing: false
 		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({ links: nextProps.links });
 	}
 
 	render() {
 		return (
-			<View>
-				<Modal
-					visible={this.props.visible}
-					animationType={'fade'}
-					transparent={true}
-					onRequestClose={this.props.handleModal}
-					hardwareAccelerated={true}>
-					<ModalContainer>
-						<ModalContent>
-							<ModalHeader>
-								<ModalHeaderText>Edit Your Connect Links</ModalHeaderText>
-							</ModalHeader>
-
-							<View>
-								{this.props.links.map((link, id) => {
-									if (link.name !== 'Add') {
-										return (
-											<EditModalItem
-												key={id}
-												name={link.name}
-												link={link.link}
-											/>
-										);
-									}
-								})}
+			<Modal
+				visible={this.props.visible}
+				animationType={'fade'}
+				transparent={true}
+				onRequestClose={this.props.handleModal}
+				hardwareAccelerated={true}>
+				<ModalContainer>
+					<ModalContent>
+						<ModalHeader color={this.props.color}>
+							<ModalHeaderText>{this.props.name}</ModalHeaderText>
+						</ModalHeader>
+						<View
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								flexDirection: 'row'
+							}}>
+							<TextInput
+								onChangeText={text => {
+									this.setState({ editLink: text });
+								}}
+								defaultValue={this.props.link}
+								editable={true}
+								style={{ fontSize: 20, flex: 0.8 }}
+								returnKeyType={'done'}
+								onFocus={() => {
+									this.setState({ typing: true });
+								}}
+								onEndEditing={() => {
+									this.setState({ typing: false });
+								}}
+							/>
+						</View>
+						{!this.state.typing ? (
+							<View
+								style={{
+									flexDirection: 'row',
+									justifyContent: 'center',
+									marginTop: '5%'
+								}}>
+								<Text> Make Primary </Text>
 							</View>
-							<ModalFooter>
-								<FooterButton save activeOpacity={0.7}>
-									<FooterButtonText> Save </FooterButtonText>
-								</FooterButton>
-								<FooterButton
-									onPress={this.props.handleModal}
-									activeOpacity={0.7}>
-									<FooterButtonText> Cancel </FooterButtonText>
-								</FooterButton>
-							</ModalFooter>
-						</ModalContent>
-					</ModalContainer>
-				</Modal>
-			</View>
+						) : null}
+
+						<ModalFooter>
+							<FooterButton
+								save
+								activeOpacity={0.7}
+								onPress={() => {
+									this.props.editInfo(this.state);
+								}}>
+								<FooterButtonText> Save </FooterButtonText>
+							</FooterButton>
+							<FooterButton
+								onPress={this.props.handleModal}
+								activeOpacity={0.7}>
+								<FooterButtonText> Cancel </FooterButtonText>
+							</FooterButton>
+						</ModalFooter>
+					</ModalContent>
+				</ModalContainer>
+			</Modal>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	flipCard: {
-		flexDirection: 'row',
-		width: '90%',
-		marginTop: '1.5%',
-		marginBottom: '1.5%',
-		paddingTop: '2.5%',
-		paddingBottom: '2.5%',
-		marginLeft: '3.5%',
-		marginRight: '3.5%',
-		elevation: 2,
-		backfaceVisibility: 'hidden'
-	}
-});
 
 const EditButton = styled.Text`
 	font-size: 25;
@@ -119,7 +121,7 @@ const ModalContainer = styled.View`
 
 const ModalContent = styled.View`
 	width: 95%;
-	height: 94%;
+	height: 45%;
 	justify-content: center
 	background-color: #FAFAFA
 `;
@@ -129,7 +131,7 @@ const ModalHeader = styled.View`
 	top: 0
 	left: 0
 	right: 0
-	background-color: cornflowerblue;
+	background-color: ${props => (props.color ? props.color : 'cornflowerblue')}
 	width: 100%;
 	elevation: 3
 `;
@@ -169,25 +171,32 @@ const FooterButtonText = styled.Text`
 	font-size: 22;
 `;
 
-const LinkContainer = styled.View`
+const LinkContainer = styled.TouchableOpacity`
 	flex-direction: row;
 	width: 93%;
-	margin-top: 1%;
-	margin-bottom: 1%;
+	margin-top: 1.5%;
+	margin-bottom: 1.5%;
+	padding-top: 2.5%;
+	padding-bottom: 2.5%;
 	margin-left: 3.5%;
 	margin-right 3.5%;
 	background-color: #F5F5F5;
 	elevation: 2;
 `;
 
+const LinkTextContainer = styled.View`
+	justify-content: center;
+`;
+
 const LinkText = styled.Text`
 	font-size: 24;
-	margin-left: 7%;
+	margin-left: 10%;
 `;
 
 const LinkLogo = styled.View`
-	height: 35;
-	width: 35;
+	margin-left: 5%;
+	height: 30;
+	width: 30;
 	border-radius: 20;
 	elevation: 2;
 	background: ${props => props.color};

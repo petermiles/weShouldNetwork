@@ -8,7 +8,8 @@ import {
 	Text
 } from 'native-base';
 import styled from 'styled-components/native';
-import { Vibration } from 'react-native';
+import { Vibration, AsyncStorage } from 'react-native';
+import axios from 'axios';
 
 import ConnectLinkPage from './connectLink/ConnectLinkPage';
 import ConnectLink from './connectLink/ConnectLink';
@@ -27,6 +28,7 @@ export default class Connect extends Component {
 
 		this.state = {
 			editable: false,
+			loading: true,
 			links: [
 				{
 					name: 'Phone',
@@ -53,42 +55,64 @@ export default class Connect extends Component {
 					link: 'https://www.google.com'
 				},
 				{
-					name: 'Facebook',
-					link: 'https://www.facebook.com/'
-				},
-				{
 					name: 'Add',
 					link: 'none'
 				}
-			]
+			],
+			editableName: '',
+			editableLink: '',
+			editableColor: ''
 		};
 
 		this.openEditModal = this.openEditModal.bind(this);
+		this.editInfo = this.editInfo.bind(this);
 	}
 
-	openEditModal() {
+	openEditModal(val) {
 		Vibration.vibrate(15);
-		this.setState({ editable: !this.state.editable });
+		this.setState({
+			editable: !this.state.editable,
+			editableName: val.name,
+			editableLink: val.link,
+			editableColor: val.color
+		});
+	}
+
+	editInfo(state) {
+		let editLink = this.state.links;
+		this.setState({ editable: false, editLink: state.link });
+		console.log(state);
+	}
+
+	componentDidMount() {
+		AsyncStorage.getItem('USER_KEY')
+			.then(result => {
+				axios
+					.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${result}`)
+					.then(result => {
+						console.log(result);
+					});
+			})
+			.catch(console.log);
 	}
 
 	render() {
 		return (
 			<Container>
 				<Content>
-					<ConnectLinkPage links={this.state.links} />
+					<ConnectLinkPage
+						links={this.state.links}
+						editable={this.openEditModal}
+					/>
 					<EditModal
+						editInfo={this.editInfo}
 						visible={this.state.editable}
 						handleModal={this.openEditModal}
-						links={this.state.links}
+						name={this.state.editableName}
+						link={this.state.editableLink}
+						color={this.state.editableColor}
 					/>
 				</Content>
-				<Footer>
-					<FooterTab>
-						<Button onPress={this.openEditModal}>
-							<EditButton> EDIT </EditButton>
-						</Button>
-					</FooterTab>
-				</Footer>
 			</Container>
 		);
 	}
