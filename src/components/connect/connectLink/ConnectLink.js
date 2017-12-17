@@ -35,22 +35,20 @@ export default class ConnectLink extends Component {
 			held: false,
 			pressAction: new Animated.Value(0),
 			brandColors: {
-				LinkedIn: '#008CC9',
-				LinkedInActive: '#006794',
-				Dribble: '#ea4c89',
-				DribbleActive: '#E32B72',
-				Facebook: '#3b5998',
-				FacebookActive: '#14306B',
-				Twitter: '#1da1f2',
-				TwitterActive: '#036EAE',
-				Medium: 'black',
-				MediumActive: '#464646',
-				Phone: '#ff9800',
-				PhoneActive: '#c66900',
-				Email: '#00BCD4',
-				EmailActive: '#00ACC1',
-				Website: '#4caf50',
-				WebsiteActive: '#087f23'
+				linkedin: '#008CC9',
+				linkedinActive: '#006794',
+				dribble: '#ea4c89',
+				dribbleActive: '#E32B72',
+				facebook: '#3b5998',
+				facebookActive: '#14306B',
+				twitter: '#1da1f2',
+				twitterActive: '#036EAE',
+				medium: 'black',
+				mediumActive: '#464646',
+				email: '#00BCD4',
+				emailActive: '#00ACC1',
+				website: '#4caf50',
+				websiteActive: '#087f23'
 			}
 		};
 		this.pressIn = this.pressIn.bind(this);
@@ -66,7 +64,7 @@ export default class ConnectLink extends Component {
 
 	pressIn() {
 		Animated.timing(this.state.pressAction, {
-			duration: 500,
+			duration: 400,
 			toValue: 1
 		}).start(this.completePress);
 		this.setState({ held: true });
@@ -84,12 +82,12 @@ export default class ConnectLink extends Component {
 		var editInfo = {
 			name: this.props.name,
 			link: this.props.link,
-			color: this.state.brandColors[this.props.name]
+			color: this.state.brandColors[this.props.name],
+			id: this.props.id
 		};
 		if (this.state.pressAction._value === 1) {
 			this.handleEdit(editInfo);
 		}
-
 		this.val = 0;
 	}
 
@@ -108,7 +106,10 @@ export default class ConnectLink extends Component {
 							height: 120
 						}}>
 						{' '}
-						{this.props.name}{' '}
+						{this.props.name
+							? this.props.name.charAt(0).toUpperCase() +
+								this.props.name.slice(1)
+							: null}{' '}
 					</JobPosition>
 				</Animated.View>
 			</NetworkContainer>

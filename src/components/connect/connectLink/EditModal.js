@@ -13,23 +13,25 @@ import {
 import { EditModalItem } from './EditModalItem';
 
 const colors = {
-	LinkedIn: '#008CC9',
-	Dribble: '#ea4c89',
-	Facebook: '#3b5998',
-	Twitter: '#1da1f2',
-	Medium: 'black',
-	Phone: '#ff9800',
-	Email: '#f44336',
-	Website: '#4caf50',
-	Add: '#C8E6C9'
+	linkedin: '#008CC9',
+	dribble: '#ea4c89',
+	facebook: '#3b5998',
+	twitter: '#1da1f2',
+	medium: 'black',
+	phone: '#ff9800',
+	email: '#f44336',
+	website: '#4caf50',
+	add: '#C8E6C9'
 };
 
 export default class EditModal extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			editLink: props.link,
 			editName: props.name,
+			editId: props.id,
 			delete: false,
 			primary: '',
 			typing: false
@@ -46,8 +48,13 @@ export default class EditModal extends Component {
 				hardwareAccelerated={true}>
 				<ModalContainer>
 					<ModalContent>
-						<ModalHeader color={this.props.color}>
-							<ModalHeaderText>{this.props.name}</ModalHeaderText>
+						<ModalHeader color={colors[`${this.props.name}`]}>
+							<ModalHeaderText>
+								{this.props.name
+									? this.props.name.charAt(0).toUpperCase() +
+										this.props.name.slice(1)
+									: null}
+							</ModalHeaderText>
 						</ModalHeader>
 						<View
 							style={{
@@ -71,16 +78,6 @@ export default class EditModal extends Component {
 								}}
 							/>
 						</View>
-						{!this.state.typing ? (
-							<View
-								style={{
-									flexDirection: 'row',
-									justifyContent: 'center',
-									marginTop: '5%'
-								}}>
-								<Text> Make Primary </Text>
-							</View>
-						) : null}
 
 						<ModalFooter>
 							<FooterButton

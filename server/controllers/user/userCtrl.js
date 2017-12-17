@@ -18,7 +18,18 @@ const getConnectLinks = (req, res) => {
 		.catch(console.log);
 };
 
+const updateConnectLink = (req, res) => {
+	console.log(req.body.id, req.body.link);
+	req.app
+		.get('db')
+		.connectEditLink({ id: req.body.id, link: req.body.link })
+		.then(result => {
+			console.log(result);
+		});
+};
+
 module.exports = {
 	getUser,
-	getConnectLinks
+	getConnectLinks,
+	updateConnectLink
 };
