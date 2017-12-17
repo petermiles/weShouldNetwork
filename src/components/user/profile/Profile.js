@@ -50,75 +50,106 @@ const CenteredView = styled.View`
 	align-items: center;
 `;
 
+const QRCodeLoading = styled.View`
+	width: 200;
+	height: 200;
+	background-color: #cfd8dc;
+`;
+
 export default class Profile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			loading: true,
-			uid: '',
+			profileUid: '',
 			name: '',
 			position: '',
 			profilePicURL: '',
-			company: ''
+			company: '',
+			userUid: ''
 		};
+
+		AsyncStorage.getItem('USER_KEY').then(result => {
+			this.setState({ userUid: result });
+		});
 	}
 
 	componentDidMount() {
-		AsyncStorage.getItem('USER_KEY').then(result => {
-			this.props.navigation.setParams({ user: result });
-			axios
-				.get('http://172.31.99.35:3001/api/user/getInfo/' + result)
-				.then(result => {
-					this.setState({
-						name: result.data.name,
-						position: result.data.position,
-						company: result.data.company,
-						profilePicURL: result.data.profilepic,
-						loading: false,
-						uid: result.data.uid
-					});
+		this.props.navigation.state.params
+			? axios
+					.get(
+						'http://172.31.99.35:3001/api/user/getInfo/' +
+							this.props.navigation.state.params.uid
+					)
+					.then(result => {
+						this.setState({
+							name: result.data.name,
+							position: result.data.position,
+							company: result.data.company,
+							profilePicURL: result.data.profilepic,
+							loading: false,
+							profileUid: result.data.uid
+						});
+					})
+			: AsyncStorage.getItem('USER_KEY').then(id => {
+					axios
+						.get('http://172.31.99.35:3001/api/user/getInfo/' + id)
+						.then(result => {
+							this.setState({
+								name: result.data.name,
+								position: result.data.position,
+								company: result.data.company,
+								profilePicURL: result.data.profilepic,
+								loading: false,
+								profileUid: result.data.uid
+							});
+						});
 				});
-		});
 	}
 	render() {
 		const { navigate } = this.props.navigation;
-		if (this.state.loading) {
-			return <Text> Loading </Text>;
-		} else {
-			return (
-				<Container>
-					<Content>
-						<ProfileHead
-							name={this.state.name}
-							company={this.state.company}
-							position={this.state.position}
-							picURL={this.state.profilePicURL}
-						/>
-						<CenteredView>
-							<ProfileFavoriteButton />
-						</CenteredView>
+		return (
+			<Container>
+				<Content>
+					<ProfileHead
+						name={this.state.name}
+						company={this.state.company}
+						position={this.state.position}
+						picURL={this.state.profilePicURL}
+						loading={this.state.loading}
+					/>
+					<CenteredView>
+						<ProfileFavoriteButton loading={this.state.loading} />
+					</CenteredView>
 
-						<CenteredView>
+					<CenteredView>
+						{!this.state.loading ? (
 							<QRCode
-								value={this.props.navigation.state.params.user}
+								value={
+									this.props.navigation.state.params
+										? this.props.navigation.state.params.uid
+										: this.state.uid
+								}
 								size={200}
 								bgColor="black"
 								fgColor="white"
 							/>
-						</CenteredView>
-					</Content>
-					<Footer>
-						<FooterTab>
-							<Button
-								onPress={() => {
-									navigate('Scan');
-								}}>
-								<Text> SCAN </Text>
-							</Button>
-						</FooterTab>
-					</Footer>
-				</Container>
-			);
-		}
+						) : (
+							<QRCodeLoading />
+						)}
+					</CenteredView>
+				</Content>
+				<Footer>
+					<FooterTab>
+						<Button
+							onPress={() => {
+								navigate('Scan');
+							}}>
+							<Text> SCAN </Text>
+						</Button>
+					</FooterTab>
+				</Footer>
+			</Container>
+		);
 	}
 }

@@ -33,7 +33,8 @@ export default class Connect extends Component {
 			editableName: '',
 			editableLink: '',
 			editableColor: '',
-			loading: true
+			loading: true,
+			ownProfile: true
 		};
 
 		this.openEditModal = this.openEditModal.bind(this);
@@ -52,7 +53,6 @@ export default class Connect extends Component {
 	}
 
 	editInfo(state) {
-		console.log(state);
 		let editInfo = {
 			link: state.editLink,
 			id: state.editId
@@ -68,15 +68,32 @@ export default class Connect extends Component {
 	}
 
 	componentDidMount() {
-		AsyncStorage.getItem('USER_KEY')
-			.then(result => {
-				axios
-					.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${result}`)
+		this.props.navigation.state.params
+			? axios
+					.get(
+						`http://172.31.99.35:3001/api/user/getConnectLinks/${
+							this.props.navigation.state.params.uid
+						}`
+					)
 					.then(result => {
-						this.setState({ links: result.data, loading: false });
-					});
-			})
-			.catch(console.log);
+						this.setState({
+							links: result.data,
+							loading: false,
+							ownProfile: false
+						});
+					})
+			: AsyncStorage.getItem('USER_KEY')
+					.then(result => {
+						axios
+							.get(
+								`http://172.31.99.35:3001/api/user/getConnectLinks/${result}`
+							)
+							.then(result => {
+								this.setState({ links: result.data, loading: false });
+							})
+							.catch(console.log);
+					})
+					.catch(console.log);
 	}
 
 	render() {
@@ -90,8 +107,9 @@ export default class Connect extends Component {
 							links={this.state.links}
 							editInfo={this.editInfo}
 							editable={this.openEditModal}
+							ownProfile={this.state.ownProfile}
 						/>
-						{this.state.editableLink && (
+						{this.state.editableLink ? (
 							<EditModal
 								editInfo={this.editInfo}
 								visible={this.state.editable}
@@ -101,7 +119,7 @@ export default class Connect extends Component {
 								id={this.state.editableId}
 								color={this.state.editableColor}
 							/>
-						)}
+						) : null}
 					</Content>
 				</Container>
 			);

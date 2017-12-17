@@ -28,8 +28,18 @@ const updateConnectLink = (req, res) => {
 		});
 };
 
+const deleteConnectLink = (req, res) => {
+	req.app
+		.get('db')
+		.connectDeleteLink({ id: req.body.id, uid: req.body.uid })
+		.then(result => {
+			console.log(result);
+		});
+};
+
 module.exports = {
 	getUser,
 	getConnectLinks,
-	updateConnectLink
+	updateConnectLink,
+	deleteConnectLink
 };

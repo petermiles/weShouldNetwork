@@ -30,6 +30,38 @@ export const SignedOut = StackNavigator({
   }
 });
 
+export const ScannedProfile = TabNavigator(
+  {
+    Profile: {
+      screen: Profile,
+      path: `/profile/:user`,
+      initialRouteParams: { user: 'test' },
+      navigationOptions: {
+        tabBarLabel: 'Profile',
+        swipeEnabled: true
+      }
+    },
+    Connect: {
+      screen: Connect,
+      navigationOptions: {
+        tabBarLabel: 'Connect'
+      }
+    }
+  },
+  {
+    animationEnabled: true,
+    swipeEnabled: true,
+    tabBarOptions: {
+      showLabel: true,
+      activeTintColor: 'white',
+      inactiveTintColor: 'white',
+      activeBackgroundColor: '#2196f3',
+      inactiveBackgroundColor: '#1e88e5'
+    },
+    initialRouteName: 'Profile'
+  }
+);
+
 export const SignedIn = TabNavigator(
   {
     Favorites: {
@@ -37,7 +69,7 @@ export const SignedIn = TabNavigator(
     },
     Profile: {
       screen: Profile,
-      path: `profile/:user`,
+      path: `/profile/:user`,
       initialRouteParams: { user: 'test' },
       navigationOptions: {
         tabBarLabel: 'Profile',
@@ -70,15 +102,21 @@ export const createRootNavigator = (signedIn = false) => {
     {
       SignedIn: {
         screen: SignedIn,
-        path: 'signedIn/:user',
+        path: '/signedIn/:user',
         initialRouteName: signedIn ? 'Profile' : 'SignedOut',
-        userID: userID()
+        params: { uid: userID() }
       },
       SignedOut: {
         screen: SignedOut
       },
       Scan: {
         screen: Scan
+      },
+      ScannedProfile: {
+        screen: ScannedProfile,
+        path: '/profile/:uid',
+        initialRouteName: 'Profile',
+        initialRouteParams: { user: 'test' }
       }
     },
     {
