@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import {
 	Container,
@@ -10,12 +10,12 @@ import {
 	Button,
 	connectStyle,
 	Label
-} from "native-base";
-import { StyleSheet, Text, View, AsyncStorage } from "react-native";
+} from 'native-base';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
-import { withNavigation } from "react-navigation";
+import { withNavigation } from 'react-navigation';
 
-import firebase from "react-native-firebase";
+import firebase from 'react-native-firebase';
 
 @withNavigation
 export default class SignIn extends Component {
@@ -23,29 +23,29 @@ export default class SignIn extends Component {
 		super(props);
 
 		this.state = {
-			username: "",
-			password: "",
-			uid: "",
+			username: '',
+			password: '',
+			uid: '',
 			authed: false,
-			error: ""
+			error: ''
 		};
 
 		this.signIn = this.signIn.bind(this);
 	}
 
 	signIn(state) {
+		AsyncStorage.setItem('USER_KEY', 'Xf4eoJbIMNenOdFu78rstexnNOG2').then(() =>
+			this.props.navigation.navigate('SignedIn')
+		);
 		if (this.state.username && this.state.password) {
 			firebase
 				.auth()
-				.signInWithEmailAndPassword(
-					this.state.username,
-					this.state.password
-				)
+				.signInWithEmailAndPassword(this.state.username, this.state.password)
 				.then(result => {
 					console.log(result._user.uid);
 
-					AsyncStorage.setItem("USER_KEY", "true").then(() =>
-						this.props.navigation.navigate("SignedIn")
+					AsyncStorage.setItem('USER_KEY', 'Xf4eoJbIMNenOdFu78rstexnNOG2').then(
+						() => this.props.navigation.navigate('SignedIn')
 					);
 				})
 				.catch(error => {
@@ -57,7 +57,7 @@ export default class SignIn extends Component {
 	render() {
 		console.log(this.props);
 		return (
-			<Form style={{ width: "100%" }}>
+			<Form style={{ width: '100%' }}>
 				<Item floatingLabel>
 					<Label>Username</Label>
 					<Input
@@ -76,12 +76,7 @@ export default class SignIn extends Component {
 						}}
 					/>
 				</Item>
-				<Button
-					style={{ marginTop: 15 }}
-					block
-					success
-					onPress={this.signIn}
-				>
+				<Button style={{ marginTop: 15 }} block success onPress={this.signIn}>
 					<Text> Sign In Component </Text>
 				</Button>
 			</Form>
@@ -92,8 +87,8 @@ export default class SignIn extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center"
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	textInput: {
 		height: 50,

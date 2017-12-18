@@ -1947,10 +1947,6 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
-double-ended-queue@^2.1.0-0:
-  version "2.1.0-0"
-  resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
-
 duplexer2@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.0.2.tgz#c614dcf67e2fb14995a91711e5a617e8a60a31db"
@@ -4124,10 +4120,6 @@ node-pre-gyp@^0.6.39:
     tar "^2.2.1"
     tar-pack "^3.4.0"
 
-node-redis@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/node-redis/-/node-redis-0.1.7.tgz#6b5fd61ad95c331ea8289ca58856db13a3fb8013"
-
 nopt@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-4.0.1.tgz#d0d4685afd5415193c8c7505602d0d17cd64474d"
@@ -4771,12 +4763,6 @@ react-native-camera@^0.12.0:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-checkbox@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-checkbox/-/react-native-checkbox-2.0.0.tgz#453bbfd2e055a21e69ebe7842414a055d50ff449"
-  dependencies:
-    prop-types "^15.5.10"
-
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -4830,15 +4816,11 @@ react-native-qrcode@^0.2.6:
     prop-types "^15.5.10"
     qr.js "0.0.0"
 
-react-native-sortable-list@^0.0.19:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/react-native-sortable-list/-/react-native-sortable-list-0.0.19.tgz#53905100abb3a306d6bdd25107f0e6b38a402072"
+react-native-swiper@^1.5.13:
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.13.tgz#fa695cd4ab77b9a9df2d2bfee38ea7274dd07a2e"
   dependencies:
     prop-types "^15.5.10"
-
-react-native-sortable-listview@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/react-native-sortable-listview/-/react-native-sortable-listview-0.2.6.tgz#d1ed6bb552fa5190994e507c03de5a2921688ca6"
 
 "react-native-swiper@git+https://github.com/FuYaoDe/react-native-swiper.git":
   version "1.4.4"
@@ -5057,22 +5039,6 @@ readable-stream@~1.1.8, readable-stream@~1.1.9:
     inherits "~2.0.1"
     isarray "0.0.1"
     string_decoder "~0.10.x"
-
-redis-commands@^1.2.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/redis-commands/-/redis-commands-1.3.1.tgz#81d826f45fa9c8b2011f4cd7a0fe597d241d442b"
-
-redis-parser@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/redis-parser/-/redis-parser-2.6.0.tgz#52ed09dacac108f1a631c07e9b69941e7a19504b"
-
-redis@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/redis/-/redis-2.8.0.tgz#202288e3f58c49f6079d97af7a10e1303ae14b02"
-  dependencies:
-    double-ended-queue "^2.1.0-0"
-    redis-commands "^1.2.0"
-    redis-parser "^2.6.0"
 
 regenerate@^1.2.1:
   version "1.3.3"
