@@ -83,38 +83,20 @@ const JobCompanyLoading = styled.Text`
 export default (ProfileHead = props => {
 	if (!props.loading) {
 		return (
-			<View style={{ alignItems: 'center' }}>
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<ProfileImage source={{ uri: props.picURL }} />
-				</Row>
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<MainName> {props.name} </MainName>
-				</Row>
-
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<JobPosition> {props.position} </JobPosition>
-				</Row>
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<JobCompany> {props.company} </JobCompany>
-				</Row>
+			<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+				<ProfileImage source={{ uri: props.picURL }} />
+				<MainName> {props.name} </MainName>
+				<JobPosition> {props.position} </JobPosition>
+				<JobCompany> {props.company} </JobCompany>
 			</View>
 		);
 	} else {
 		return (
-			<View style={{ alignItems: 'center' }}>
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<ProfileImageLoading />
-				</Row>
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<MainNameLoading />
-				</Row>
-
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<JobPositionLoading />
-				</Row>
-				<Row style={{ flex: 1, justifyContent: 'center' }}>
-					<JobPositionLoading />
-				</Row>
+			<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+				<ProfileImageLoading />
+				<MainNameLoading />
+				<JobPositionLoading />
+				<JobPositionLoading />
 			</View>
 		);
 	}

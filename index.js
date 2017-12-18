@@ -18,17 +18,18 @@ export default class App extends React.Component {
 
 	componentDidMount() {
 		AsyncStorage.getItem('USER_KEY').then(result => {
-			console.log(result);
+			console.log(result, 'from here');
 			this.setState({ signedIn: result, checkedSignIn: true });
 		});
 	}
 
 	render() {
+		console.log(this.state);
 		const { checkedSignIn, signedIn } = this.state;
 		if (!checkedSignIn) {
 			return null;
 		}
-		const Layout = createRootNavigator(this.state.signedIn);
+		const Layout = createRootNavigator(signedIn);
 		return <Layout props={checkAuth} />;
 	}
 }

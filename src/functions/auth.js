@@ -6,7 +6,8 @@ export const checkAuth = () => {
 	return new Promise((resolve, reject) => {
 		AsyncStorage.getItem('USER_KEY')
 			.then(res => {
-				if (res !== null) {
+				if (res !== 'false') {
+					console.log('test');
 					resolve(true);
 				} else {
 					resolve(false);

@@ -34,7 +34,7 @@ const FooterText = styled.Text`
 const FavoriteButton = styled.TouchableOpacity`
 	flex: 1;
 	justify-content: center;
-	background-color: ${props => props.color || '#ECEFF1'};
+	background-color: #0069c0;
 	height: 40;
 	width: 200;
 	margin-bottom: 20;
@@ -102,10 +102,9 @@ export default class Profile extends Component {
 					/>
 					<CenteredView>
 						<FavoriteButton
-							color="#0069c0"
 							onPress={() => {
 								AsyncStorage.setItem('USER_KEY', 'false');
-								props.navigation.navigate('SignedOut');
+								this.props.navigation.navigate('SignedOut');
 							}}>
 							<Text style={{ textAlign: 'center', color: 'white' }}>
 								Add to Favorites
