@@ -1,50 +1,10 @@
 import React, { Component } from 'react';
-import {
-	Container,
-	Content,
-	Text,
-	Footer,
-	FooterTab,
-	Button
-} from 'native-base';
+import { Container, Content } from 'native-base';
 import styled from 'styled-components/native';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, TouchableOpacity, Text } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import ProfileHead from './profileHead/ProfileHead';
-import ProfileFavoriteButton from './favorites/ProfileFavoriteButton';
 import axios from 'axios';
-
-const ProfileImage = styled.Image`
-	height: 90;
-	width: 90;
-	border-radius: 63;
-	margin-top: 15;
-	margin-bottom: 10;
-`;
-
-const MainName = styled.Text`
-	text-align: center;
-	font-size: 30;
-`;
-
-const JobPosition = styled.Text`
-	font-weight: 500;
-	text-align: center;
-	font-size: 17;
-	padding-top: 5;
-	padding-bottom: 2;
-	padding-left: 10;
-	padding-right: 10;
-`;
-
-const JobCompany = styled.Text`
-	text-align: center;
-	font-size: 16;
-	padding-top: 1;
-	padding-bottom: 12;
-	padding-left: 10;
-	padding-right: 10;
-`;
 
 const CenteredView = styled.View`
 	align-items: center;
@@ -54,6 +14,30 @@ const QRCodeLoading = styled.View`
 	width: 200;
 	height: 200;
 	background-color: #cfd8dc;
+`;
+
+const Footer = styled.TouchableOpacity`
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #4caf50;
+	justify-content: center;
+	height: 10%;
+`;
+const FooterText = styled.Text`
+	color: white;
+	font-size: 24;
+	text-align: center;
+`;
+
+const FavoriteButton = styled.TouchableOpacity`
+	flex: 1;
+	justify-content: center;
+	background-color: ${props => props.color || '#ECEFF1'};
+	height: 40;
+	width: 200;
+	margin-bottom: 20;
 `;
 
 export default class Profile extends Component {
@@ -66,12 +50,9 @@ export default class Profile extends Component {
 			position: '',
 			profilePicURL: '',
 			company: '',
-			userUid: ''
+			userUid: '',
+			ownProfile: true
 		};
-
-		AsyncStorage.getItem('USER_KEY').then(result => {
-			this.setState({ userUid: result });
-		});
 	}
 
 	componentDidMount() {
@@ -88,6 +69,7 @@ export default class Profile extends Component {
 							company: result.data.company,
 							profilePicURL: result.data.profilepic,
 							loading: false,
+							ownProfile: false,
 							profileUid: result.data.uid
 						});
 					})
@@ -107,7 +89,7 @@ export default class Profile extends Component {
 				});
 	}
 	render() {
-		const { navigate } = this.props.navigation;
+		const { navigate, goBack } = this.props.navigation;
 		return (
 			<Container>
 				<Content>
@@ -119,7 +101,16 @@ export default class Profile extends Component {
 						loading={this.state.loading}
 					/>
 					<CenteredView>
-						<ProfileFavoriteButton loading={this.state.loading} />
+						<FavoriteButton
+							color="#0069c0"
+							onPress={() => {
+								AsyncStorage.setItem('USER_KEY', 'false');
+								props.navigation.navigate('SignedOut');
+							}}>
+							<Text style={{ textAlign: 'center', color: 'white' }}>
+								Add to Favorites
+							</Text>
+						</FavoriteButton>
 					</CenteredView>
 
 					<CenteredView>
@@ -139,16 +130,25 @@ export default class Profile extends Component {
 						)}
 					</CenteredView>
 				</Content>
-				<Footer>
-					<FooterTab>
-						<Button
+				{!this.state.loading ? (
+					this.state.ownProfile ? (
+						<Footer
+							activeOpacity={0.8}
 							onPress={() => {
 								navigate('Scan');
 							}}>
-							<Text> SCAN </Text>
-						</Button>
-					</FooterTab>
-				</Footer>
+							<FooterText> Scan </FooterText>
+						</Footer>
+					) : (
+						<Footer
+							activeOpacity={0.8}
+							onPress={() => {
+								navigate('SignedIn');
+							}}>
+							<FooterText> Go Back To My Profile </FooterText>
+						</Footer>
+					)
+				) : null}
 			</Container>
 		);
 	}

@@ -17,20 +17,34 @@ import Camera from 'react-native-camera';
 export default class Scan extends Component {
   constructor(props) {
     super(props);
+    console.log(props, ' here it is');
+    this.state = {
+      hideCamera: false
+    };
   }
+
+  shouldComponentUpdate(prev, next) {
+    return next.hideCamera;
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Camera
-          ref={cam => {
-            this.camera = cam;
-          }}
-          onBarCodeRead={_.once(this.onBarCodeRead.bind(this))}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}
-        />
-      </View>
-    );
+    if (this.state.hideCamera) {
+      return null;
+    } else {
+      return (
+        <View style={styles.container}>
+          <Camera
+            onBarCodeRead={_.once(this.onBarCodeRead.bind(this))}
+            style={styles.preview}
+            aspect={Camera.constants.Aspect.fill}
+          />
+        </View>
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({ hideCamera: !this.hideCamera });
   }
 
   onBarCodeRead(e) {
@@ -38,7 +52,9 @@ export default class Scan extends Component {
       routeName: 'ScannedProfile',
       params: { uid: e.data }
     });
+    this.setState({ hideCamera: true });
     this.props.navigation.dispatch(navigateAction);
+
     Vibration.vibrate(200);
   }
 }

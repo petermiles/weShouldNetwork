@@ -86,8 +86,12 @@ export const SignedIn = TabNavigator(
   {
     animationEnabled: true,
     swipeEnabled: true,
+
     tabBarOptions: {
       showLabel: true,
+      indicatorStyle: {
+        backgroundColor: 'white'
+      },
       activeTintColor: 'white',
       inactiveTintColor: 'white',
       activeBackgroundColor: '#2196f3',
@@ -98,13 +102,13 @@ export const SignedIn = TabNavigator(
 );
 
 export const createRootNavigator = (signedIn = false) => {
+  console.log(signedIn);
   return StackNavigator(
     {
       SignedIn: {
         screen: SignedIn,
         path: '/signedIn/:user',
-        initialRouteName: signedIn ? 'Profile' : 'SignedOut',
-        params: { uid: userID() }
+        initialRouteName: signedIn ? 'Profile' : 'SignedOut'
       },
       SignedOut: {
         screen: SignedOut
@@ -115,8 +119,7 @@ export const createRootNavigator = (signedIn = false) => {
       ScannedProfile: {
         screen: ScannedProfile,
         path: '/profile/:uid',
-        initialRouteName: 'Profile',
-        initialRouteParams: { user: 'test' }
+        initialRouteName: 'Profile'
       }
     },
     {
