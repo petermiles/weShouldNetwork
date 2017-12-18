@@ -11,32 +11,7 @@ import styled from 'styled-components/native';
 
 import Swiper from 'react-native-swiper';
 
-const styles = StyleSheet.create({
-  wrapper: {},
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB'
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5'
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9'
-  },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold'
-  }
-});
+import SignUpOnBoard from './SignUpOnBoard';
 
 const Slide = styled.View`
   flex: 1;
@@ -64,10 +39,53 @@ const SubText = styled.Text`
   padding-right: 10%;
 `;
 
+const Footer = styled.View`
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  flex-direction: row
+  justify-content: center;
+  align-items: center;
+`;
+
+const SignUpButton = styled.TouchableOpacity`
+  elevation: 3
+  background-color: ${props => props.color}
+  width: 40%;
+  align-items: center;
+  padding: 2%;
+  border-radius: 3
+  margin: 1%;
+`;
+
+const SignUpButtonText = styled.Text`
+  font-size: ${props => props.size}
+  color: white;
+  font-weight: bold;
+`;
+
+const FooterButton = styled.TouchableOpacity`
+  elevation: 3
+  background-color: ${props => props.color}
+  width: 40%;
+  align-items: center;
+  padding: 2%;
+  border-radius: 3
+  margin: 1%;
+`;
+
 export default class AppOnBoard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      signUp: false
+    };
+  }
   render() {
+    console.log(this.props);
     return (
-      <Swiper style={styles.wrapper} loop={false}>
+      <Swiper dotColor={'white'} activeDotColor={'#B3E5FC'} loop={false}>
         <Slide color={'#90CAF9'}>
           <MainText>We Should Network</MainText>
           <SubText>
@@ -88,7 +106,22 @@ export default class AppOnBoard extends Component {
           </SubText>
         </Slide>
         <Slide color={'#2196F3'}>
-          <SubText>Sign up to set up your profile. </SubText>
+          <View style={{ alignItems: 'center' }}>
+            <SubText>Sign up to set up your profile.</SubText>
+            <SignUpButton
+              activeOpacity={0.8}
+              color={'#81D4FA'}
+              onPress={() => {
+                this.props.navigation.navigate('SignUpOnBoard');
+              }}>
+              <SignUpButtonText size={24}> Sign Up </SignUpButtonText>
+            </SignUpButton>
+          </View>
+          <Footer>
+            <FooterButton activeOpacity={0.8} color={'#81D4FA'}>
+              <SignUpButtonText size={14}> Sign In </SignUpButtonText>
+            </FooterButton>
+          </Footer>
         </Slide>
       </Swiper>
     );
