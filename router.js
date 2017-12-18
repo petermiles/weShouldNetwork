@@ -102,6 +102,7 @@ export const SignedIn = TabNavigator(
 );
 
 export const createRootNavigator = (signedIn = false) => {
+  console.log(signedIn);
   return StackNavigator(
     {
       SignedIn: {
@@ -118,8 +119,7 @@ export const createRootNavigator = (signedIn = false) => {
       ScannedProfile: {
         screen: ScannedProfile,
         path: '/profile/:uid',
-        initialRouteName: 'Profile',
-        initialRouteParams: { user: 'test' }
+        initialRouteName: 'Profile'
       }
     },
     {

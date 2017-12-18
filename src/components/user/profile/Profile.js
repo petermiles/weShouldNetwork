@@ -4,7 +4,6 @@ import styled from 'styled-components/native';
 import { View, AsyncStorage, TouchableOpacity, Text } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import ProfileHead from './profileHead/ProfileHead';
-import ProfileFavoriteButton from './favorites/ProfileFavoriteButton';
 import axios from 'axios';
 
 const CenteredView = styled.View`
@@ -30,6 +29,15 @@ const FooterText = styled.Text`
 	color: white;
 	font-size: 24;
 	text-align: center;
+`;
+
+const FavoriteButton = styled.TouchableOpacity`
+	flex: 1;
+	justify-content: center;
+	background-color: ${props => props.color || '#ECEFF1'};
+	height: 40;
+	width: 200;
+	margin-bottom: 20;
 `;
 
 export default class Profile extends Component {
@@ -93,7 +101,16 @@ export default class Profile extends Component {
 						loading={this.state.loading}
 					/>
 					<CenteredView>
-						<ProfileFavoriteButton loading={this.state.loading} />
+						<FavoriteButton
+							color="#0069c0"
+							onPress={() => {
+								AsyncStorage.setItem('USER_KEY', 'false');
+								props.navigation.navigate('SignedOut');
+							}}>
+							<Text style={{ textAlign: 'center', color: 'white' }}>
+								Add to Favorites
+							</Text>
+						</FavoriteButton>
 					</CenteredView>
 
 					<CenteredView>
