@@ -1,45 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Content } from 'native-base';
-import styled from 'styled-components/native';
-import { View, AsyncStorage, TouchableOpacity, Text } from 'react-native';
+
+import { View, AsyncStorage, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import ProfileHead from './profileHead/ProfileHead';
 import axios from 'axios';
 
-const CenteredView = styled.View`
-	align-items: center;
-	elevation: 2;
-`;
-
-const QRCodeLoading = styled.View`
-	width: 200;
-	height: 200;
-	background-color: #cfd8dc;
-`;
-
-const Footer = styled.TouchableOpacity`
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: #4caf50;
-	justify-content: center;
-	height: 10%;
-`;
-const FooterText = styled.Text`
-	color: white;
-	font-size: 24;
-	text-align: center;
-`;
-
-const FavoriteButton = styled.TouchableOpacity`
-	flex: 1;
-	justify-content: center;
-	background-color: #0069c0;
-	height: 40;
-	width: 200;
-	margin-bottom: 20;
-`;
+import { CenteredView, QRCodeLoading, Footer, FooterText } from './styles';
 
 export default class Profile extends Component {
 	constructor(props) {
