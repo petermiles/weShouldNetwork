@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export const checkAuth = () => {
 	return new Promise((resolve, reject) => {
-		AsyncStorage.getItem('USER_KEY')
+		AsyncStorage.getItem('USER_DATA')
 			.then(res => {
 				if (res !== 'false') {
 					console.log('test');
@@ -30,14 +30,16 @@ export const Signout = () => {
 };
 
 export const createLinkedInAccount = (token, navigate) => {
-	console.log(token, navigate);
 	axios
 		.get(
 			'http://172.31.99.35:3001/api/user/createWithLinkedIn/' +
 				token.access_token
 		)
 		.then(result => {
-			console.log(result);
+			AsyncStorage.setItem('USER_DATA', JSON.stringify(result.data), () => {
+				console.log('test');
+				navigate('SignedIn');
+			});
 		});
 };
 

@@ -19,9 +19,10 @@ const createWithLinkedIn = (req, res) => {
 	axios.defaults.headers.common['Authorization'] = `Bearer ${req.params.id}`;
 	axios
 		.get(
-			`https://api.linkedin.com/v1/people/~:(positions,picture-url,first-name,last-name,public-profile-url)?format=json`
+			`https://api.linkedin.com/v1/people/~:(id,positions,picture-url,first-name,last-name,public-profile-url)?format=json`
 		)
 		.then(result => {
+			console.log(result);
 			const parsedData = {
 				uid: 'LinkedIn' + result.data.id,
 				name: result.data.firstName + ' ' + result.data.lastName,
@@ -37,7 +38,7 @@ const createWithLinkedIn = (req, res) => {
 				.get('db')
 				.createUser(data)
 				.then(result => {
-					console.log(result);
+					res.json(result[0]);
 				});
 		})
 		.catch(console.log);

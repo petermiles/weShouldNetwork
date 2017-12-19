@@ -5,7 +5,7 @@ import { AsyncStorage } from 'react-native';
 import SignUp from './src/components/navigation/screens/SignUp';
 import SignIn from './src/components/navigation/screens/SignIn';
 import AppOnBoard from './src/components/onBoarding/AppOnBoard';
-import SignUpOnBoard from './src/components/onBoarding/SignUpOnBoard';
+import SignUpOnBoard from './src/components/onBoarding/SignUpOnBoard/SignUpOnBoard';
 import Connect from './src/components/connect/Connect';
 import Profile from './src/components/user/profile/Profile';
 import Scan from './src/components/scan/Scan';

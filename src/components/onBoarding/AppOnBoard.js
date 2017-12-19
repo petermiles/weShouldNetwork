@@ -12,7 +12,7 @@ import styled from 'styled-components/native';
 
 import Swiper from 'react-native-swiper';
 
-import SignUpOnBoard from './SignUpOnBoard';
+import SignUpOnBoard from './SignUpOnBoard/SignUpOnBoard.js';
 
 const Slide = styled.View`
   flex: 1;

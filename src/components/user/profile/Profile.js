@@ -74,20 +74,32 @@ export default class Profile extends Component {
 							profileUid: result.data.uid
 						});
 					})
-			: AsyncStorage.getItem('USER_KEY').then(id => {
-					axios
-						.get('http://172.31.99.35:3001/api/user/getInfo/' + id)
-						.then(result => {
-							this.setState({
-								name: result.data.name,
-								position: result.data.position,
-								company: result.data.company,
-								profilePicURL: result.data.profilepic,
-								loading: false,
-								profileUid: result.data.uid
-							});
+			: AsyncStorage.getItem('USER_DATA')
+				? AsyncStorage.getItem('USER_DATA').then(res => {
+						const result = JSON.parse(res);
+						this.setState({
+							name: result.name,
+							position: result.position,
+							company: result.company,
+							profilePicURL: result.profilepic,
+							loading: false,
+							profileUid: result.uid
 						});
-				});
+					})
+				: AsyncStorage.getItem('USER_KEY').then(id => {
+						axios
+							.get('http://172.31.99.35:3001/api/user/getInfo/' + id)
+							.then(result => {
+								this.setState({
+									name: result.data.name,
+									position: result.data.position,
+									company: result.data.company,
+									profilePicURL: result.data.profilepic,
+									loading: false,
+									profileUid: result.data.uid
+								});
+							});
+					});
 	}
 	render() {
 		const { navigate, goBack } = this.props.navigation;
