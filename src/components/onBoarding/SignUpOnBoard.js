@@ -117,9 +117,9 @@ export default class SignUpOnBoard extends Component {
 
             <LinkedInModal
               animation={'slide'}
-              clientID="78t4j2ajgufjw7"
-              clientSecret="o7F6inR5GUJA4QAE"
-              redirectUri="https://petermiles.io"
+              clientID={ClientID}
+              clientSecret={Secret}
+              redirectUri={Redirect}
               permissions={['r_basicprofile']}
               renderButton={() => {
                 return (
@@ -128,7 +128,7 @@ export default class SignUpOnBoard extends Component {
                       style={{
                         textAlign: 'center',
                         color: 'white',
-                        padding: '5%',
+                        padding: ' 5%',
                         width: '100%',
                         fontSize: 20,
                         fontWeight: 'bold',
