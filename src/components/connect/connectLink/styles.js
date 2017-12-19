@@ -40,3 +40,34 @@ export const ModalHeader = styled.View`
 	height: 50
 	color: #1da1f2
 `;
+
+export const ConnectLinkPageContainer = styled.View`
+	padding-top: 3%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-left: 3%;
+	margin-right: 3%;
+	width: 93%;
+`;
+
+export const ConnectLinkContainer = styled.View`
+	margin: 1%;
+	width: ${props => (props.index === 0 ? '98%' : '48%')};
+`;
+
+export const brandColors = {
+	linkedin: '#008CC9',
+	linkedinActive: '#006794',
+	dribble: '#ea4c89',
+	dribbleActive: '#E32B72',
+	facebook: '#3b5998',
+	facebookActive: '#14306B',
+	twitter: '#1da1f2',
+	twitterActive: '#036EAE',
+	medium: 'black',
+	mediumActive: '#464646',
+	email: '#00BCD4',
+	emailActive: '#00ACC1',
+	website: '#4caf50',
+	websiteActive: '#087f23'
+};

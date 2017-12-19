@@ -1,89 +1,65 @@
-import React from 'react';
-import { StackNavigator, TabNavigator } from 'react-navigation';
-import { AsyncStorage } from 'react-native';
-
-import SignUp from './src/components/navigation/screens/SignUp';
-import SignIn from './src/components/navigation/screens/SignIn';
-import AppOnBoard from './src/components/onBoarding/AppOnBoard';
-import SignUpOnBoard from './src/components/onBoarding/SignUpOnBoard/SignUpOnBoard';
-import Connect from './src/components/connect/Connect';
-import Profile from './src/components/user/profile/Profile';
-import Scan from './src/components/scan/Scan';
-import FavoritesPage from './src/components/favorites/FavoritesPage';
-
-const userID = () => {
-  AsyncStorage.getItem('USER_KEY').then(result => {
-    return result;
-  });
-};
-
-export const SignedOut = StackNavigator({
-  SignUp: {
-    screen: SignUp,
-    navigationOptions: {
-      title: 'Sign Up'
-    }
-  },
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: {
-      title: 'Sign In'
-    }
-  }
-});
+import React from "react";
+import { StackNavigator, TabNavigator } from "react-navigation";
+import AppOnBoard from "./src/components/onBoarding/AppOnBoard/AppOnBoard";
+import SignUpOnBoard from "./src/components/onBoarding/SignUpOnBoard/SignUpOnBoard";
+import EmailSignUp from "./src/components/onBoarding/auth/signUp/EmailSignUp";
+import Connect from "./src/components/connect/Connect";
+import Profile from "./src/components/user/profile/Profile";
+import Scan from "./src/components/scan/Scan";
+import FavoritesPage from "./src/components/favorites/FavoritesPage";
 
 export const ScannedProfile = TabNavigator(
   {
     Profile: {
       screen: Profile,
       path: `/profile/:user`,
-      initialRouteParams: { user: 'test' },
+      initialRouteParams: { user: "test" },
       navigationOptions: {
-        tabBarLabel: 'Profile',
-        swipeEnabled: true
-      }
+        tabBarLabel: "Profile",
+        swipeEnabled: true,
+      },
     },
     Connect: {
       screen: Connect,
       navigationOptions: {
-        tabBarLabel: 'Connect'
-      }
-    }
+        tabBarLabel: "Connect",
+      },
+    },
   },
   {
     animationEnabled: true,
     swipeEnabled: true,
     tabBarOptions: {
       showLabel: true,
-      activeTintColor: 'white',
-      inactiveTintColor: 'white',
-      activeBackgroundColor: '#2196f3',
-      inactiveBackgroundColor: '#1e88e5'
+      activeTintColor: "white",
+      inactiveTintColor: "white",
+      activeBackgroundColor: "#2196f3",
+      inactiveBackgroundColor: "#1e88e5",
     },
-    initialRouteName: 'Profile'
-  }
+    initialRouteName: "Profile",
+  },
 );
 
 export const SignedIn = TabNavigator(
   {
     Favorites: {
-      screen: FavoritesPage
+      screen: FavoritesPage,
     },
     Profile: {
       screen: Profile,
       path: `/profile/:user`,
-      initialRouteParams: { user: 'test' },
+      initialRouteParams: { user: "test" },
       navigationOptions: {
-        tabBarLabel: 'Profile',
-        swipeEnabled: true
-      }
+        tabBarLabel: "Profile",
+        swipeEnabled: true,
+      },
     },
     Connect: {
       screen: Connect,
       navigationOptions: {
-        tabBarLabel: 'Connect'
-      }
-    }
+        tabBarLabel: "Connect",
+      },
+    },
   },
   {
     animationEnabled: true,
@@ -92,15 +68,15 @@ export const SignedIn = TabNavigator(
     tabBarOptions: {
       showLabel: true,
       indicatorStyle: {
-        backgroundColor: 'white'
+        backgroundColor: "white",
       },
-      activeTintColor: 'white',
-      inactiveTintColor: 'white',
-      activeBackgroundColor: '#2196f3',
-      inactiveBackgroundColor: '#1e88e5'
+      activeTintColor: "white",
+      inactiveTintColor: "white",
+      activeBackgroundColor: "#2196f3",
+      inactiveBackgroundColor: "#1e88e5",
     },
-    initialRouteName: 'Profile'
-  }
+    initialRouteName: "Profile",
+  },
 );
 
 export const createRootNavigator = signedIn => {
@@ -109,31 +85,34 @@ export const createRootNavigator = signedIn => {
     {
       SignedIn: {
         screen: SignedIn,
-        path: '/signedIn/:user',
-        initialRouteName: signedIn ? 'Profile' : 'SignedOut'
+        path: "/signedIn/:user",
+        initialRouteName: signedIn ? "Profile" : "SignedOut",
       },
       SignedOut: {
-        screen: AppOnBoard
+        screen: AppOnBoard,
       },
       Scan: {
-        screen: Scan
+        screen: Scan,
       },
       ScannedProfile: {
         screen: ScannedProfile,
-        path: '/profile/:uid',
-        initialRouteName: 'Profile'
+        path: "/profile/:uid",
+        initialRouteName: "Profile",
       },
       OnBoard: {
-        screen: AppOnBoard
+        screen: AppOnBoard,
       },
       SignUpOnBoard: {
-        screen: SignUpOnBoard
-      }
+        screen: SignUpOnBoard,
+      },
+      EmailSignUp: {
+        screen: EmailSignUp,
+      },
     },
     {
-      headerMode: 'none',
-      mode: 'modal',
-      initialRouteName: signedIn !== 'false' ? 'SignedIn' : 'OnBoard'
-    }
+      headerMode: "none",
+      mode: "modal",
+      initialRouteName: signedIn !== "false" ? "SignedIn" : "OnBoard",
+    },
   );
 };
