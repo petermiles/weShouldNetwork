@@ -142,7 +142,7 @@ export default class EmailSignUp extends Component {
                 </Footer>
               </Slide>
             ) : null}
-            {this.state.location && this.state.job ? (
+            {this.state.location && this.state.job && this.state.name ? (
               <Slide color={"#26A69A"} size={1}>
                 <MainText> {this.state.name}, what's your Email? </MainText>
                 <TextField
@@ -162,7 +162,7 @@ export default class EmailSignUp extends Component {
                       console.log(this.state.width);
                       this.ScrollView.scrollTo({
                         x: this.state.location
-                          ? this.state.width / 3
+                          ? this.state.width / 4
                           : this.state.width,
                         y: 0,
                         animated: true,
@@ -186,7 +186,7 @@ export default class EmailSignUp extends Component {
                 </Footer>
               </Slide>
             ) : null}
-            {this.state.email ? (
+            {this.state.location && this.state.job && this.state.name ? (
               <Slide color={"#26A69A"} size={1}>
                 <MainText>
                   {" "}

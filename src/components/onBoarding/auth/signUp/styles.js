@@ -29,13 +29,12 @@ export const SubText = styled.Text`
   font-size: 20;
   font-weight: bold;
   text-align: center;
-  padding-top: 5%
-  padding-bottom: 3%
+  padding-top: 5%;
 `;
 
 export const Footer = styled.View`
   position: absolute;
-  bottom: 3%;
+  bottom: 8%;
   right: 0;
   left: 0;
 `;
