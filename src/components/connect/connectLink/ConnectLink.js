@@ -8,23 +8,7 @@ import {
 	TouchableOpacity
 } from 'react-native';
 
-// Figure out why I can't align items in center plz
-const JobPosition = styled.Text`
-	flex: 1;
-	text-align: center;
-	justify-content: space-around;
-	font-size: 30;
-	color: white;
-`;
-
-const NetworkContainer = styled.TouchableWithoutFeedback`
-	flex: 1;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	width: 100%;
-	elevation: 2;
-`;
+import { JobPosition, NetworkContainer } from './styles';
 
 export default class ConnectLink extends Component {
 	constructor(props) {

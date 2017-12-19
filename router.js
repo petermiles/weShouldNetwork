@@ -4,6 +4,8 @@ import { AsyncStorage } from 'react-native';
 
 import SignUp from './src/components/navigation/screens/SignUp';
 import SignIn from './src/components/navigation/screens/SignIn';
+import AppOnBoard from './src/components/onBoarding/AppOnBoard';
+import SignUpOnBoard from './src/components/onBoarding/SignUpOnBoard/SignUpOnBoard';
 import Connect from './src/components/connect/Connect';
 import Profile from './src/components/user/profile/Profile';
 import Scan from './src/components/scan/Scan';
@@ -101,7 +103,7 @@ export const SignedIn = TabNavigator(
   }
 );
 
-export const createRootNavigator = (signedIn = false) => {
+export const createRootNavigator = signedIn => {
   console.log(signedIn);
   return StackNavigator(
     {
@@ -111,7 +113,7 @@ export const createRootNavigator = (signedIn = false) => {
         initialRouteName: signedIn ? 'Profile' : 'SignedOut'
       },
       SignedOut: {
-        screen: SignedOut
+        screen: AppOnBoard
       },
       Scan: {
         screen: Scan
@@ -120,12 +122,18 @@ export const createRootNavigator = (signedIn = false) => {
         screen: ScannedProfile,
         path: '/profile/:uid',
         initialRouteName: 'Profile'
+      },
+      OnBoard: {
+        screen: AppOnBoard
+      },
+      SignUpOnBoard: {
+        screen: SignUpOnBoard
       }
     },
     {
       headerMode: 'none',
       mode: 'modal',
-      initialRouteName: signedIn ? 'SignedIn' : 'SignedOut'
+      initialRouteName: signedIn !== 'false' ? 'SignedIn' : 'OnBoard'
     }
   );
 };

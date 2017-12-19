@@ -27,6 +27,7 @@ firestore.indexes.json
 firestore.rules
 LICENSE
 storage.rules
+service-account.json
 
 
 # Android/IntelliJ

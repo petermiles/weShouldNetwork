@@ -1,44 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Content } from 'native-base';
-import styled from 'styled-components/native';
-import { View, AsyncStorage, TouchableOpacity, Text } from 'react-native';
+
+import { View, AsyncStorage, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import ProfileHead from './profileHead/ProfileHead';
 import axios from 'axios';
 
-const CenteredView = styled.View`
-	align-items: center;
-`;
-
-const QRCodeLoading = styled.View`
-	width: 200;
-	height: 200;
-	background-color: #cfd8dc;
-`;
-
-const Footer = styled.TouchableOpacity`
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: #4caf50;
-	justify-content: center;
-	height: 10%;
-`;
-const FooterText = styled.Text`
-	color: white;
-	font-size: 24;
-	text-align: center;
-`;
-
-const FavoriteButton = styled.TouchableOpacity`
-	flex: 1;
-	justify-content: center;
-	background-color: ${props => props.color || '#ECEFF1'};
-	height: 40;
-	width: 200;
-	margin-bottom: 20;
-`;
+import { CenteredView, QRCodeLoading, Footer, FooterText } from './styles';
 
 export default class Profile extends Component {
 	constructor(props) {
@@ -73,20 +41,32 @@ export default class Profile extends Component {
 							profileUid: result.data.uid
 						});
 					})
-			: AsyncStorage.getItem('USER_KEY').then(id => {
-					axios
-						.get('http://172.31.99.35:3001/api/user/getInfo/' + id)
-						.then(result => {
-							this.setState({
-								name: result.data.name,
-								position: result.data.position,
-								company: result.data.company,
-								profilePicURL: result.data.profilepic,
-								loading: false,
-								profileUid: result.data.uid
-							});
+			: AsyncStorage.getItem('USER_DATA')
+				? AsyncStorage.getItem('USER_DATA').then(res => {
+						const result = JSON.parse(res);
+						this.setState({
+							name: result.name,
+							position: result.position,
+							company: result.company,
+							profilePicURL: result.profilepic,
+							loading: false,
+							profileUid: result.uid
 						});
-				});
+					})
+				: AsyncStorage.getItem('USER_KEY').then(id => {
+						axios
+							.get('http://172.31.99.35:3001/api/user/getInfo/' + id)
+							.then(result => {
+								this.setState({
+									name: result.data.name,
+									position: result.data.position,
+									company: result.data.company,
+									profilePicURL: result.data.profilepic,
+									loading: false,
+									profileUid: result.data.uid
+								});
+							});
+					});
 	}
 	render() {
 		const { navigate, goBack } = this.props.navigation;
@@ -99,20 +79,8 @@ export default class Profile extends Component {
 						position={this.state.position}
 						picURL={this.state.profilePicURL}
 						loading={this.state.loading}
+						navigate={navigate}
 					/>
-					<CenteredView>
-						<FavoriteButton
-							color="#0069c0"
-							onPress={() => {
-								AsyncStorage.setItem('USER_KEY', 'false');
-								props.navigation.navigate('SignedOut');
-							}}>
-							<Text style={{ textAlign: 'center', color: 'white' }}>
-								Add to Favorites
-							</Text>
-						</FavoriteButton>
-					</CenteredView>
-
 					<CenteredView>
 						{!this.state.loading ? (
 							<QRCode

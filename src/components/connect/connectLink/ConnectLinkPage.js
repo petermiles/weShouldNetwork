@@ -16,29 +16,7 @@ import { chunk } from 'lodash';
 
 import ConnectLink from './ConnectLink';
 
-const EditableInput = styled.TextInput`
-	text-align: left;
-	height: 50;
-	font-size: 18;
-	margin-bottom: 10;
-`;
-
-const EditableName = styled.Text`
-	font-size: 35;
-	color: white;
-	text-align: center;
-	padding-top: 3;
-	padding-bottom: 3;
-`;
-
-const ModalHeader = styled.View`
-	position: relative;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 50
-	color: #1da1f2
-`;
+import { EditableInput, EditableName, ModalHeader } from './styles';
 
 export default class ConnectLinkPage extends Component {
 	constructor(props) {

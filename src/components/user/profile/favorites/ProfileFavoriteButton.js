@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
 import { Text, Button } from 'native-base';
-import styled from 'styled-components/native';
 import { AsyncStorage } from 'react-native';
 
-const FavoriteButton = styled.TouchableOpacity`
-	flex: 1;
-	justify-content: center;
-	background-color: ${props => props.color || '#ECEFF1'};
-	height: 40;
-	width: 200;
-	margin-bottom: 20;
-`;
+import { FavoriteButton } from './styles';
 
-export default (ProfileFavoriteButton = props => {
-	console.log(props);
-	if (props.loading) {
-		return <FavoriteButton color="#CFD8DC" />;
-	} else {
+// Missing Button Text Component, make in styles.js folder
+
+export default class ProfileFavoriteButton extends Component {
+	render() {
 		return (
 			<FavoriteButton
 				color="#0069c0"
@@ -30,4 +21,4 @@ export default (ProfileFavoriteButton = props => {
 			</FavoriteButton>
 		);
 	}
-});
+}
