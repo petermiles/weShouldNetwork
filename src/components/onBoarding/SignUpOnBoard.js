@@ -13,6 +13,12 @@ import styled from 'styled-components/native';
 
 import { TextField } from 'react-native-material-textfield';
 
+import LinkedInModal from 'react-native-linkedin';
+
+import { Secret, ClientID, Redirect } from './config.js';
+
+import { createLinkedInAccount } from './../../functions/auth';
+
 const Slide = styled.View`
   width: ${Dimensions.get('window').width}
   height: ${props =>
@@ -79,11 +85,13 @@ export default class SignUpOnBoard extends Component {
         'Dribbble',
         'Website'
       ],
-      chosenProviderInfo: []
+      chosenProviderInfo: [],
+      linkedInModal: false
     };
   }
 
   render() {
+    console.log(this.props);
     const colors = {
       LinkedIn: '#008CC9',
       Dribbble: '#ea4c89',
@@ -95,15 +103,54 @@ export default class SignUpOnBoard extends Component {
       Website: '#4caf50'
     };
     return (
-      <ScrollView horizontal={false}>
-        <Slide color={'#81D4FA'}>
+      <ScrollView horizontal={true} showsButtons={true} pagingEnabled={true}>
+        <Slide color={'#81D4FA'} size={1}>
           <MainText>
             {' '}
             You are only a few steps away from being able to easily share your
             network information.{' '}
           </MainText>
         </Slide>
-        <Slide color={'#80DEEA'} size={0.5}>
+        <ScrollView horizontal={false} pagingEnabled={true}>
+          <Slide color={'#80DEEA'} size={0.9}>
+            <MainText>We recommend signing in with LinkedIn.</MainText>
+
+            <LinkedInModal
+              animation={'slide'}
+              clientID="78t4j2ajgufjw7"
+              clientSecret="o7F6inR5GUJA4QAE"
+              redirectUri="https://petermiles.io"
+              permissions={['r_basicprofile']}
+              renderButton={() => {
+                return (
+                  <View style={{ elevation: 2 }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: 'white',
+                        padding: '5%',
+                        width: '100%',
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        backgroundColor: '#42A5F5',
+                        borderRadius: 3
+                      }}>
+                      {' '}
+                      Sign Up With LinkedIn{' '}
+                    </Text>
+                  </View>
+                );
+              }}
+              onSuccess={token => {
+                createLinkedInAccount(token, this.props.navigation.navigate);
+              }}
+              onError={err => {
+                return err;
+              }}
+            />
+          </Slide>
+        </ScrollView>
+        <Slide color={'#80DEEA'} size={1}>
           <MainText> What's your name? </MainText>
           <TextField
             label=""
@@ -120,7 +167,7 @@ export default class SignUpOnBoard extends Component {
           ) : null}
         </Slide>
         {this.state.name ? (
-          <Slide color={'#80CBC4'} size={0.5}>
+          <Slide color={'#80CBC4'} size={1}>
             <MainText> {this.state.name}, what's your Email? </MainText>
             <TextField
               label="Email"
@@ -168,42 +215,6 @@ export default class SignUpOnBoard extends Component {
                 />
               </View>
             ) : null}
-          </Slide>
-        ) : null}
-        {this.state.job && this.state.location ? (
-          <Slide color={'#42A5F5'}>
-            <SubText>
-              {' '}
-              Choose which social media links you'd like to be shown on your
-              profile.{' '}
-            </SubText>
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'center'
-              }}>
-              {this.state.providers.map((name, i) => {
-                return (
-                  <SocialMediaSelect
-                    key={i}
-                    activeOpacity={0.8}
-                    color={colors[`${name}`]}
-                    onPress={() => {
-                      this.setState({
-                        providers: this.state.providers.filter(chosenName => {
-                          console.log(this.state.providers['LinkedIn']);
-                          return name !== chosenName;
-                        }),
-                        chosenProviders: this.state.chosenProviders.push(name)
-                      });
-                      console.log(this.state.providers);
-                    }}>
-                    <SocialMediaText> {name} </SocialMediaText>
-                  </SocialMediaSelect>
-                );
-              })}
-            </View>
           </Slide>
         ) : null}
       </ScrollView>

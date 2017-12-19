@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Text } from 'native-base';
-import { View, Image } from 'react-native';
+import { View, Image, Text, AsyncStorage } from 'react-native';
 import styled from 'styled-components/native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 
 const ProfileImage = styled.Image`
 	height: 90;
@@ -80,7 +78,18 @@ const JobCompanyLoading = styled.Text`
 	padding-right: 10;
 `;
 
+const FavoriteButton = styled.TouchableOpacity`
+	flex: 1;
+	justify-content: center;
+	background-color: ${props => props.color || '#42A5F5'};
+	height: 40;
+	width: 200;
+	margin-bottom: 20;
+	elevation: 2;
+`;
+
 export default (ProfileHead = props => {
+	console.log(props);
 	if (!props.loading) {
 		return (
 			<View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -88,6 +97,16 @@ export default (ProfileHead = props => {
 				<MainName> {props.name} </MainName>
 				<JobPosition> {props.position} </JobPosition>
 				<JobCompany> {props.company} </JobCompany>
+				<FavoriteButton
+					color="#0069c0"
+					onPress={() => {
+						AsyncStorage.setItem('USER_KEY', 'false');
+						props.navigate('SignedOut');
+					}}>
+					<Text style={{ textAlign: 'center', color: 'white' }}>
+						Add to Favorites
+					</Text>
+				</FavoriteButton>
 			</View>
 		);
 	} else {

@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 
 import styled from 'styled-components/native';
@@ -83,9 +84,12 @@ export default class AppOnBoard extends Component {
     };
   }
   render() {
-    console.log(this.props);
     return (
-      <Swiper dotColor={'white'} activeDotColor={'#B3E5FC'} loop={false}>
+      <Swiper
+        dotColor={'white'}
+        activeDotColor={'#B3E5FC'}
+        loop={false}
+        showsButtons={true}>
         <Slide color={'#90CAF9'}>
           <MainText>We Should Network</MainText>
           <SubText>

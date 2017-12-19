@@ -12,19 +12,19 @@ const FavoriteButton = styled.TouchableOpacity`
 	margin-bottom: 20;
 `;
 
-export default (ProfileFavoriteButton = props => {
-	console.log(props);
-
-	return (
-		<FavoriteButton
-			color="#0069c0"
-			onPress={() => {
-				AsyncStorage.setItem('USER_KEY', false);
-				props.navigation.navigate('SignedOut');
-			}}>
-			<Text style={{ textAlign: 'center', color: 'white' }}>
-				Add to Favorites
-			</Text>
-		</FavoriteButton>
-	);
-});
+export default class ProfileFavoriteButton extends Component {
+	render() {
+		return (
+			<FavoriteButton
+				color="#0069c0"
+				onPress={() => {
+					AsyncStorage.setItem('USER_KEY', false);
+					props.navigation.navigate('SignedOut');
+				}}>
+				<Text style={{ textAlign: 'center', color: 'white' }}>
+					Add to Favorites
+				</Text>
+			</FavoriteButton>
+		);
+	}
+}

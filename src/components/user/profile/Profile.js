@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const CenteredView = styled.View`
 	align-items: center;
+	elevation: 2;
 `;
 
 const QRCodeLoading = styled.View`
@@ -99,19 +100,8 @@ export default class Profile extends Component {
 						position={this.state.position}
 						picURL={this.state.profilePicURL}
 						loading={this.state.loading}
+						navigate={navigate}
 					/>
-					<CenteredView>
-						<FavoriteButton
-							onPress={() => {
-								AsyncStorage.setItem('USER_KEY', 'false');
-								this.props.navigation.navigate('SignedOut');
-							}}>
-							<Text style={{ textAlign: 'center', color: 'white' }}>
-								Add to Favorites
-							</Text>
-						</FavoriteButton>
-					</CenteredView>
-
 					<CenteredView>
 						{!this.state.loading ? (
 							<QRCode

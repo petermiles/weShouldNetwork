@@ -4824,6 +4824,10 @@ react-native-firebase@^3.1.1:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
+react-native-linkedin-login@^1.44.1:
+  version "1.44.1"
+  resolved "https://registry.yarnpkg.com/react-native-linkedin-login/-/react-native-linkedin-login-1.44.1.tgz#62c49dac7252abb0e8ea42acb436b0aeceae586e"
+
 react-native-linkedin@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-linkedin/-/react-native-linkedin-1.3.1.tgz#e14d0198f886bddda22aa6457a12a48256425c20"
