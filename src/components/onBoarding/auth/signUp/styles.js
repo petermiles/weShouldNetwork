@@ -1,17 +1,12 @@
 import styled from "styled-components/native";
-import { Dimensions } from "react-native";
-
-console.log(Dimensions.get("window").width);
+import { Dimensions, StatusBar } from "react-native";
 
 export const Slide = styled.View`
   width: ${Dimensions.get("window").width}
-  height: ${props =>
-    props.size
-      ? Dimensions.get("window").height * props.size
-      : Dimensions.get("window").height}
+  height: ${props => Dimensions.get("window").height - StatusBar.currentHeight}
   justify-content: center
   flex: 1
-  padding: 3%;
+  padding: 1%;
   background-color: ${props => props.color || "#92BBD9"};
 `;
 
@@ -23,6 +18,8 @@ export const MainText = styled.Text`
   padding-bottom: ${props => props.paddingBottom || 0}
   padding-top: ${props => props.paddingTop || 0};
 `;
+
+import { TextField } from "react-native-material-textfield";
 
 export const SubText = styled.Text`
   color: white;
@@ -39,9 +36,16 @@ export const Footer = styled.View`
   left: 0;
 `;
 
+export const CreateAccount = styled.TouchableOpacity`
+  margin-top: 10%
+  background-color: #81C784
+  padding: 5%;
+  elevation: 3
+`;
+
 export const Header = styled.View`
   position: absolute;
-  top: 7%;
+  top: ${props => props.top || 0}
   right: 0;
   left: 0;
 `;
@@ -53,13 +57,12 @@ export const SkipButton = styled.TouchableOpacity`
 
 export const BackButton = styled.TouchableOpacity`
   position: absolute;
-  bottom: 10%
+  bottom: 7%
   left: 10%
 `;
 
 export const NextButton = styled.TouchableOpacity`
   position: absolute;
-  bottom: 10%
+  bottom: 7%
   right: 10%;
-  
 `;
