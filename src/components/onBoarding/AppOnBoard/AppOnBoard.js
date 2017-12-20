@@ -25,7 +25,6 @@ import {
 
 export default class AppOnBoard extends Component {
   render() {
-    console.log(this.props);
     return (
       <Swiper dotColor={"white"} activeDotColor={"#B3E5FC"} loop={false}>
         <Slide color={"#90CAF9"}>

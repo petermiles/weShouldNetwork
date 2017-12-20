@@ -18,9 +18,7 @@ export default class App extends React.Component {
 
 	componentDidMount() {
 		AsyncStorage.getItem("USER_DATA").then(result => {
-			console.log(result);
 			this.setState({ signedIn: result, checkedSignIn: true });
-			console.log(this.state.signedIn);
 		});
 	}
 

@@ -8,9 +8,7 @@ export const checkAuth = () => {
 	return new Promise((resolve, reject) => {
 		AsyncStorage.getItem("USER_DATA")
 			.then(res => {
-				console.log(res);
 				if (res !== "false") {
-					console.log("test");
 					resolve(true);
 				} else {
 					resolve(false);
@@ -37,9 +35,19 @@ export const createLinkedInAccount = (token, navigate) => {
 				token.access_token,
 		)
 		.then(result => {
-			AsyncStorage.setItem("USER_DATA", JSON.stringify(result.data), () => {
-				navigate("SignedIn");
-			});
+			AsyncStorage.setItem(
+				"USER_DATA",
+				JSON.stringify(result.data.userData),
+				() => {
+					AsyncStorage.setItem(
+						"USER_LINKS",
+						JSON.stringify(result.data.userLinks),
+						() => {
+							navigate("SignedIn");
+						},
+					);
+				},
+			);
 		});
 };
 

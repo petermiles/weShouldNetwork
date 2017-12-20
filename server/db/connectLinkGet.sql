@@ -1,1 +1,1 @@
-SELECT * FROM user_links WHERE userid = ${userid}
+SELECT * FROM user_links WHERE uid = ${uid}

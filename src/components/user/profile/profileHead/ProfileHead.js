@@ -14,11 +14,9 @@ import {
 } from "./styles";
 
 export default (ProfileHead = props => {
-	console.log(props);
 	let image = !props.picURL
 		? require("./placeholder.png")
 		: { uri: props.picURL };
-	console.log(image);
 	if (!props.loading) {
 		return (
 			<View style={{ alignItems: "center", justifyContent: "center" }}>

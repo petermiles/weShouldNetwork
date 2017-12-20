@@ -47,7 +47,6 @@ export default class Profile extends Component {
 			: AsyncStorage.getItem("USER_DATA")
 				? AsyncStorage.getItem("USER_DATA").then(res => {
 						const data = JSON.parse(res);
-						console.log(data);
 						this.setState(format(data));
 					})
 				: AsyncStorage.getItem("USER_KEY").then(id => {

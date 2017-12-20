@@ -14,7 +14,7 @@ const createUser = (req, res) => {
 };
 
 const createWithLinkedIn = (req, res) => {
-	let parsedData = "";
+	let parsedData;
 	axios.defaults.headers.common["Authorization"] = `Bearer ${req.params.id}`;
 	axios
 		.get(
@@ -32,12 +32,27 @@ const createWithLinkedIn = (req, res) => {
 			return parsedData;
 		})
 		.then(data => {
+			let uid;
+			let parsedData = {
+				userData: "",
+				userLinks: "",
+			};
 			req.app
 				.get("db")
 				.createLinkedInUser(data)
 				.then(result => {
-					res.json(result[0]);
-				});
+					parsedData.userData = result[0];
+					console.log(parsedData);
+					req.app
+						.get("db")
+						.connectLinkGet({ uid: parsedData.userData.uid })
+						.then(result => {
+							console.log(result);
+							parsedData.userLinks = result;
+							res.json(parsedData);
+						});
+				})
+				.catch(console.log);
 		})
 		.catch(console.log);
 };
