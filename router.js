@@ -79,7 +79,7 @@ export const SignedIn = TabNavigator(
   },
 );
 
-export const createRootNavigator = signedIn => {
+export const createRootNavigator = (signedIn = false) => {
   console.log(signedIn);
   return StackNavigator(
     {
@@ -112,7 +112,7 @@ export const createRootNavigator = signedIn => {
     {
       headerMode: "none",
       mode: "modal",
-      initialRouteName: signedIn !== "false" ? "SignedIn" : "OnBoard",
+      initialRouteName: signedIn ? "SignedIn" : "OnBoard",
     },
   );
 };

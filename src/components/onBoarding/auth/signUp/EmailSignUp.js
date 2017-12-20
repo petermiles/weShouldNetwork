@@ -23,8 +23,10 @@ import {
   Footer,
   Header,
   SkipButton,
-  CreateAccount,
+  CreateAccountButton,
 } from "./styles";
+
+import { createAccount } from "./../../../../functions/auth";
 
 export default class EmailSignUp extends Component {
   constructor(props) {
@@ -36,7 +38,7 @@ export default class EmailSignUp extends Component {
       name: "",
       email: "",
       job: "",
-      company: "",
+      location: "",
       password: "",
       width: "",
       skipped: false,
@@ -51,56 +53,57 @@ export default class EmailSignUp extends Component {
           <ScrollView
             pagingEnabled={true}
             horizontal={true}
+            scrollEnabled={false}
             ref={scrollview => (this.ScrollView = scrollview)}
             onContentSizeChange={(width, height) => {
               this.setState({ width });
             }}>
             <Slide color={"#80CBC4"} size={1}>
-              <MainText> What's your name? </MainText>
-              <TextField
-                label=""
-                baseColor="white"
-                tintColor="white"
-                textColor="white"
-                value={this.state.name}
-                onChangeText={name => {
-                  this.setState({ name });
-                }}
-              />
+              <View style={{ padding: "2%" }}>
+                <MainText> What's your name? </MainText>
+                <TextField
+                  label=""
+                  baseColor="white"
+                  tintColor="white"
+                  textColor="white"
+                  containerStyle={{ width: "100%" }}
+                  value={this.state.name}
+                  onChangeText={name => {
+                    this.setState({ name });
+                  }}
+                />
+              </View>
               {this.state.name ? (
-                <Footer>
-                  <NextButton
-                    activeOpacity={0.6}
-                    onPress={() => {
-                      this.ScrollView.scrollTo({
-                        x: 360,
-                        y: 0,
-                        animated: true,
-                      });
-                    }}>
-                    <SubText>Next</SubText>
-                  </NextButton>
-                </Footer>
+                <NextButton
+                  activeOpacity={0.6}
+                  onPress={() => {
+                    this.ScrollView.scrollTo({
+                      x: 360,
+                      y: 0,
+                      animated: true,
+                    });
+                  }}>
+                  <SubText>Next</SubText>
+                </NextButton>
               ) : null}
             </Slide>
 
             {this.state.name ? (
               <Slide color={"#4DB6AC"} size={1}>
-                <Header>
-                  <SkipButton
-                    hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
-                    onPress={() => {
-                      this.setState({ skipped: true });
-                      this.ScrollView.scrollTo({
-                        x: Dimensions.get("window").width * 2,
-                        y: 0,
-                        animated: true,
-                      });
-                    }}>
-                    <SubText> Skip </SubText>
-                  </SkipButton>
-                </Header>
-                <View>
+                <SkipButton
+                  hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+                  onPress={() => {
+                    this.setState({ skipped: true });
+                    this.ScrollView.scrollTo({
+                      x: Dimensions.get("window").width * 2,
+                      y: 0,
+                      animated: true,
+                    });
+                  }}>
+                  <SubText> Skip </SubText>
+                </SkipButton>
+
+                <View style={{ padding: "2%" }}>
                   <MainText> {this.state.name}, where do you work? </MainText>
                   <TextField
                     label="Company"
@@ -131,34 +134,33 @@ export default class EmailSignUp extends Component {
                     />
                   </View>
                 ) : null}
-                <Footer>
-                  <BackButton
+
+                <BackButton
+                  hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+                  activeOpacity={0.6}
+                  onPress={() => {
+                    this.ScrollView.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true,
+                    });
+                  }}>
+                  <SubText>Back</SubText>
+                </BackButton>
+                {this.state.job && this.state.location ? (
+                  <NextButton
                     hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                     activeOpacity={0.6}
                     onPress={() => {
                       this.ScrollView.scrollTo({
-                        x: 0,
+                        x: Dimensions.get("window").width * 2,
                         y: 0,
                         animated: true,
                       });
                     }}>
-                    <SubText>Back</SubText>
-                  </BackButton>
-                  {this.state.job && this.state.location ? (
-                    <NextButton
-                      hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
-                      activeOpacity={0.6}
-                      onPress={() => {
-                        this.ScrollView.scrollTo({
-                          x: Dimensions.get("window").width * 2,
-                          y: 0,
-                          animated: true,
-                        });
-                      }}>
-                      <SubText>Next</SubText>
-                    </NextButton>
-                  ) : null}
-                </Footer>
+                    <SubText>Next</SubText>
+                  </NextButton>
+                ) : null}
               </Slide>
             ) : null}
             {(this.state.location && this.state.job && this.state.name) ||
@@ -176,35 +178,34 @@ export default class EmailSignUp extends Component {
                     this.setState({ email });
                   }}
                 />
-                <Footer>
-                  <BackButton
+
+                <BackButton
+                  hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+                  activeOpacity={0.6}
+                  onPress={() => {
+                    console.log("test");
+                    this.ScrollView.scrollTo({
+                      x: Dimensions.get("window").width,
+                      y: 0,
+                      animated: true,
+                    });
+                  }}>
+                  <SubText>Back</SubText>
+                </BackButton>
+                {this.state.email ? (
+                  <NextButton
                     hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                     activeOpacity={0.6}
                     onPress={() => {
-                      console.log("test");
                       this.ScrollView.scrollTo({
-                        x: Dimensions.get("window").width,
+                        x: Dimensions.get("window").width * 3,
                         y: 0,
                         animated: true,
                       });
                     }}>
-                    <SubText>Back</SubText>
-                  </BackButton>
-                  {this.state.email ? (
-                    <NextButton
-                      hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
-                      activeOpacity={0.6}
-                      onPress={() => {
-                        this.ScrollView.scrollTo({
-                          x: Dimensions.get("window").width * 3,
-                          y: 0,
-                          animated: true,
-                        });
-                      }}>
-                      <SubText>Next</SubText>
-                    </NextButton>
-                  ) : null}
-                </Footer>
+                    <SubText>Next</SubText>
+                  </NextButton>
+                ) : null}
               </Slide>
             ) : null}
             {(this.state.location && this.state.job && this.state.name) ||
@@ -233,39 +234,37 @@ export default class EmailSignUp extends Component {
                     this.setState({ password2 });
                   }}
                 />
-                <Footer>
-                  <BackButton
+
+                <BackButton
+                  hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+                  activeOpacity={0.6}
+                  onPress={() => {
+                    console.log(
+                      this.state.width - Dimensions.get("window").width * 3,
+                    );
+                    this.ScrollView.scrollTo({
+                      x: this.state.width - Dimensions.get("window").width * 3,
+                      y: 0,
+                      animated: true,
+                    });
+                  }}>
+                  <SubText>Back</SubText>
+                </BackButton>
+                {this.state.password &&
+                this.state.password === this.state.password2 ? (
+                  <NextButton
                     hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                     activeOpacity={0.6}
                     onPress={() => {
-                      console.log(
-                        this.state.width - Dimensions.get("window").width * 3,
-                      );
                       this.ScrollView.scrollTo({
-                        x:
-                          this.state.width - Dimensions.get("window").width * 3,
+                        x: Dimensions.get("window").width * 4,
                         y: 0,
                         animated: true,
                       });
                     }}>
-                    <SubText>Back</SubText>
-                  </BackButton>
-                  {this.state.password &&
-                  this.state.password === this.state.password2 ? (
-                    <NextButton
-                      hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
-                      activeOpacity={0.6}
-                      onPress={() => {
-                        this.ScrollView.scrollTo({
-                          x: Dimensions.get("window").width * 4,
-                          y: 0,
-                          animated: true,
-                        });
-                      }}>
-                      <SubText>Next</SubText>
-                    </NextButton>
-                  ) : null}
-                </Footer>
+                    <SubText>Next</SubText>
+                  </NextButton>
+                ) : null}
               </Slide>
             ) : null}
             {(this.state.location &&
@@ -293,13 +292,17 @@ export default class EmailSignUp extends Component {
                     </SubText>
                   )}
                   <SubText>Your email is {this.state.email}.</SubText>
-                  <CreateAccount>
+                  <CreateAccountButton
+                    onPress={() => {
+                      createAccount(this.state, this.props.navigation.navigate);
+                    }}>
                     <MainText> Create Account.</MainText>
-                  </CreateAccount>
+                  </CreateAccountButton>
                 </View>
 
                 <BackButton
                   activeOpacity={0.6}
+                  hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                   onPress={() => {
                     this.ScrollView.scrollTo({
                       x: this.state.width - Dimensions.get("window").width * 2,

@@ -1,70 +1,60 @@
-import React, { Component } from 'react';
-import { Container, Content } from 'native-base';
+import React, { Component } from "react";
+import { Container, Content } from "native-base";
 
-import { View, AsyncStorage, TouchableOpacity } from 'react-native';
-import QRCode from 'react-native-qrcode';
-import ProfileHead from './profileHead/ProfileHead';
-import axios from 'axios';
+import { View, AsyncStorage, TouchableOpacity } from "react-native";
+import QRCode from "react-native-qrcode";
+import ProfileHead from "./profileHead/ProfileHead";
+import axios from "axios";
 
-import { CenteredView, QRCodeLoading, Footer, FooterText } from './styles';
+import { CenteredView, QRCodeLoading, Footer, FooterText } from "./styles";
 
 export default class Profile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			loading: true,
-			profileUid: '',
-			name: '',
-			position: '',
-			profilePicURL: '',
-			company: '',
-			userUid: '',
-			ownProfile: true
+			profileUid: "",
+			name: "",
+			position: "",
+			profilePicURL: "",
+			company: "",
+			userUid: "",
+			ownProfile: true,
 		};
 	}
 
 	componentDidMount() {
+		const format = data => ({
+			name: data.name,
+			position: data.position,
+			company: data.company,
+			profilePicURL: data.profilepic,
+			loading: false,
+			profileUid: data.uid,
+		});
 		this.props.navigation.state.params
 			? axios
 					.get(
-						'http://172.31.99.35:3001/api/user/getInfo/' +
-							this.props.navigation.state.params.uid
+						"http://172.31.99.35:3001/api/user/getInfo/" +
+							this.props.navigation.state.params.uid,
 					)
-					.then(result => {
+					.then(({ data }) => {
 						this.setState({
-							name: result.data.name,
-							position: result.data.position,
-							company: result.data.company,
-							profilePicURL: result.data.profilepic,
-							loading: false,
+							...format(data),
 							ownProfile: false,
-							profileUid: result.data.uid
 						});
 					})
-			: AsyncStorage.getItem('USER_DATA')
-				? AsyncStorage.getItem('USER_DATA').then(res => {
-						const result = JSON.parse(res);
-						this.setState({
-							name: result.name,
-							position: result.position,
-							company: result.company,
-							profilePicURL: result.profilepic,
-							loading: false,
-							profileUid: result.uid
-						});
+			: AsyncStorage.getItem("USER_DATA")
+				? AsyncStorage.getItem("USER_DATA").then(res => {
+						const data = JSON.parse(res);
+						console.log(data);
+						this.setState(format(data));
 					})
-				: AsyncStorage.getItem('USER_KEY').then(id => {
+				: AsyncStorage.getItem("USER_KEY").then(id => {
 						axios
-							.get('http://172.31.99.35:3001/api/user/getInfo/' + id)
+							.get("http://172.31.99.35:3001/api/user/getInfo/" + id)
 							.then(result => {
-								this.setState({
-									name: result.data.name,
-									position: result.data.position,
-									company: result.data.company,
-									profilePicURL: result.data.profilepic,
-									loading: false,
-									profileUid: result.data.uid
-								});
+								this.setState(format(result.data));
 							});
 					});
 	}
@@ -103,7 +93,7 @@ export default class Profile extends Component {
 						<Footer
 							activeOpacity={0.8}
 							onPress={() => {
-								navigate('Scan');
+								navigate("Scan");
 							}}>
 							<FooterText> Scan </FooterText>
 						</Footer>
@@ -111,7 +101,7 @@ export default class Profile extends Component {
 						<Footer
 							activeOpacity={0.8}
 							onPress={() => {
-								navigate('SignedIn');
+								navigate("SignedIn");
 							}}>
 							<FooterText> Go Back To My Profile </FooterText>
 						</Footer>

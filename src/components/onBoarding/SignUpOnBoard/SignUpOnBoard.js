@@ -83,13 +83,15 @@ export default class SignUpOnBoard extends Component {
               return err;
             }}
           />
-
-          <BackButton
-            onPress={() => {
-              this.props.navigation.navigate("EmailSignUp");
-            }}>
-            <SubText> Sign up with email. </SubText>
-          </BackButton>
+          <View
+            style={{ position: "absolute", bottom: "5%", right: 0, left: 0 }}>
+            <BackButton
+              onPress={() => {
+                this.props.navigation.navigate("EmailSignUp");
+              }}>
+              <SubText> Sign up with email. </SubText>
+            </BackButton>
+          </View>
         </Slide>
       </ScrollView>
     );

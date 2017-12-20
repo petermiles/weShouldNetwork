@@ -1,1 +1,1 @@
-INSERT INTO user_data (uid, name, profilepic, position, company) VALUES (${uid},${name},${pic},${title},${company}) RETURNING *;
+INSERT INTO user_data (uid, name, position, company, email) VALUES (${uid},${name},${job},${location}, ${email}) RETURNING *;
