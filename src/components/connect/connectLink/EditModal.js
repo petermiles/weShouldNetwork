@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import styled from "styled-components/native";
 import { View, Modal, TextInput } from "react-native";
 
 import {

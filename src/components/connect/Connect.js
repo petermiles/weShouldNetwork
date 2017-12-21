@@ -45,8 +45,6 @@ export default class Connect extends Component {
     axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
       this.setState({ editable: false });
     });
-
-    // console.log(state, 'test');
   }
 
   componentDidMount() {

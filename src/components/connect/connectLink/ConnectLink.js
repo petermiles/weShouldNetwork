@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Animated } from "react-native";
+import { Animated, Dimensions } from "react-native";
 
 import { JobPosition, NetworkContainer, brandColors } from "./styles";
 
@@ -58,16 +58,16 @@ export default class ConnectLink extends Component {
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
 				<Animated.View
 					style={{
+						flex: 1,
+						flexDirection: "column",
 						justifyContent: "center",
+						alignItems: "center",
+						backgroundColor: !this.state.held ? brandColors[`${this.props.name}`] : brandColors[`${this.props.name}Active`],
+						height: Dimensions.get("window").height * 0.9 / 4.5,
+						elevation: 3,
 					}}
 				>
-					<JobPosition
-						style={{
-							backgroundColor: !this.state.held ? brandColors[`${this.props.name}`] : brandColors[`${this.props.name}Active`],
-							height: 120,
-						}}
-					>
-						{" "}
+					<JobPosition>
 						{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}{" "}
 					</JobPosition>
 				</Animated.View>
