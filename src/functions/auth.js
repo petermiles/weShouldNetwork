@@ -29,26 +29,13 @@ export const Signout = () => {
 };
 
 export const createLinkedInAccount = (token, navigate) => {
-	axios
-		.get(
-			"http://172.31.99.35:3001/api/user/createWithLinkedIn/" +
-				token.access_token,
-		)
-		.then(result => {
-			AsyncStorage.setItem(
-				"USER_DATA",
-				JSON.stringify(result.data.userData),
-				() => {
-					AsyncStorage.setItem(
-						"USER_LINKS",
-						JSON.stringify(result.data.userLinks),
-						() => {
-							navigate("SignedIn");
-						},
-					);
-				},
-			);
+	axios.get("http://172.31.99.35:3001/api/user/createWithLinkedIn/" + token.access_token).then(result => {
+		AsyncStorage.setItem("USER_DATA", JSON.stringify(result.data.userData), () => {
+			AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data.userLinks), () => {
+				navigate("SignedIn");
+			});
 		});
+	});
 };
 
 export const createAccount = (state, navigate) => {
@@ -57,16 +44,11 @@ export const createAccount = (state, navigate) => {
 		.createUserWithEmailAndPassword(state.email, state.password)
 		.then(result => {
 			console.log(Object.assign({}, state, { uid: result._user.uid }));
-			axios
-				.post(
-					"http://172.31.99.35:3001/api/user/create",
-					Object.assign({}, state, { uid: result._user.uid }),
-				)
-				.then(result => {
-					AsyncStorage.setItem("USER_DATA", JSON.stringify(result.data), () => {
-						navigate("SignedIn");
-					});
+			axios.post("http://172.31.99.35:3001/api/user/create", Object.assign({}, state, { uid: result._user.uid })).then(result => {
+				AsyncStorage.setItem("USER_DATA", JSON.stringify(result.data), () => {
+					navigate("SignedIn");
 				});
+			});
 		});
 };
 

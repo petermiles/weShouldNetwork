@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { View, Image, Text, AsyncStorage } from "react-native";
+import React from "react";
+import { View, Text, AsyncStorage } from "react-native";
 
 import {
 	ProfileImage,
@@ -13,10 +13,8 @@ import {
 	FavoriteButton,
 } from "./styles";
 
-export default (ProfileHead = props => {
-	let image = !props.picURL
-		? require("./placeholder.png")
-		: { uri: props.picURL };
+export default function profileHead(props) {
+	let image = !props.picURL ? require("./placeholder.png") : { uri: props.picURL };
 	if (!props.loading) {
 		return (
 			<View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -29,10 +27,9 @@ export default (ProfileHead = props => {
 					onPress={() => {
 						AsyncStorage.removeItem("USER_DATA");
 						props.navigate("SignedOut");
-					}}>
-					<Text style={{ textAlign: "center", color: "white" }}>
-						Add to Favorites
-					</Text>
+					}}
+				>
+					<Text style={{ textAlign: "center", color: "white" }}>Add to Favorites</Text>
 				</FavoriteButton>
 			</View>
 		);
@@ -46,4 +43,4 @@ export default (ProfileHead = props => {
 			</View>
 		);
 	}
-});
+}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Content } from "native-base";
 
-import { View, AsyncStorage, TouchableOpacity } from "react-native";
+import { AsyncStorage } from "react-native";
 import QRCode from "react-native-qrcode";
 import ProfileHead from "./profileHead/ProfileHead";
 import axios from "axios";
@@ -33,32 +33,25 @@ export default class Profile extends Component {
 			profileUid: data.uid,
 		});
 		this.props.navigation.state.params
-			? axios
-					.get(
-						"http://172.31.99.35:3001/api/user/getInfo/" +
-							this.props.navigation.state.params.uid,
-					)
-					.then(({ data }) => {
-						this.setState({
-							...format(data),
-							ownProfile: false,
-						});
-					})
+			? axios.get("http://172.31.99.35:3001/api/user/getInfo/" + this.props.navigation.state.params.uid).then(({ data }) => {
+					this.setState({
+						...format(data),
+						ownProfile: false,
+					});
+				})
 			: AsyncStorage.getItem("USER_DATA")
 				? AsyncStorage.getItem("USER_DATA").then(res => {
 						const data = JSON.parse(res);
 						this.setState(format(data));
 					})
 				: AsyncStorage.getItem("USER_KEY").then(id => {
-						axios
-							.get("http://172.31.99.35:3001/api/user/getInfo/" + id)
-							.then(result => {
-								this.setState(format(result.data));
-							});
+						axios.get("http://172.31.99.35:3001/api/user/getInfo/" + id).then(result => {
+							this.setState(format(result.data));
+						});
 					});
 	}
 	render() {
-		const { navigate, goBack } = this.props.navigation;
+		const { navigate } = this.props.navigation;
 		return (
 			<Container>
 				<Content>
@@ -73,11 +66,7 @@ export default class Profile extends Component {
 					<CenteredView>
 						{!this.state.loading ? (
 							<QRCode
-								value={
-									this.props.navigation.state.params
-										? this.props.navigation.state.params.uid
-										: this.state.uid
-								}
+								value={this.props.navigation.state.params ? this.props.navigation.state.params.uid : this.state.uid}
 								size={200}
 								bgColor="black"
 								fgColor="white"
@@ -93,7 +82,8 @@ export default class Profile extends Component {
 							activeOpacity={0.8}
 							onPress={() => {
 								navigate("Scan");
-							}}>
+							}}
+						>
 							<FooterText> Scan </FooterText>
 						</Footer>
 					) : (
@@ -101,7 +91,8 @@ export default class Profile extends Component {
 							activeOpacity={0.8}
 							onPress={() => {
 								navigate("SignedIn");
-							}}>
+							}}
+						>
 							<FooterText> Go Back To My Profile </FooterText>
 						</Footer>
 					)

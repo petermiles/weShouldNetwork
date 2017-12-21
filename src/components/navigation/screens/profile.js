@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Container, Content, Button, Text } from "native-base";
 import styled from "styled-components/native";
 
-import Home from "./../home/Home";
-
 const StyledText = styled.Text`
 	color: palevioletred;
 `;

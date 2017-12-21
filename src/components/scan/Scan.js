@@ -1,25 +1,16 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-  Vibration
-} from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, View, Vibration } from "react-native";
 
-import axios from 'axios';
-import { NavigationActions } from 'react-navigation';
-import { once } from 'lodash';
-import Camera from 'react-native-camera';
+import { NavigationActions } from "react-navigation";
+import { once } from "lodash";
+import Camera from "react-native-camera";
 
 export default class Scan extends Component {
   constructor(props) {
     super(props);
-    console.log(props, ' here it is');
+    console.log(props, " here it is");
     this.state = {
-      hideCamera: false
+      hideCamera: false,
     };
   }
 
@@ -49,8 +40,8 @@ export default class Scan extends Component {
 
   onBarCodeRead(e) {
     const navigateAction = NavigationActions.navigate({
-      routeName: 'ScannedProfile',
-      params: { uid: e.data }
+      routeName: "ScannedProfile",
+      params: { uid: e.data },
     });
     this.setState({ hideCamera: true });
     this.props.navigation.dispatch(navigateAction);
@@ -62,19 +53,19 @@ export default class Scan extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   preview: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   capture: {
     flex: 0,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 5,
-    color: '#000',
+    color: "#000",
     padding: 10,
-    margin: 40
-  }
+    margin: 40,
+  },
 });

@@ -22,7 +22,7 @@ const updateConnectLink = (req, res) => {
 		.get("db")
 		.connectEditLink({ id: req.body.id, link: req.body.link })
 		.then(result => {
-			console.log(result);
+			res.json(result.data);
 		});
 };
 
@@ -32,6 +32,7 @@ const deleteConnectLink = (req, res) => {
 		.connectDeleteLink({ id: req.body.id, uid: req.body.uid })
 		.then(result => {
 			console.log(result);
+			res.json(result.data);
 		});
 };
 

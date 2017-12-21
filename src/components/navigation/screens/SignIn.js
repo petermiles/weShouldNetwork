@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 
 import { Container, Content, Button, Text } from "native-base";
 
 import { StyleSheet } from "react-native";
 
-import { NavigationActions } from "react-navigation";
-
 import SignIn from "./../../auth/signIn/SignIn";
 
-export default ({ navigation }) => (
+export default function navigation() {
 	<Container>
 		<Content contentContainerStyle={styles.container}>
 			<SignIn />
@@ -19,7 +17,7 @@ export default ({ navigation }) => (
 					width: "75%",
 					marginTop: 20,
 					marginLeft: "14%",
-					marginRight: "16%"
+					marginRight: "16%",
 				}}
 				onPress={() => {
 					navigation.navigate("SignUp");
@@ -28,13 +26,13 @@ export default ({ navigation }) => (
 				<Text> Sign Up </Text>
 			</Button>
 		</Content>
-	</Container>
-);
+	</Container>;
+}
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
-		alignItems: "center"
-	}
+		alignItems: "center",
+	},
 });

@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
+import { AsyncStorage } from "react-native";
 
-export const getUserInfo = uid => {
-	AsyncStorage.getItem('USER_KEY').then(result => {
+export const getUserInfo = () => {
+	AsyncStorage.getItem("USER_KEY").then(result => {
 		this.props.navigation.setParams({ user: result });
 		axios.get(`http://172.31.99.35:3001/api/user/getInfo/${result}`);
 	});

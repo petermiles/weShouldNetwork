@@ -14,12 +14,9 @@ const createUser = (req, res) => {
 };
 
 const createWithLinkedIn = (req, res) => {
-	let parsedData;
 	axios.defaults.headers.common["Authorization"] = `Bearer ${req.params.id}`;
 	axios
-		.get(
-			`https://api.linkedin.com/v1/people/~:(id,positions,picture-url,first-name,last-name,public-profile-url)?format=json`,
-		)
+		.get(`https://api.linkedin.com/v1/people/~:(id,positions,picture-url,first-name,last-name,public-profile-url)?format=json`)
 		.then(result => {
 			const parsedData = {
 				uid: "LinkedIn" + result.data.id,
@@ -32,7 +29,6 @@ const createWithLinkedIn = (req, res) => {
 			return parsedData;
 		})
 		.then(data => {
-			let uid;
 			let parsedData = {
 				userData: "",
 				userLinks: "",
