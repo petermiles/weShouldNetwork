@@ -11,7 +11,6 @@ export default class ConnectLinkPage extends Component {
 			editable: false,
 			editableName: "",
 			editableLink: "",
-			containerHeight: "",
 		};
 		this.openModal = props.editable.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
@@ -33,6 +32,7 @@ export default class ConnectLinkPage extends Component {
 								id={x.id}
 								link={x.link}
 								name={x.servicename}
+								ownProfile={this.props.ownProfile}
 							/>
 						</ConnectLinkContainer>
 					);

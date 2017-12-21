@@ -46,8 +46,6 @@ export const brandColors = {
 	linkedinActive: "#006794",
 	dribble: "#ea4c89",
 	dribbleActive: "#E32B72",
-	facebook: "#3b5998",
-	facebookActive: "#14306B",
 	twitter: "#1da1f2",
 	twitterActive: "#036EAE",
 	medium: "black",
@@ -98,7 +96,6 @@ export const LinkLogo = styled.View`
 export const colors = {
 	linkedin: "#008CC9",
 	dribble: "#ea4c89",
-	facebook: "#3b5998",
 	twitter: "#1da1f2",
 	medium: "black",
 	phone: "#ff9800",

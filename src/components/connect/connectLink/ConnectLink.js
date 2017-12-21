@@ -47,8 +47,10 @@ export default class ConnectLink extends Component {
 			color: brandColors[this.props.name],
 			id: this.props.id,
 		};
-		if (this.state.pressAction._value === 1) {
+		if (this.state.pressAction._value === 1 && this.props.ownProfile) {
 			this.handleEdit(editInfo);
+		} else {
+			console.log("not my profile");
 		}
 		this.val = 0;
 	}
@@ -62,6 +64,7 @@ export default class ConnectLink extends Component {
 						flexDirection: "column",
 						justifyContent: "center",
 						alignItems: "center",
+						borderRadius: 3,
 						backgroundColor: !this.state.held ? brandColors[`${this.props.name}`] : brandColors[`${this.props.name}Active`],
 						height: Dimensions.get("window").height * 0.9 / 4.5,
 						elevation: 3,
