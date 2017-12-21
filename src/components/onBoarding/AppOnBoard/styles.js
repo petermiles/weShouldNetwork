@@ -1,10 +1,10 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
 export const Slide = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.color || "#92BBD9"};
+  background-color: ${props => props.color || '#92BBD9'};
 `;
 
 export const Centered = styled.View`
@@ -32,7 +32,7 @@ export const SubText = styled.Text`
 
 export const SignUpButton = styled.TouchableOpacity`
   elevation: 3
-  background-color: ${props => props.color || "#81D4FA"}
+  background-color: ${props => props.color || '#81D4FA'}
   width: 40%;
   align-items: center;
   padding: 2%;

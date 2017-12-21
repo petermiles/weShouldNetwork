@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
-import styled from 'styled-components/native';
-import { Text } from 'native-base';
-import {
-	TouchableWithoutFeedback,
-	View,
-	Animated,
-	TouchableOpacity
-} from 'react-native';
+import React, { Component } from "react";
 
-import { JobPosition, NetworkContainer, brandColors } from './styles';
+import { Animated } from "react-native";
+
+import { JobPosition, NetworkContainer, brandColors } from "./styles";
 
 export default class ConnectLink extends Component {
 	constructor(props) {
@@ -17,7 +11,7 @@ export default class ConnectLink extends Component {
 		this.state = {
 			editable: false,
 			held: false,
-			pressAction: new Animated.Value(0)
+			pressAction: new Animated.Value(0),
 		};
 		this.pressIn = this.pressIn.bind(this);
 		this.pressOut = this.pressOut.bind(this);
@@ -33,7 +27,7 @@ export default class ConnectLink extends Component {
 	pressIn() {
 		Animated.timing(this.state.pressAction, {
 			duration: 400,
-			toValue: 1
+			toValue: 1,
 		}).start(this.completePress);
 		this.setState({ held: true });
 	}
@@ -41,7 +35,7 @@ export default class ConnectLink extends Component {
 	pressOut() {
 		Animated.timing(this.state.pressAction, {
 			duration: 0,
-			toValue: 0
+			toValue: 0,
 		}).start();
 		this.setState({ held: false });
 	}
@@ -51,7 +45,7 @@ export default class ConnectLink extends Component {
 			name: this.props.name,
 			link: this.props.link,
 			color: brandColors[this.props.name],
-			id: this.props.id
+			id: this.props.id,
 		};
 		if (this.state.pressAction._value === 1) {
 			this.handleEdit(editInfo);
@@ -64,20 +58,17 @@ export default class ConnectLink extends Component {
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
 				<Animated.View
 					style={{
-						justifyContent: 'center'
-					}}>
+						justifyContent: "center",
+					}}
+				>
 					<JobPosition
 						style={{
-							backgroundColor: !this.state.held
-								? brandColors[`${this.props.name}`]
-								: brandColors[`${this.props.name}Active`],
-							height: 120
-						}}>
-						{' '}
-						{this.props.name
-							? this.props.name.charAt(0).toUpperCase() +
-								this.props.name.slice(1)
-							: null}{' '}
+							backgroundColor: !this.state.held ? brandColors[`${this.props.name}`] : brandColors[`${this.props.name}Active`],
+							height: 120,
+						}}
+					>
+						{" "}
+						{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}{" "}
 					</JobPosition>
 				</Animated.View>
 			</NetworkContainer>

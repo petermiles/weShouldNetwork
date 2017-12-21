@@ -28,6 +28,8 @@ firestore.rules
 LICENSE
 storage.rules
 service-account.json
+watchmanconfig
+
 
 
 # Android/IntelliJ
@@ -67,3 +69,4 @@ buck-out/
 /ios/Pods/
 google-services.json
 GoogleService-Info.plist
+/bin

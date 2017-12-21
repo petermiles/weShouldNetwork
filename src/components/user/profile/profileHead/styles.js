@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
 export const ProfileImage = styled.Image`
 	height: 90;
@@ -17,7 +17,7 @@ export const ProfileImageLoading = styled.View`
 	background-color: #eceff1;
 `;
 
-export const ProfileTextLoading = props => styled.View`
+export const ProfileTextLoading = styled.View`
 	background-color: #ECEFF1
 	height: 5;
 	width: ${props => props.size || 130}
@@ -81,7 +81,7 @@ export const JobCompanyLoading = styled.View`
 export const FavoriteButton = styled.TouchableOpacity`
 	flex: 1;
 	justify-content: center;
-	background-color: ${props => props.color || '#42A5F5'};
+	background-color: ${props => props.color || "#42A5F5"};
 	height: 40;
 	width: 200;
 	margin-bottom: 20;

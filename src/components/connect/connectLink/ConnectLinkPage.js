@@ -1,36 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import styled from 'styled-components/native';
+import ConnectLink from "./ConnectLink";
 
-import {
-	View,
-	Modal,
-	Text,
-	TextInput,
-	Vibration,
-	Dimensions
-} from 'react-native';
-
-import { chunk } from 'lodash';
-
-import ConnectLink from './ConnectLink';
-
-import {
-	EditableInput,
-	EditableName,
-	ModalHeader,
-	ConnectLinkPageContainer,
-	ConnectLinkContainer
-} from './styles';
+import { ConnectLinkPageContainer, ConnectLinkContainer } from "./styles";
 
 export default class ConnectLinkPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			editable: false,
-			editableName: '',
-			editableLink: '',
-			containerHeight: ''
+			editableName: "",
+			editableLink: "",
+			containerHeight: "",
 		};
 		this.openModal = props.editable.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, Image, Text, AsyncStorage } from 'react-native';
+import React from "react";
+import { View, Text, AsyncStorage } from "react-native";
 
 import {
 	ProfileImage,
@@ -10,33 +10,32 @@ import {
 	JobPositionLoading,
 	JobCompany,
 	JobCompanyLoading,
-	FavoriteButton
-} from './styles';
+	FavoriteButton,
+} from "./styles";
 
-export default (ProfileHead = props => {
-	console.log(props);
+export default function profileHead(props) {
+	let image = !props.picURL ? require("./placeholder.png") : { uri: props.picURL };
 	if (!props.loading) {
 		return (
-			<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-				<ProfileImage source={{ uri: props.picURL }} />
+			<View style={{ alignItems: "center", justifyContent: "center" }}>
+				<ProfileImage source={image} />
 				<MainName> {props.name} </MainName>
 				<JobPosition> {props.position} </JobPosition>
 				<JobCompany> {props.company} </JobCompany>
 				<FavoriteButton
 					color="#0069c0"
 					onPress={() => {
-						AsyncStorage.setItem('USER_KEY', 'false');
-						props.navigate('SignedOut');
-					}}>
-					<Text style={{ textAlign: 'center', color: 'white' }}>
-						Add to Favorites
-					</Text>
+						AsyncStorage.removeItem("USER_DATA");
+						props.navigate("SignedOut");
+					}}
+				>
+					<Text style={{ textAlign: "center", color: "white" }}>Add to Favorites</Text>
 				</FavoriteButton>
 			</View>
 		);
 	} else {
 		return (
-			<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+			<View style={{ alignItems: "center", justifyContent: "center" }}>
 				<ProfileImageLoading />
 				<MainNameLoading />
 				<JobPositionLoading />
@@ -44,4 +43,4 @@ export default (ProfileHead = props => {
 			</View>
 		);
 	}
-});
+}
