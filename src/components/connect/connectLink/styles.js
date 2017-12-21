@@ -1,5 +1,7 @@
 import styled from "styled-components/native";
 
+import Icon from "react-native-vector-icons/MaterialIcons";
+
 export const JobPosition = styled.Text`
 	font-size: 30;
 	color: white;
@@ -164,3 +166,5 @@ export const FooterButtonText = styled.Text`
 	color: white;
 	font-size: 22;
 `;
+
+

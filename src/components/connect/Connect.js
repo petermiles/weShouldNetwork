@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { Container, Content } from "native-base";
 
-import { Vibration, AsyncStorage, View, StyleSheet } from "react-native";
+import { Vibration, AsyncStorage, StyleSheet } from "react-native";
 import axios from "axios";
 
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import ConnectLinkPage from "./connectLink/ConnectLinkPage";
+
+import AddLinkModal from "./editLinks/AddLink/AddLinkModal";
 
 import EditModal from "./connectLink/EditModal";
 
@@ -23,6 +25,7 @@ export default class Connect extends Component {
       editableLink: "",
       editableColor: "",
       ownProfile: true,
+      addLink: false,
     };
 
     this.openEditModal = this.openEditModal.bind(this);
@@ -101,15 +104,26 @@ export default class Connect extends Component {
             />
           ) : null}
         </Content>
-        <ActionButton buttonColor="#F44336" activeOpacity={1} hideShadow={false} offsetX={20} offsetY={20}>
-          <ActionButton.Item buttonColor="#66BB6A" title="Edit Links" onPress={() => console.log("notes tapped!")}>
-            <Icon name="create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor="#42A5F5" title="Add A Link" onPress={() => console.log("notes tapped!")}>
-            <Icon name="add" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
-        <View />
+        {this.state.ownProfile && (
+          <ActionButton
+            buttonColor="#F44336"
+            icon={<Icon name="more-horiz" style={{ color: "white", fontSize: 30, height: 30 }} />}
+            activeOpacity={1}
+            hideShadow={false}
+            degrees={90}
+            offsetX={20}
+            offsetY={20}
+          >
+            <ActionButton.Item buttonColor="#42A5F5" title="Edit Links" onPress={() => this.setState({ editLink: true })}>
+              <Icon name="create" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor="#66BB6A" title="Add A Link" onPress={() => this.setState({ addLink: true })}>
+              <Icon name="add" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+          </ActionButton>
+        )}
+
+        <AddLinkModal visible={this.state.addLink} />
       </Container>
     );
   }
