@@ -3,10 +3,7 @@ import { Dimensions } from "react-native";
 
 export const Slide = styled.View`
   width: ${Dimensions.get("window").width}
-  height: ${props =>
-    props.size
-      ? Dimensions.get("window").height * props.size
-      : Dimensions.get("window").height}
+  height: ${props => (props.size ? Dimensions.get("window").height * props.size : Dimensions.get("window").height)}
   justify-content: center
   flex: 1
   padding: 2%;

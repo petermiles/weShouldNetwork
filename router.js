@@ -1,4 +1,3 @@
-import React from "react";
 import { StackNavigator, TabNavigator } from "react-navigation";
 import AppOnBoard from "./src/components/onBoarding/AppOnBoard/AppOnBoard";
 import SignUpOnBoard from "./src/components/onBoarding/SignUpOnBoard/SignUpOnBoard";
@@ -37,7 +36,7 @@ export const ScannedProfile = TabNavigator(
       inactiveBackgroundColor: "#1e88e5",
     },
     initialRouteName: "Profile",
-  },
+  }
 );
 
 export const SignedIn = TabNavigator(
@@ -76,11 +75,10 @@ export const SignedIn = TabNavigator(
       inactiveBackgroundColor: "#1e88e5",
     },
     initialRouteName: "Profile",
-  },
+  }
 );
 
 export const createRootNavigator = (signedIn = false) => {
-  console.log(signedIn);
   return StackNavigator(
     {
       SignedIn: {
@@ -113,6 +111,6 @@ export const createRootNavigator = (signedIn = false) => {
       headerMode: "none",
       mode: "modal",
       initialRouteName: signedIn ? "SignedIn" : "OnBoard",
-    },
+    }
   );
 };
