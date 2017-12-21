@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Animated, Dimensions } from "react-native";
+import { Animated, Dimensions, Linking } from "react-native";
 
 import { JobPosition, NetworkContainer, brandColors } from "./styles";
 
@@ -50,7 +50,7 @@ export default class ConnectLink extends Component {
 		if (this.state.pressAction._value === 1 && this.props.ownProfile) {
 			this.handleEdit(editInfo);
 		} else {
-			console.log("not my profile");
+			Linking.openURL(this.props.link);
 		}
 		this.val = 0;
 	}
