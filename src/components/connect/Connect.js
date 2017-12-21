@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { Container, Content } from "native-base";
 
-import { Vibration, AsyncStorage } from "react-native";
+import { Vibration, AsyncStorage, View, StyleSheet } from "react-native";
 import axios from "axios";
+
+import ActionButton from "react-native-action-button";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 import ConnectLinkPage from "./connectLink/ConnectLinkPage";
 
@@ -34,6 +37,7 @@ export default class Connect extends Component {
       editableLink: val.link,
       editableColor: val.color,
       editableId: val.id,
+      active: false,
     });
   }
 
@@ -97,7 +101,24 @@ export default class Connect extends Component {
             />
           ) : null}
         </Content>
+        <ActionButton buttonColor="#F44336" activeOpacity={1} hideShadow={false} offsetX={20} offsetY={20}>
+          <ActionButton.Item buttonColor="#66BB6A" title="Edit Links" onPress={() => console.log("notes tapped!")}>
+            <Icon name="create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor="#42A5F5" title="Add A Link" onPress={() => console.log("notes tapped!")}>
+            <Icon name="add" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+        <View />
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: "white",
+  },
+});
