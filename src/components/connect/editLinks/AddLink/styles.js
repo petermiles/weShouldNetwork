@@ -34,18 +34,19 @@ export const ModalHeader = styled.View`
   left: 0;
   right: 0;
   height: 55
-  background-color: white
+  background-color: ${props => colors[props.color] || " #42A5F5"}
   width: ${Dimensions.get("window").width * 0.95}
   elevation: 3
 `;
 
 export const ModalHeaderText = styled.Text`
-  color: black;
+  color: white;
   font-size: 24;
   font-weight: bold
   padding-top: 3%;
   padding-bottom: 3%;
   text-align: center;
+  align-self: center
 `;
 
 export const ProviderContainer = styled.TouchableOpacity`
@@ -54,7 +55,10 @@ export const ProviderContainer = styled.TouchableOpacity`
   justify-content: center;
   flex-wrap: wrap
   align-items: center;
-  height: 76%
+  height: 76%;
+  width: 98%
+  margin-left: 1%;
+  margin-right: 1%;
   background-color: #FAFAFA
 `;
 

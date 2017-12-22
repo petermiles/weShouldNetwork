@@ -106,7 +106,7 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <ActionButton
-            active={!this.state.active}
+            active={true}
             spacing={15}
             buttonColor="#F44336"
             icon={<Icon name="more-horiz" style={{ color: "white", fontSize: 30, height: 30 }} />}
