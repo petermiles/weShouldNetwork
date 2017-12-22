@@ -18,7 +18,7 @@ export const ModalContainer = styled.View`
   justify-content: center;
   align-items: center ;
   background-color: #00000080
-  elevation: 4
+  elevation: 6
 `;
 
 export const ModalContent = styled.View`

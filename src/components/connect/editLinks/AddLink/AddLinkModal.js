@@ -1,20 +1,19 @@
 import React, { Component } from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { Modal, ScrollView, View, Dimensions } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Modal, ScrollView } from "react-native";
 
 import {
 	ModalContainer,
 	ModalContent,
 	ModalHeader,
 	ModalHeaderText,
-	ModalFooter,
-	FooterButton,
-	FooterButtonText,
 	Slide,
 	ProviderContainer,
 	Provider,
 	ProviderText,
 } from "./styles";
+
+import LinkSlide from "./slides/LinkSlide";
 
 export default class AddLinkModal extends Component {
 	constructor(props) {
@@ -28,7 +27,6 @@ export default class AddLinkModal extends Component {
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<Modal transparent={true} visible={this.props.visible} onRequestClose={this.props.closeModal} animationType={"slide"}>
 				<ModalContainer>
@@ -44,7 +42,7 @@ export default class AddLinkModal extends Component {
 							<Slide>
 								<ModalHeader>
 									<Icon
-										name={"times"}
+										name={"close"}
 										style={{ color: "white", fontSize: 20, height: 20, position: "absolute", top: "31%", left: "5%" }}
 										onPress={this.props.closeModal}
 									/>
@@ -58,7 +56,7 @@ export default class AddLinkModal extends Component {
 											activeOpacity={0.6}
 											onPress={() => {
 												this.setState({ selected: x });
-												this.ScrollView.scrollTo({ x: 720, y: 0, animated: "true" });
+												this.ScrollView.scrollTo({ x: this.state.width, y: 0, animated: "true" });
 											}}
 										>
 											<Icon name={x.toLowerCase()} style={{ color: "white", fontSize: 30, height: 30 }} />
@@ -67,15 +65,7 @@ export default class AddLinkModal extends Component {
 									))}
 								</ProviderContainer>
 							</Slide>
-							{this.state.selected ? (
-								<View>
-									<Slide color={"red"}>
-										<ModalHeader color={this.state.selected.toLowerCase()}>
-											<ModalHeaderText> {this.state.selected} </ModalHeaderText>
-										</ModalHeader>
-									</Slide>
-								</View>
-							) : null}
+							{this.state.selected ? <LinkSlide selected={this.state.selected} /> : null}
 						</ScrollView>
 					</ModalContent>
 				</ModalContainer>

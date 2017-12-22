@@ -26,6 +26,7 @@ export default class Connect extends Component {
       editableColor: "",
       ownProfile: true,
       addLink: false,
+      active: true,
     };
 
     this.openEditModal = this.openEditModal.bind(this);
@@ -106,7 +107,7 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <ActionButton
-            active={true}
+            active={this.state.active}
             spacing={15}
             buttonColor="#F44336"
             icon={<Icon name="more-horiz" style={{ color: "white", fontSize: 30, height: 30 }} />}
@@ -115,7 +116,6 @@ export default class Connect extends Component {
             degrees={90}
             offsetX={20}
             offsetY={20}
-            fixNativeFeedbackRadius={true}
             onPress={() => this.setState({ active: !this.state.active })}
           >
             <ActionButton.Item
@@ -127,7 +127,11 @@ export default class Connect extends Component {
             >
               <Icon name="create" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor="#66BB6A" title="Add A Link" onPress={() => this.setState({ addLink: true })}>
+            <ActionButton.Item
+              buttonColor="#66BB6A"
+              title="Add A Link"
+              onPress={() => this.setState({ addLink: true, active: false })}
+            >
               <Icon name="add" style={styles.actionButtonIcon} />
             </ActionButton.Item>
           </ActionButton>
