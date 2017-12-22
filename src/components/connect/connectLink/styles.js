@@ -1,20 +1,17 @@
 import styled from "styled-components/native";
 
+import Icon from "react-native-vector-icons/MaterialIcons";
+
 export const JobPosition = styled.Text`
-	flex: 1;
-	text-align: center;
-	justify-content: space-around;
 	font-size: 30;
 	color: white;
 `;
 
 export const NetworkContainer = styled.TouchableWithoutFeedback`
 	flex: 1;
-	align-items: center;
-	justify-content: center;
 	flex-direction: column;
-	width: 100%;
-	elevation: 2;
+	justify-content: center;
+	align-items: center;
 `;
 
 export const EditableInput = styled.TextInput`
@@ -30,15 +27,6 @@ export const EditableName = styled.Text`
 	text-align: center;
 	padding-top: 3;
 	padding-bottom: 3;
-`;
-
-export const ModalHeader = styled.View`
-	position: relative;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 50
-	color: #1da1f2
 `;
 
 export const ConnectLinkPageContainer = styled.View`
@@ -60,8 +48,6 @@ export const brandColors = {
 	linkedinActive: "#006794",
 	dribble: "#ea4c89",
 	dribbleActive: "#E32B72",
-	facebook: "#3b5998",
-	facebookActive: "#14306B",
 	twitter: "#1da1f2",
 	twitterActive: "#036EAE",
 	medium: "black",
@@ -78,6 +64,48 @@ export const EditButton = styled.Text`
 	font-weight: 300;
 `;
 
+export const LinkContainer = styled.TouchableOpacity`
+	flex-direction: row;
+	width: 93%;
+	margin-top: 1.5%;
+	margin-bottom: 1.5%;
+	padding-top: 2.5%;
+	padding-bottom: 2.5%;
+	margin-left: 3.5%;
+	margin-right 3.5%;
+	background-color: #F5F5F5;
+	elevation: 2;
+`;
+
+export const LinkTextContainer = styled.View`
+	justify-content: center;
+`;
+
+export const LinkText = styled.Text`
+	font-size: 24;
+	margin-left: 10%;
+`;
+
+export const LinkLogo = styled.View`
+	margin-left: 5%;
+	height: 30;
+	width: 30;
+	border-radius: 20;
+	a: 2;
+	background: ${props => props.color};
+`;
+
+export const colors = {
+	linkedin: "#008CC9",
+	dribble: "#ea4c89",
+	twitter: "#1da1f2",
+	medium: "black",
+	phone: "#ff9800",
+	email: "#f44336",
+	website: "#4caf50",
+	add: "#C8E6C9",
+};
+
 export const ModalContainer = styled.View`
 	flex: 1
 	flex-direction: column;
@@ -92,6 +120,16 @@ export const ModalContent = styled.View`
 	height: 45%;
 	justify-content: center
 	background-color: #FAFAFA
+`;
+
+export const ModalHeader = styled.View`
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	background-color: ${props => (props.color ? props.color : "cornflowerblue")}
+	width: 100%;
+	elevation: 3
 `;
 
 export const ModalHeaderText = styled.Text`
@@ -129,44 +167,4 @@ export const FooterButtonText = styled.Text`
 	font-size: 22;
 `;
 
-export const LinkContainer = styled.TouchableOpacity`
-	flex-direction: row;
-	width: 93%;
-	margin-top: 1.5%;
-	margin-bottom: 1.5%;
-	padding-top: 2.5%;
-	padding-bottom: 2.5%;
-	margin-left: 3.5%;
-	margin-right 3.5%;
-	background-color: #F5F5F5;
-	elevation: 2;
-`;
 
-export const LinkTextContainer = styled.View`
-	justify-content: center;
-`;
-
-export const LinkText = styled.Text`
-	font-size: 24;
-	margin-left: 10%;
-`;
-
-export const LinkLogo = styled.View`
-	margin-left: 5%;
-	height: 30;
-	width: 30;
-	border-radius: 20;
-	elevation: 2;
-	background: ${props => props.color};
-`;
-export const colors = {
-	linkedin: "#008CC9",
-	dribble: "#ea4c89",
-	facebook: "#3b5998",
-	twitter: "#1da1f2",
-	medium: "black",
-	phone: "#ff9800",
-	email: "#f44336",
-	website: "#4caf50",
-	add: "#C8E6C9",
-};

@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { Container, Content } from "native-base";
 
-import { Vibration, AsyncStorage } from "react-native";
+import { Vibration, AsyncStorage, StyleSheet } from "react-native";
 import axios from "axios";
 
+import ActionButton from "react-native-action-button";
+import Icon from "react-native-vector-icons/MaterialIcons";
+
 import ConnectLinkPage from "./connectLink/ConnectLinkPage";
+
+import AddLinkModal from "./editLinks/AddLink/AddLinkModal";
 
 import EditModal from "./connectLink/EditModal";
 
@@ -20,6 +25,8 @@ export default class Connect extends Component {
       editableLink: "",
       editableColor: "",
       ownProfile: true,
+      addLink: false,
+      active: true,
     };
 
     this.openEditModal = this.openEditModal.bind(this);
@@ -34,6 +41,7 @@ export default class Connect extends Component {
       editableLink: val.link,
       editableColor: val.color,
       editableId: val.id,
+      active: false,
     });
   }
 
@@ -45,8 +53,6 @@ export default class Connect extends Component {
     axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
       this.setState({ editable: false });
     });
-
-    // console.log(state, 'test');
   }
 
   componentDidMount() {
@@ -99,7 +105,54 @@ export default class Connect extends Component {
             />
           ) : null}
         </Content>
+        {this.state.ownProfile && (
+          <ActionButton
+            active={this.state.active}
+            spacing={15}
+            buttonColor="#F44336"
+            icon={<Icon name="more-horiz" style={{ color: "white", fontSize: 30, height: 30 }} />}
+            activeOpacity={1}
+            hideShadow={false}
+            degrees={90}
+            offsetX={20}
+            offsetY={20}
+            onPress={() => this.setState({ active: !this.state.active })}
+          >
+            <ActionButton.Item
+              buttonColor="#42A5F5"
+              title="Edit Links"
+              onPress={() => {
+                this.setState({ editLink: true });
+              }}
+            >
+              <Icon name="create" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+            <ActionButton.Item
+              buttonColor="#66BB6A"
+              title="Add A Link"
+              onPress={() => this.setState({ addLink: true, active: false })}
+            >
+              <Icon name="add" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+          </ActionButton>
+        )}
+
+        <AddLinkModal
+          closeModal={() => {
+            this.setState({ addLink: false });
+          }}
+          visible={this.state.addLink}
+          links={this.state.links}
+        />
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: "white",
+  },
+});

@@ -94,7 +94,7 @@ export const createRootNavigator = (signedIn = false) => {
       },
       ScannedProfile: {
         screen: ScannedProfile,
-        path: "/profile/:uid",
+        path: "profile/:uid",
         initialRouteName: "Profile",
       },
       OnBoard: {

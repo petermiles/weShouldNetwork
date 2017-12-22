@@ -3,7 +3,7 @@ import { Dimensions, StatusBar } from "react-native";
 
 export const Slide = styled.View`
   width: ${Dimensions.get("window").width};
-  height: ${props => Dimensions.get("window").height - StatusBar.currentHeight};
+  height: ${Dimensions.get("window").height - StatusBar.currentHeight};
   justify-content: center;
   flex: 1;
   padding-left: 30;
@@ -19,8 +19,6 @@ export const MainText = styled.Text`
   padding-bottom: ${props => props.paddingBottom || 0}
   padding-top: ${props => props.paddingTop || 0};
 `;
-
-import { TextField } from "react-native-material-textfield";
 
 export const SubText = styled.Text`
   color: white;
