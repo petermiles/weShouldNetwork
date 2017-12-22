@@ -3,8 +3,6 @@ import React from "react";
 import { Slide, ModalHeader, ModalHeaderText } from "../styles";
 
 export default function LinkSlide(props) {
-	console.log(props);
-
 	return (
 		<Slide>
 			<ModalHeader color={props.selected.toLowerCase()}>
