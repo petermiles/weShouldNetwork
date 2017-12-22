@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+
 import { Dimensions } from "react-native";
 
-const colors = {
+export const colors = {
   linkedin: "#008CC9",
   dribble: "#ea4c89",
   twitter: "#1da1f2",
@@ -23,7 +23,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   width: 95%;
-  height: 45%;
+  height: 50%;
   background-color: #FAFAFA
   elevation: 100
 `;
@@ -49,6 +49,16 @@ export const ModalHeaderText = styled.Text`
   align-self: center
 `;
 
+export const Provider = styled.TouchableOpacity`
+  elevation: 3
+  width: 31.33333333333%;
+  margin: 1%
+  height: 48%;
+  background-color: ${props => colors[`${props.color}`] || "white"}
+  justify-content: center;
+  alignItems: center
+`;
+
 export const ProviderContainer = styled.TouchableOpacity`
   margin-top: 55;
   flex-direction: row;
@@ -70,14 +80,24 @@ export const ProviderText = styled.Text`
   text-align: center;
 `;
 
-export const Provider = styled.TouchableOpacity`
-  elevation: 3
-  width: 31.33333333333%;
-  margin: 1%
-  height: 48%;
-  background-color: ${props => colors[`${props.color}`] || "white"}
-  justify-content: center;
-  alignItems: center
+export const NextButton = styled.TouchableOpacity`
+  position: relative;
+  top: 10%;
+  right: 10%;
+  background-color: red;
+`;
+
+export const NextButtonText = styled.Text`
+  color: white;
+  font-size: 20;
+  font-weight: bold;
+`;
+
+export const ProviderLinkMainText = styled.Text`
+  font-size: 20;
+  padding: 2%;
+  color: white
+  font-weight: bold;
 `;
 
 export const ModalFooter = styled.View`

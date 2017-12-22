@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Content } from "native-base";
 
-import { Vibration, AsyncStorage, StyleSheet } from "react-native";
+import { Vibration, AsyncStorage, StyleSheet, KeyboardAvoidingView } from "react-native";
 import axios from "axios";
 
 import ActionButton from "react-native-action-button";
@@ -25,7 +25,7 @@ export default class Connect extends Component {
       editableLink: "",
       editableColor: "",
       ownProfile: true,
-      addLink: false,
+      addLink: true,
       active: true,
     };
 
@@ -116,6 +116,7 @@ export default class Connect extends Component {
             degrees={90}
             offsetX={20}
             offsetY={20}
+            fixNativeFeedbackRadius={true}
             onPress={() => this.setState({ active: !this.state.active })}
           >
             <ActionButton.Item
@@ -136,14 +137,15 @@ export default class Connect extends Component {
             </ActionButton.Item>
           </ActionButton>
         )}
-
-        <AddLinkModal
-          closeModal={() => {
-            this.setState({ addLink: false });
-          }}
-          visible={this.state.addLink}
-          links={this.state.links}
-        />
+        <KeyboardAvoidingView behavior={"padding"}>
+          <AddLinkModal
+            closeModal={() => {
+              this.setState({ addLink: false });
+            }}
+            visible={this.state.addLink}
+            links={this.state.links}
+          />
+        </KeyboardAvoidingView>
       </Container>
     );
   }
