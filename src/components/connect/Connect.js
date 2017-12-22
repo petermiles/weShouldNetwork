@@ -106,6 +106,8 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <ActionButton
+            active={!this.state.active}
+            spacing={15}
             buttonColor="#F44336"
             icon={<Icon name="more-horiz" style={{ color: "white", fontSize: 30, height: 30 }} />}
             activeOpacity={1}
@@ -113,8 +115,16 @@ export default class Connect extends Component {
             degrees={90}
             offsetX={20}
             offsetY={20}
+            fixNativeFeedbackRadius={true}
+            onPress={() => this.setState({ active: !this.state.active })}
           >
-            <ActionButton.Item buttonColor="#42A5F5" title="Edit Links" onPress={() => this.setState({ editLink: true })}>
+            <ActionButton.Item
+              buttonColor="#42A5F5"
+              title="Edit Links"
+              onPress={() => {
+                this.setState({ editLink: true });
+              }}
+            >
               <Icon name="create" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor="#66BB6A" title="Add A Link" onPress={() => this.setState({ addLink: true })}>
@@ -123,7 +133,13 @@ export default class Connect extends Component {
           </ActionButton>
         )}
 
-        <AddLinkModal visible={this.state.addLink} />
+        <AddLinkModal
+          closeModal={() => {
+            this.setState({ addLink: false });
+          }}
+          visible={this.state.addLink}
+          links={this.state.links}
+        />
       </Container>
     );
   }
