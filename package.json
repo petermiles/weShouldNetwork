@@ -38,7 +38,7 @@
     "lodash": "^4.17.4",
     "massive": "^4.5.0",
     "native-base": "^2.3.4",
-    "react": "^16.2.0",
+    "react": "^16.0.0",
     "react-native": "^0.50.4",
     "react-native-action-button": "^2.8.3",
     "react-native-camera": "^0.12.0",
