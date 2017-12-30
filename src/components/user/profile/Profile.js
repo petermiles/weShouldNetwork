@@ -33,7 +33,7 @@ export default class Profile extends Component {
 			profileUid: data.uid,
 		});
 		this.props.navigation.state.params
-			? axios.get("http://192.168.1.15:3001/api/user/getInfo/" + this.props.navigation.state.params.uid).then(({ data }) => {
+			? axios.get("http://172.31.99.35:3001/api/user/getInfo/" + this.props.navigation.state.params.uid).then(({ data }) => {
 					this.setState({
 						...format(data),
 						ownProfile: false,
@@ -45,7 +45,7 @@ export default class Profile extends Component {
 						this.setState(format(data));
 					})
 				: AsyncStorage.getItem("USER_KEY").then(id => {
-						axios.get("http://192.168.1.15:3001/api/user/getInfo/" + id).then(result => {
+						axios.get("http://172.31.99.35:3001/api/user/getInfo/" + id).then(result => {
 							this.setState(format(result.data));
 						});
 					});

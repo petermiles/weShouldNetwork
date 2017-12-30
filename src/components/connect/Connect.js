@@ -50,14 +50,14 @@ export default class Connect extends Component {
       link: state.editLink,
       id: state.editId,
     };
-    axios.put("http://192.168.1.15:3001/api/user/connectLink/update", editInfo).then(() => {
+    axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
       this.setState({ editable: false });
     });
   }
 
   componentDidMount() {
     this.props.navigation.state.params
-      ? axios.get(`http://192.168.1.15:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then(result => {
+      ? axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then(result => {
           this.setState({
             links: result.data,
             loading: false,
@@ -71,7 +71,7 @@ export default class Connect extends Component {
         : AsyncStorage.getItem("USER_DATA")
             .then(result => {
               axios
-                .get(`http://192.168.1.15:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
+                .get(`http://172.31.99.35:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
                 .then(result => {
                   this.setState({ links: result.data, loading: false });
                 })
