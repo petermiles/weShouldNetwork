@@ -47,7 +47,7 @@ export default class SignUpOnBoard extends Component {
           <MainText> You are only a few steps away from being able to easily share your network information. </MainText>
         </Slide>
         <Slide color={"#80DEEA"}>
-          <MainText paddingBottom={"5%"}>We recommend signing in with LinkedIn.</MainText>
+          <MainText paddingBottom={"5%"}>We recommend signing up with LinkedIn.</MainText>
 
           <LinkedInModal
             animation={"slide"}
