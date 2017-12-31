@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 import { View } from "react-native";
 import { Slide, colors, ProviderLinkMainText, NextButton, NextButtonText } from "../styles";
@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { TextField } from "react-native-material-textfield";
 
-export default class LinkSlide extends React.Component {
+export default class LinkSlide extends Component {
 	constructor() {
 		super();
 
@@ -23,6 +23,7 @@ export default class LinkSlide extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
 		return (
 			<Slide>
 				<View
@@ -51,26 +52,35 @@ export default class LinkSlide extends React.Component {
 							baseColor="white"
 							tintColor="white"
 							textColor="white"
-							containerStyle={{ width: "65%" }}
+							containerStyle={{ width: "100%" }}
 							value={this.state.link}
+							onFocus={() => {
+								this.props.sizeChange(true);
+							}}
+							onEndEditing={() => {
+								console.log("end editing");
+								this.state.link ? this.props.sizeChange(false) : null;
+							}}
+							onBlur={() => {
+								this.props.sizeChange(false);
+							}}
 							onChangeText={link => this.setState({ link })}
 							onSubmit={() => {
-								console.log("test");
+								this.props.linkSave(this.state.link);
 							}}
 							autoCapitalize={"none"}
 							returnKeyType={"done"}
 						/>
-						{this.state.link ? (
-							<Icon
-								name={"send"}
-								style={{
-									color: "white",
-									height: 16,
-									fontSize: 16,
-								}}
-							/>
-						) : null}
 					</View>
+					{this.state.link ? (
+						<NextButton
+							onPress={() => {
+								this.props.linkSave(this.state.link);
+							}}
+						>
+							<NextButtonText> Next </NextButtonText>
+						</NextButton>
+					) : null}
 				</View>
 			</Slide>
 		);

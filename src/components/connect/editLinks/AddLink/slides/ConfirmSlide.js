@@ -1,13 +1,14 @@
 import React from "react";
 
-import { Slide, ModalHeader, ModalHeaderText } from "../styles";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function ConfirmSlide(props) {
+import { Slide, ModalHeaderText } from "../styles";
+
+export const ConfirmSlide = props => {
+	console.log(props);
 	return (
 		<Slide>
-			<ModalHeader color={props.selected.toLowerCase()}>
-				<ModalHeaderText> {props.selected} </ModalHeaderText>
-			</ModalHeader>
+			<ModalHeaderText> Test </ModalHeaderText>
 		</Slide>
 	);
-}
+};

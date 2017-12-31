@@ -23,7 +23,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   width: 95%;
-  height: 50%;
+  height: ${props => (!props.size ? "50%" : "85%")}
   background-color: #FAFAFA
   elevation: 100
 `;
@@ -81,10 +81,9 @@ export const ProviderText = styled.Text`
 `;
 
 export const NextButton = styled.TouchableOpacity`
-  position: relative;
-  top: 10%;
+  position: absolute;
+  bottom: 10%;
   right: 10%;
-  background-color: red;
 `;
 
 export const NextButtonText = styled.Text`
