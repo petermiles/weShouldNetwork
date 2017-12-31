@@ -31,7 +31,7 @@ export default class ConnectLinkPage extends Component {
 								editInfo={this.props.editInfo}
 								id={x.id}
 								link={x.link}
-								name={x.servicename}
+								name={x.servicename.toLowerCase()}
 								ownProfile={this.props.ownProfile}
 							/>
 						</ConnectLinkContainer>

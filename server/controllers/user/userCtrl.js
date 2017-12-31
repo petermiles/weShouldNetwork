@@ -10,35 +10,45 @@ const getUser = (req, res) => {
 const getConnectLinks = (req, res) => {
 	req.app
 		.get("db")
-		.getConnectLinks({ userid: req.params.id })
+		.getConnectLinks({ uid: req.params.id })
 		.then(result => {
 			res.json(result);
 		})
 		.catch(console.log);
 };
 
+const addConnectLink = (req, res) => {
+	req.app
+		.get("db")
+		.connectLinkAdd(req.body)
+		.then(result => {
+			return res.json(result);
+		});
+};
+
 const updateConnectLink = (req, res) => {
 	req.app
 		.get("db")
-		.connectEditLink({ id: req.body.id, link: req.body.link })
+		.connectLinkEdit({ id: req.body.id, link: req.body.link })
 		.then(result => {
-			res.json(result.data);
+			return res.json(result);
 		});
 };
 
 const deleteConnectLink = (req, res) => {
 	req.app
 		.get("db")
-		.connectDeleteLink({ id: req.body.id, uid: req.body.uid })
+		.connectLinkDelete({ id: req.body.id, uid: req.body.uid })
 		.then(result => {
 			console.log(result);
-			res.json(result.data);
+			return res.json(result);
 		});
 };
 
 module.exports = {
 	getUser,
 	getConnectLinks,
+	addConnectLink,
 	updateConnectLink,
 	deleteConnectLink,
 };

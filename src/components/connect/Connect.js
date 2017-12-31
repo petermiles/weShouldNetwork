@@ -55,6 +55,13 @@ export default class Connect extends Component {
     });
   }
 
+  getUserData() {
+    console.log("test");
+    AsyncStorage.getItem("USER_LINKS").then(res => {
+      this.setState({ links: JSON.parse(res) });
+    });
+  }
+
   componentDidMount() {
     this.props.navigation.state.params
       ? axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then(result => {
@@ -117,22 +124,19 @@ export default class Connect extends Component {
             offsetX={20}
             offsetY={20}
             fixNativeFeedbackRadius={true}
-            onPress={() => this.setState({ active: !this.state.active })}
-          >
+            onPress={() => this.setState({ active: !this.state.active })}>
             <ActionButton.Item
               buttonColor="#42A5F5"
               title="Edit Links"
               onPress={() => {
                 this.setState({ editLink: true });
-              }}
-            >
+              }}>
               <Icon name="create" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item
               buttonColor="#66BB6A"
               title="Add A Link"
-              onPress={() => this.setState({ addLink: true, active: false })}
-            >
+              onPress={() => this.setState({ addLink: true, active: false })}>
               <Icon name="add" style={styles.actionButtonIcon} />
             </ActionButton.Item>
           </ActionButton>
@@ -140,7 +144,14 @@ export default class Connect extends Component {
         <KeyboardAvoidingView behavior={"padding"}>
           <AddLinkModal
             closeModal={() => {
-              this.setState({ addLink: false });
+              this.setState({ addLink: false }, () => {
+                AsyncStorage.getItem("USER_LINKS").then(res => {
+                  this.setState({ links: JSON.parse(res) });
+                });
+              });
+            }}
+            updateLink={() => {
+              this.getUserData;
             }}
             visible={this.state.addLink}
             links={this.state.links}

@@ -23,7 +23,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   width: 95%;
-  height: ${props => (!props.size ? "50%" : "85%")}
+  height: ${props => (!props.size ? "48%" : "85%")}
   background-color: #FAFAFA
   elevation: 100
 `;
@@ -126,10 +126,36 @@ export const FooterButtonText = styled.Text`
   font-size: 22;
 `;
 
+export const ConfirmText = styled.Text`
+  padding-bottom: ${props => (props.primary ? 25 : 10)}
+  padding-top: 10
+  color: white;
+  font-size: ${props => (props.primary ? 24 : 18)};
+  font-weight: ${props => (props.primary ? "bold;" : 400)}
+`;
+
+export const SaveButton = styled.TouchableOpacity`
+  margin-top: 10%;
+  width: 50%;
+  elevation: 2;
+  background-color: #66bb6a;
+`;
+
+export const SaveButtonText = styled.Text`
+  padding-top: 5
+  padding-bottom: 5
+  padding-right: 5
+  padding-left: 5
+  color: white;
+  font-size: 24;
+  font-weight: bold;
+  text-align: center;
+`;
+
 export const Slide = styled.View`
   width: ${Dimensions.get("window").width * 0.95} 
   height: 100%
   justify-content: center
   flex: 1
-  background-color: white
+  background-color: ${props => props.color || "white"}
 `;

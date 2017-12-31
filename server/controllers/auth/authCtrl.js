@@ -38,12 +38,12 @@ const createWithLinkedIn = (req, res) => {
 				.createLinkedInUser(data)
 				.then(result => {
 					parsedData.userData = result[0];
-					console.log(parsedData);
+					console.log(parsedData, "step 1");
 					req.app
 						.get("db")
 						.connectLinkGet({ uid: parsedData.userData.uid })
 						.then(result => {
-							console.log(result);
+							console.log(result, "step2");
 							parsedData.userLinks = result;
 							res.json(parsedData);
 						});
@@ -56,3 +56,5 @@ module.exports = {
 	createUser,
 	createWithLinkedIn,
 };
+
+

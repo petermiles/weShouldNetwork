@@ -65,11 +65,12 @@ export default class ConnectLink extends Component {
 						justifyContent: "center",
 						alignItems: "center",
 						borderRadius: 3,
-						backgroundColor: !this.state.held ? brandColors[`${this.props.name}`] : brandColors[`${this.props.name}Active`],
+						backgroundColor: !this.state.held
+							? brandColors[`${this.props.name.toLowerCase()}`]
+							: brandColors[`${this.props.name.toLowerCase()}Active`],
 						height: Dimensions.get("window").height * 0.9 / 4.5,
 						elevation: 3,
-					}}
-				>
+					}}>
 					<JobPosition>
 						{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}{" "}
 					</JobPosition>

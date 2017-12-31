@@ -56,6 +56,8 @@ export const brandColors = {
 	emailActive: "#00ACC1",
 	website: "#4caf50",
 	websiteActive: "#087f23",
+	phone: "#ff9800",
+	phoneActive: "#F57C00",
 };
 
 export const EditButton = styled.Text`
@@ -166,5 +168,3 @@ export const FooterButtonText = styled.Text`
 	color: white;
 	font-size: 22;
 `;
-
-

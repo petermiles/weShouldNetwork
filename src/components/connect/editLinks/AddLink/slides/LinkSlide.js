@@ -13,17 +13,10 @@ export default class LinkSlide extends Component {
 
 		this.state = {
 			link: "",
-			baseLinks: {
-				twitter: "www.twitter.com",
-				linkedin: "www.linkedin.com/in",
-				dribbble: "www.dribbble.com",
-				medium: "www.medium.com",
-			},
 		};
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<Slide>
 				<View
@@ -37,7 +30,7 @@ export default class LinkSlide extends Component {
 				>
 					<Icon name={this.props.selected.toLowerCase()} style={{ color: "white", height: 50, fontSize: 50 }} />
 					<ProviderLinkMainText>
-						{this.props.selected !== "Email" || this.props.selected !== "Phone" ? `What's your ${this.props.selected}?` : null}
+						{this.props.selected !== "email" || this.props.selected !== "phone" ? `What's your ${this.props.selected}?` : null}
 					</ProviderLinkMainText>
 					<View
 						style={{
@@ -48,7 +41,7 @@ export default class LinkSlide extends Component {
 						}}
 					>
 						<TextField
-							label={this.state.baseLinks[this.props.selected.toLowerCase()] + "/" + this.state.link}
+							label={this.props.baseLinks[this.props.selected.toLowerCase()] + this.state.link}
 							baseColor="white"
 							tintColor="white"
 							textColor="white"
@@ -58,7 +51,6 @@ export default class LinkSlide extends Component {
 								this.props.sizeChange(true);
 							}}
 							onEndEditing={() => {
-								console.log("end editing");
 								this.state.link ? this.props.sizeChange(false) : null;
 							}}
 							onBlur={() => {
@@ -75,7 +67,7 @@ export default class LinkSlide extends Component {
 					{this.state.link ? (
 						<NextButton
 							onPress={() => {
-								this.props.linkSave(this.state.link);
+								this.props.linkSave(this.state.link, this.props.baseLinks[this.props.selected.toLowerCase()] + this.state.link);
 							}}
 						>
 							<NextButtonText> Next </NextButtonText>
