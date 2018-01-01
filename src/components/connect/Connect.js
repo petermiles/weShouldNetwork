@@ -27,6 +27,7 @@ export default class Connect extends Component {
       ownProfile: true,
       addLink: false,
       active: true,
+      handleDelete: false,
     };
 
     this.openEditModal = this.openEditModal.bind(this);
@@ -36,7 +37,7 @@ export default class Connect extends Component {
   openEditModal(val) {
     Vibration.vibrate(15);
     this.setState({
-      editable: !this.state.editable,
+      // editable: !this.state.editable,
       editableName: val.name,
       editableLink: val.link,
       editableColor: val.color,
@@ -95,6 +96,10 @@ export default class Connect extends Component {
       <Container>
         <Content>
           <ConnectLinkPage
+            handleDelete={val => {
+              this.setState({ handleDelete: val });
+            }}
+            delete={this.state.handleDelete}
             links={this.state.links}
             editInfo={this.editInfo}
             editable={this.openEditModal}

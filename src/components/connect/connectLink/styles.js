@@ -56,8 +56,8 @@ export const brandColors = {
 	emailActive: "#00ACC1",
 	website: "#4caf50",
 	websiteActive: "#087f23",
-	phone: "#ff9800",
-	phoneActive: "#F57C00",
+	phone: "#26A69A",
+	phoneActive: "#00897B",
 };
 
 export const EditButton = styled.Text`
@@ -167,4 +167,33 @@ export const FooterButton = styled.TouchableOpacity`
 export const FooterButtonText = styled.Text`
 	color: white;
 	font-size: 22;
+`;
+
+export const EditModeButtons = styled.View`
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+`;
+
+export const EditModeClose = styled.TouchableOpacity`
+	position: absolute;
+	top: 3;
+	left: 3;
+	elevation: 3;
+	padding-top: 5;
+	padding-bottom: 5;
+	padding-left: 5;
+	padding-right: 5;
+`;
+
+export const EditModeEdit = styled.TouchableOpacity`
+	position: absolute;
+	top: 3;
+	right: 3;
+	elevation: 3;
+	padding-top: 5;
+	padding-bottom: 5;
+	padding-left: 5;
+	padding-right: 5;
 `;

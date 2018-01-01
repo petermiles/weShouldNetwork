@@ -26,20 +26,22 @@ export default class ConnectLinkPage extends Component {
 		this.spinValue.setValue(0);
 		Animated.timing(this.spinValue, {
 			toValue: 1,
-			duration: 250,
-			easing: Easing.spring,
+			duration: 350,
+			easing: Easing.inOut(Easing.linear),
 			useNativeDriver: true,
 		}).start(() => this.spin());
 	}
 
 	handleEdit(val) {
 		this.props.editable(val);
+		this.spin();
 	}
 
 	render() {
+		console.log(this.props);
 		const spin = this.spinValue.interpolate({
-			inputRange: [0, 1],
-			outputRange: ["-1deg", "1deg"],
+			inputRange: [0, 0.33, 0.66, 1],
+			outputRange: ["-.3deg", "0deg", ".3deg", "0deg"],
 		});
 		return (
 			<ConnectLinkPageContainer>
@@ -48,6 +50,8 @@ export default class ConnectLinkPage extends Component {
 						<ConnectLinkContainer key={i} index={i}>
 							{this.state.editable ? (
 								<ConnectLink
+									handleDelete={this.props.handleDelete}
+									delete={this.props.delete}
 									editable={this.handleEdit}
 									editInfo={this.props.editInfo}
 									id={x.id}
@@ -59,6 +63,8 @@ export default class ConnectLinkPage extends Component {
 								<View>
 									<Animated.View style={{ transform: [{ rotate: spin }] }}>
 										<ConnectLink
+											handleDelete={this.props.handleDelete}
+											delete={this.props.delete}
 											editable={this.handleEdit}
 											editInfo={this.props.editInfo}
 											id={x.id}
