@@ -6,6 +6,8 @@ import { JobPosition, NetworkContainer, EditModeClose, EditModeEdit, EditModeBut
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+// Clean up this page, Peter.
+
 export default class ConnectLink extends Component {
 	constructor(props) {
 		super(props);
@@ -18,7 +20,7 @@ export default class ConnectLink extends Component {
 		this.pressIn = this.pressIn.bind(this);
 		this.pressOut = this.pressOut.bind(this);
 		this.completePress = this.completePress.bind(this);
-		this.handleEdit = props.editable.bind(this);
+		this.handleEdit = props.handleEdit.bind(this);
 	}
 
 	componentWillMount() {

@@ -20,6 +20,7 @@ export default class Connect extends Component {
     this.state = {
       editable: false,
       loading: true,
+
       links: [],
       editableName: "",
       editableLink: "",
@@ -101,6 +102,7 @@ export default class Connect extends Component {
             }}
             delete={this.state.handleDelete}
             links={this.state.links}
+            editable={this.state.editable}
             editInfo={this.editInfo}
             handleEdit={this.openEditModal}
             ownProfile={this.state.ownProfile}
@@ -119,22 +121,26 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <ActionButton
-            active={this.state.active}
             spacing={15}
             buttonColor="#F44336"
-            icon={<Icon name="more-horiz" style={{ color: "white", fontSize: 30, height: 30 }} />}
+            icon={
+              <Icon name={this.state.editable ? "close" : "more-horiz"} style={{ color: "white", fontSize: 30, height: 30 }} />
+            }
             activeOpacity={1}
             hideShadow={false}
             degrees={90}
             offsetX={20}
             offsetY={20}
             fixNativeFeedbackRadius={true}
-            onPress={() => this.setState({ active: !this.state.active })}>
+            onPress={() => {
+              this.setState({ editable: this.state.editable && false });
+            }}>
             <ActionButton.Item
               buttonColor="#42A5F5"
               title="Edit Links"
               onPress={() => {
-                this.setState({ editLink: true });
+                console.log("test");
+                this.setState({ editable: true });
               }}>
               <Icon name="create" style={styles.actionButtonIcon} />
             </ActionButton.Item>

@@ -47,33 +47,21 @@ export default class ConnectLinkPage extends Component {
 				{this.props.links.map((x, i) => {
 					return (
 						<ConnectLinkContainer key={i} index={i}>
-							{this.state.editable ? (
-								<ConnectLink
-									handleDelete={this.props.handleDelete}
-									delete={this.props.delete}
-									editable={this.handleEdit}
-									editInfo={this.props.editInfo}
-									id={x.id}
-									link={x.link}
-									name={x.servicename.toLowerCase()}
-									ownProfile={this.props.ownProfile}
-								/>
-							) : (
-								<View>
-									<Animated.View style={{ transform: [{ rotate: spin }] }}>
-										<ConnectLink
-											handleDelete={this.props.handleDelete}
-											delete={this.props.delete}
-											editable={this.handleEdit}
-											editInfo={this.props.editInfo}
-											id={x.id}
-											link={x.link}
-											name={x.servicename.toLowerCase()}
-											ownProfile={this.props.ownProfile}
-										/>
-									</Animated.View>
-								</View>
-							)}
+							<View>
+								<Animated.View style={this.props.editable && { transform: [{ rotate: spin }] }}>
+									<ConnectLink
+										handleDelete={this.props.handleDelete}
+										delete={this.props.delete}
+										handleEdit={this.handleEdit}
+										editable={this.props.editable}
+										editInfo={this.props.editInfo}
+										id={x.id}
+										link={x.link}
+										name={x.servicename.toLowerCase()}
+										ownProfile={this.props.ownProfile}
+									/>
+								</Animated.View>
+							</View>
 						</ConnectLinkContainer>
 					);
 				})}
