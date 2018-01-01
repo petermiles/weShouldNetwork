@@ -121,6 +121,7 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <ActionButton
+            active={false}
             spacing={15}
             buttonColor="#F44336"
             icon={
@@ -133,7 +134,7 @@ export default class Connect extends Component {
             offsetY={20}
             fixNativeFeedbackRadius={true}
             onPress={() => {
-              this.setState({ editable: this.state.editable && false });
+              this.setState({ editable: this.state.editable && false, active: this.state.editable });
             }}>
             <ActionButton.Item
               buttonColor="#42A5F5"
