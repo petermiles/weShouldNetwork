@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Content } from "native-base";
 
-import { Vibration, AsyncStorage, StyleSheet } from "react-native";
+import { Vibration, AsyncStorage, StyleSheet, KeyboardAvoidingView } from "react-native";
 import axios from "axios";
 
 import ActionButton from "react-native-action-button";
@@ -27,6 +27,7 @@ export default class Connect extends Component {
       ownProfile: true,
       addLink: false,
       active: true,
+      handleDelete: false,
     };
 
     this.openEditModal = this.openEditModal.bind(this);
@@ -36,7 +37,7 @@ export default class Connect extends Component {
   openEditModal(val) {
     Vibration.vibrate(15);
     this.setState({
-      editable: !this.state.editable,
+      // editable: !this.state.editable,
       editableName: val.name,
       editableLink: val.link,
       editableColor: val.color,
@@ -52,6 +53,13 @@ export default class Connect extends Component {
     };
     axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
       this.setState({ editable: false });
+    });
+  }
+
+  getUserData() {
+    console.log("test");
+    AsyncStorage.getItem("USER_LINKS").then(res => {
+      this.setState({ links: JSON.parse(res) });
     });
   }
 
@@ -88,9 +96,13 @@ export default class Connect extends Component {
       <Container>
         <Content>
           <ConnectLinkPage
+            handleDelete={val => {
+              this.setState({ handleDelete: val });
+            }}
+            delete={this.state.handleDelete}
             links={this.state.links}
             editInfo={this.editInfo}
-            editable={this.openEditModal}
+            handleEdit={this.openEditModal}
             ownProfile={this.state.ownProfile}
           />
           {this.state.editableLink ? (
@@ -116,34 +128,40 @@ export default class Connect extends Component {
             degrees={90}
             offsetX={20}
             offsetY={20}
-            onPress={() => this.setState({ active: !this.state.active })}
-          >
+            fixNativeFeedbackRadius={true}
+            onPress={() => this.setState({ active: !this.state.active })}>
             <ActionButton.Item
               buttonColor="#42A5F5"
               title="Edit Links"
               onPress={() => {
                 this.setState({ editLink: true });
-              }}
-            >
+              }}>
               <Icon name="create" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item
               buttonColor="#66BB6A"
               title="Add A Link"
-              onPress={() => this.setState({ addLink: true, active: false })}
-            >
+              onPress={() => this.setState({ addLink: true, active: false })}>
               <Icon name="add" style={styles.actionButtonIcon} />
             </ActionButton.Item>
           </ActionButton>
         )}
-
-        <AddLinkModal
-          closeModal={() => {
-            this.setState({ addLink: false });
-          }}
-          visible={this.state.addLink}
-          links={this.state.links}
-        />
+        <KeyboardAvoidingView behavior={"padding"}>
+          <AddLinkModal
+            closeModal={() => {
+              this.setState({ addLink: false }, () => {
+                AsyncStorage.getItem("USER_LINKS").then(res => {
+                  this.setState({ links: JSON.parse(res) });
+                });
+              });
+            }}
+            updateLink={() => {
+              this.getUserData;
+            }}
+            visible={this.state.addLink}
+            links={this.state.links}
+          />
+        </KeyboardAvoidingView>
       </Container>
     );
   }

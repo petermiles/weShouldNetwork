@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+
 import { Dimensions } from "react-native";
 
-const colors = {
+export const colors = {
   linkedin: "#008CC9",
   dribble: "#ea4c89",
   twitter: "#1da1f2",
@@ -23,7 +23,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   width: 95%;
-  height: 45%;
+  height: ${props => (!props.size ? "48%" : "85%")}
   background-color: #FAFAFA
   elevation: 100
 `;
@@ -49,6 +49,16 @@ export const ModalHeaderText = styled.Text`
   align-self: center
 `;
 
+export const Provider = styled.TouchableOpacity`
+  elevation: 3
+  width: 31.33333333333%;
+  margin: 1%
+  height: 48%;
+  background-color: ${props => colors[`${props.color}`] || "white"}
+  justify-content: center;
+  alignItems: center
+`;
+
 export const ProviderContainer = styled.TouchableOpacity`
   margin-top: 55;
   flex-direction: row;
@@ -70,14 +80,23 @@ export const ProviderText = styled.Text`
   text-align: center;
 `;
 
-export const Provider = styled.TouchableOpacity`
-  elevation: 3
-  width: 31.33333333333%;
-  margin: 1%
-  height: 48%;
-  background-color: ${props => colors[`${props.color}`] || "white"}
-  justify-content: center;
-  alignItems: center
+export const NextButton = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+`;
+
+export const NextButtonText = styled.Text`
+  color: white;
+  font-size: 20;
+  font-weight: bold;
+`;
+
+export const ProviderLinkMainText = styled.Text`
+  font-size: 20;
+  padding: 2%;
+  color: white
+  font-weight: bold;
 `;
 
 export const ModalFooter = styled.View`
@@ -107,10 +126,36 @@ export const FooterButtonText = styled.Text`
   font-size: 22;
 `;
 
+export const ConfirmText = styled.Text`
+  padding-bottom: ${props => (props.primary ? 25 : 10)}
+  padding-top: 10
+  color: white;
+  font-size: ${props => (props.primary ? 24 : 18)};
+  font-weight: ${props => (props.primary ? "bold;" : 400)}
+`;
+
+export const SaveButton = styled.TouchableOpacity`
+  margin-top: 10%;
+  width: 50%;
+  elevation: 2;
+  background-color: #66bb6a;
+`;
+
+export const SaveButtonText = styled.Text`
+  padding-top: 5
+  padding-bottom: 5
+  padding-right: 5
+  padding-left: 5
+  color: white;
+  font-size: 24;
+  font-weight: bold;
+  text-align: center;
+`;
+
 export const Slide = styled.View`
   width: ${Dimensions.get("window").width * 0.95} 
   height: 100%
   justify-content: center
   flex: 1
-  background-color: white
+  background-color: ${props => props.color || "white"}
 `;
