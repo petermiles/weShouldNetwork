@@ -70,7 +70,7 @@ export default class ConnectLink extends Component {
 	render() {
 		return (
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
-				{!this.props.handleDelete ? (
+				{this.props.handleDelete ? (
 					<Animated.View
 						style={{
 							flex: 1,
@@ -108,7 +108,9 @@ export default class ConnectLink extends Component {
 							{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}{" "}
 						</JobPosition>
 					</Animated.View>
-				) : null}
+				) : (
+					<Text> Test </Text>
+				)}
 			</NetworkContainer>
 		);
 	}

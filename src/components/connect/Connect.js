@@ -102,7 +102,7 @@ export default class Connect extends Component {
             delete={this.state.handleDelete}
             links={this.state.links}
             editInfo={this.editInfo}
-            editable={this.openEditModal}
+            handleEdit={this.openEditModal}
             ownProfile={this.state.ownProfile}
           />
           {this.state.editableLink ? (

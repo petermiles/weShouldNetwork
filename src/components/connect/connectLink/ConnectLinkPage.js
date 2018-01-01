@@ -14,7 +14,7 @@ export default class ConnectLinkPage extends Component {
 			editableName: "",
 			editableLink: "",
 		};
-		this.openModal = props.editable.bind(this);
+		this.openModal = props.handleEdit.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
 		this.spinValue = new Animated.Value(0);
 	}
@@ -33,15 +33,14 @@ export default class ConnectLinkPage extends Component {
 	}
 
 	handleEdit(val) {
-		this.props.editable(val);
+		this.props.handleEdit(val);
 		this.spin();
 	}
 
 	render() {
-		console.log(this.props);
 		const spin = this.spinValue.interpolate({
 			inputRange: [0, 0.33, 0.66, 1],
-			outputRange: ["-.3deg", "0deg", ".3deg", "0deg"],
+			outputRange: ["-.45deg", "0deg", ".45deg", "0deg"],
 		});
 		return (
 			<ConnectLinkPageContainer>
