@@ -50,7 +50,13 @@ export default class ConnectLink extends Component {
 		if (this.state.pressAction._value === 1 && this.props.ownProfile) {
 			this.handleEdit(editInfo);
 		} else {
-			Linking.openURL(this.props.link);
+			if (this.props.name.toLowerCase() === "phone") {
+				Linking.openURL("tel:" + this.props.link);
+			} else if (this.props.name.toLowerCase() === "email") {
+				Linking.openURL("mailto:" + this.props.link);
+			} else {
+				Linking.openURL(this.props.link);
+			}
 		}
 		this.val = 0;
 	}
