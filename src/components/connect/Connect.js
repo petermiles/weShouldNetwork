@@ -27,12 +27,14 @@ export default class Connect extends Component {
       editableColor: "",
       ownProfile: true,
       addLink: false,
+      addLinkShow: false,
       active: true,
       handleDelete: false,
     };
 
     this.openEditModal = this.openEditModal.bind(this);
     this.editInfo = this.editInfo.bind(this);
+    this.updateInfo = this.updateInfo.bind(this);
   }
 
   openEditModal(val) {
@@ -47,7 +49,12 @@ export default class Connect extends Component {
     });
   }
 
+  updateInfo(state) {
+    this.setState({ links: state });
+  }
+
   editInfo(state) {
+    console.log(state);
     const editInfo = {
       link: state.editLink,
       id: state.editId,
@@ -111,6 +118,9 @@ export default class Connect extends Component {
             <EditModal
               editInfo={this.editInfo}
               visible={this.state.editable}
+              updateInfo={val => {
+                this.updateInfo(val);
+              }}
               handleModal={this.openEditModal}
               name={this.state.editableName}
               link={this.state.editableLink}
@@ -121,7 +131,6 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <ActionButton
-            active={false}
             spacing={15}
             buttonColor="#F44336"
             icon={
@@ -134,7 +143,7 @@ export default class Connect extends Component {
             offsetY={20}
             fixNativeFeedbackRadius={true}
             onPress={() => {
-              this.setState({ editable: this.state.editable && false, active: this.state.editable });
+              this.setState({ editable: this.state.editable && false });
             }}>
             <ActionButton.Item
               buttonColor="#42A5F5"
@@ -165,6 +174,7 @@ export default class Connect extends Component {
             updateLink={() => {
               this.getUserData;
             }}
+            addLinkShow={this.state.addLinkShow}
             visible={this.state.addLink}
             links={this.state.links}
           />

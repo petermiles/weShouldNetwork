@@ -102,7 +102,7 @@ export const colors = {
 	dribble: "#ea4c89",
 	twitter: "#1da1f2",
 	medium: "black",
-	phone: "#ff9800",
+	phone: "#26A69A",
 	email: "#f44336",
 	website: "#4caf50",
 	add: "#C8E6C9",
@@ -119,7 +119,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
 	width: 95%;
-	height: 45%;
+	height: 40%;
 	justify-content: center
 	background-color: #FAFAFA
 `;

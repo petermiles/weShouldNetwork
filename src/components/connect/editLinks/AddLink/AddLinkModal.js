@@ -49,6 +49,7 @@ export default class AddLinkModal extends Component {
 	}
 
 	render() {
+		console.log(this.props);
 		return (
 			<Modal
 				transparent={true}
@@ -65,12 +66,11 @@ export default class AddLinkModal extends Component {
 							ref={scrollview => (this.ScrollView = scrollview)}
 							onContentSizeChange={width => {
 								this.setState({ width });
-								this.ScrollView.scrollTo({ x: this.state.width, y: 0, animated: true });
 							}}>
 							<ProvidersSlide
 								closeModal={() => {
 									this.setState({ selected: "", link: "", confirmLink: "" }, () => {
-										this.props.closeModal;
+										this.props.closeModal();
 									});
 								}}
 								providers={["LinkedIn", "Twitter", "Medium", "Phone", "Email"]}

@@ -22,6 +22,7 @@ export default class ConnectLinkPage extends Component {
 	componentDidMount() {
 		this.spin();
 	}
+
 	spin() {
 		this.spinValue.setValue(0);
 		Animated.timing(this.spinValue, {
@@ -34,7 +35,6 @@ export default class ConnectLinkPage extends Component {
 
 	handleEdit(val) {
 		this.props.handleEdit(val);
-		this.spin();
 	}
 
 	render() {

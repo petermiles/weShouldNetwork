@@ -28,14 +28,14 @@ export default class EditModal extends Component {
 	}
 
 	render() {
+		console.log(this.props);
 		return (
 			<Modal
 				visible={this.props.visible}
 				animationType={"fade"}
 				transparent={true}
 				onRequestClose={this.props.handleModal}
-				hardwareAccelerated={true}
-			>
+				hardwareAccelerated={true}>
 				<ModalContainer>
 					<ModalContent>
 						<ModalHeader color={colors[`${this.props.name}`]}>
@@ -48,8 +48,7 @@ export default class EditModal extends Component {
 								justifyContent: "center",
 								alignItems: "center",
 								flexDirection: "row",
-							}}
-						>
+							}}>
 							<TextInput
 								onChangeText={text => {
 									this.setState({ editLink: text });
@@ -73,8 +72,7 @@ export default class EditModal extends Component {
 								activeOpacity={0.7}
 								onPress={() => {
 									this.props.editInfo(this.state);
-								}}
-							>
+								}}>
 								<FooterButtonText> Save </FooterButtonText>
 							</FooterButton>
 							<FooterButton onPress={this.props.handleModal} activeOpacity={0.7}>

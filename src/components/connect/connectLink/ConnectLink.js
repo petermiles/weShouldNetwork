@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default class ConnectLink extends Component {
 	constructor(props) {
+		console.log(props);
 		super(props);
 
 		this.state = {
@@ -21,6 +22,13 @@ export default class ConnectLink extends Component {
 		this.pressOut = this.pressOut.bind(this);
 		this.completePress = this.completePress.bind(this);
 		this.handleEdit = props.handleEdit.bind(this);
+
+		this.editInfo = {
+			name: props.name,
+			link: props.link,
+			color: brandColors[props.name],
+			id: props.id,
+		};
 	}
 
 	componentWillMount() {
@@ -45,15 +53,9 @@ export default class ConnectLink extends Component {
 	}
 
 	completePress() {
-		var editInfo = {
-			name: this.props.name,
-			link: this.props.link,
-			color: brandColors[this.props.name],
-			id: this.props.id,
-		};
-		if (this.state.pressAction._value === 1 && this.props.ownProfile) {
-			this.handleEdit(editInfo);
-		} else {
+		// if (this.state.pressAction._value === 1 && this.props.ownProfile) {
+		// 	this.handleEdit(this.editInfo);
+		// } else {
 			if (this.props.editable) {
 				return null;
 			} else {
@@ -65,11 +67,12 @@ export default class ConnectLink extends Component {
 					Linking.openURL(this.props.link);
 				}
 			}
-		}
-		this.val = 0;
+		// }
+		// this.val = 0;
 	}
 
 	render() {
+		console.lo;
 		return (
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
 				{this.props.handleDelete ? (
@@ -91,7 +94,7 @@ export default class ConnectLink extends Component {
 								<EditModeEdit
 									activeOpacity={0.8}
 									onPress={() => {
-										console.log("test");
+										this.handleEdit(this.editInfo);
 									}}
 									hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
 									<Icon name="pencil" style={{ color: "white", fontSize: 20, height: 20 }} />
@@ -106,9 +109,10 @@ export default class ConnectLink extends Component {
 								</EditModeClose>
 							</EditModeButtons>
 						)}
-						<JobPosition>
-							{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}{" "}
-						</JobPosition>
+						<Icon
+							name={this.props.name.toLowerCase()}
+							style={{ color: "white", fontSize: 50, height: 50, textAlign: "center" }}
+						/>
 					</Animated.View>
 				) : (
 					<Text> Test </Text>
