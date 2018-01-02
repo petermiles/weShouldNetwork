@@ -6,6 +6,8 @@ import { Animated, Easing, View } from "react-native";
 
 import { ConnectLinkPageContainer, ConnectLinkContainer } from "./styles";
 
+import { NoLinks } from "./NoLinks";
+
 export default class ConnectLinkPage extends Component {
 	constructor(props) {
 		console.log(props, "here");
@@ -41,30 +43,35 @@ export default class ConnectLinkPage extends Component {
 			inputRange: [0, 0.33, 0.66, 1],
 			outputRange: ["-.45deg", "0deg", ".45deg", "0deg"],
 		});
-		return (
-			<ConnectLinkPageContainer>
-				{this.props.links.map((x, i) => {
-					return (
-						<ConnectLinkContainer key={i} index={i}>
-							<View>
-								<Animated.View style={this.props.editable && { transform: [{ rotate: spin }] }}>
-									<ConnectLink
-										handleDelete={this.props.handleDelete}
-										delete={this.props.delete}
-										handleEdit={this.handleEdit}
-										editable={this.props.editable}
-										editInfo={this.props.editInfo}
-										id={x.id}
-										link={x.link}
-										name={x.servicename.toLowerCase()}
-										ownProfile={this.props.ownProfile}
-									/>
-								</Animated.View>
-							</View>
-						</ConnectLinkContainer>
-					);
-				})}
-			</ConnectLinkPageContainer>
-		);
+
+		if (this.props.links.length) {
+			return (
+				<ConnectLinkPageContainer>
+					{this.props.links.map((x, i) => {
+						return (
+							<ConnectLinkContainer key={i} index={i}>
+								<View>
+									<Animated.View style={this.props.editable && { transform: [{ rotate: spin }] }}>
+										<ConnectLink
+											handleDelete={this.props.handleDelete}
+											delete={this.props.delete}
+											handleEdit={this.handleEdit}
+											editable={this.props.editable}
+											editInfo={this.props.editInfo}
+											id={x.id}
+											link={x.link}
+											name={x.servicename.toLowerCase()}
+											ownProfile={this.props.ownProfile}
+										/>
+									</Animated.View>
+								</View>
+							</ConnectLinkContainer>
+						);
+					})}
+				</ConnectLinkPageContainer>
+			);
+		} else {
+			return <NoLinks addLink={this.props.addLink} />;
+		}
 	}
 }

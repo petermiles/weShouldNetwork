@@ -111,6 +111,7 @@ export default class Connect extends Component {
             editInfo={this.editInfo}
             handleEdit={this.openEditModal}
             ownProfile={this.state.ownProfile}
+            addLink={() => this.setState({ addLink: !this.state.addLink })}
           />
           {this.state.editableLink ? (
             <EditModal
@@ -126,6 +127,7 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <Fab
+            linksLength={this.state.links.length}
             openItems={() => this.setState({ editable: this.state.editable ? false : true })}
             editLinks={() => this.setState({ editable: true })}
             addLink={() => this.setState({ addLink: !this.state.addLink })}
