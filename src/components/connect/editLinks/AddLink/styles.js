@@ -7,7 +7,7 @@ export const colors = {
   dribble: "#ea4c89",
   twitter: "#1da1f2",
   medium: "black",
-  phone: "#ff9800",
+  phone: "#66BB6A",
   email: "#f44336",
   website: "#4caf50",
 };

@@ -26,8 +26,7 @@ export default class LinkSlide extends Component {
 						justifyContent: "center",
 						alignItems: "center",
 						padding: "5%",
-					}}
-				>
+					}}>
 					<Icon name={this.props.selected.toLowerCase()} style={{ color: "white", height: 50, fontSize: 50 }} />
 					<ProviderLinkMainText>
 						{this.props.selected !== "email" || this.props.selected !== "phone" ? `What's your ${this.props.selected}?` : null}
@@ -38,8 +37,7 @@ export default class LinkSlide extends Component {
 							paddingTop: "3%",
 							width: "75%",
 							justifyContent: "space-between",
-						}}
-					>
+						}}>
 						<TextField
 							label={this.props.baseLinks[this.props.selected.toLowerCase()] + this.state.link}
 							baseColor="white"
@@ -68,8 +66,7 @@ export default class LinkSlide extends Component {
 						<NextButton
 							onPress={() => {
 								this.props.linkSave(this.state.link, this.props.baseLinks[this.props.selected.toLowerCase()] + this.state.link);
-							}}
-						>
+							}}>
 							<NextButtonText> Next </NextButtonText>
 						</NextButton>
 					) : null}

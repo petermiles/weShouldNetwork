@@ -6,6 +6,8 @@ import { JobPosition, NetworkContainer, EditModeClose, EditModeEdit, EditModeBut
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+// Clean up this page, Peter.
+
 export default class ConnectLink extends Component {
 	constructor(props) {
 		super(props);
@@ -18,7 +20,14 @@ export default class ConnectLink extends Component {
 		this.pressIn = this.pressIn.bind(this);
 		this.pressOut = this.pressOut.bind(this);
 		this.completePress = this.completePress.bind(this);
-		this.handleEdit = props.editable.bind(this);
+		this.handleEdit = props.handleEdit.bind(this);
+
+		this.editInfo = {
+			name: props.name,
+			link: props.link,
+			color: brandColors[props.name],
+			id: props.id,
+		};
 	}
 
 	componentWillMount() {
@@ -43,18 +52,13 @@ export default class ConnectLink extends Component {
 	}
 
 	completePress() {
-		var editInfo = {
-			name: this.props.name,
-			link: this.props.link,
-			color: brandColors[this.props.name],
-			id: this.props.id,
-		};
-		if (this.state.pressAction._value === 1 && this.props.ownProfile) {
-			this.handleEdit(editInfo);
+		// if (this.state.pressAction._value === 1 && this.props.ownProfile) {
+		// 	this.handleEdit(this.editInfo);
+		// } else {
+		if (this.props.editable) {
+			return null;
 		} else {
-			if (this.props.editable) {
-				return null;
-			} else {
+			if (this.state.pressAction._value === 1) {
 				if (this.props.name.toLowerCase() === "phone") {
 					Linking.openURL("tel:" + this.props.link);
 				} else if (this.props.name.toLowerCase() === "email") {
@@ -64,13 +68,14 @@ export default class ConnectLink extends Component {
 				}
 			}
 		}
-		this.val = 0;
+		// }
+		// this.val = 0;
 	}
 
 	render() {
 		return (
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
-				{this.props.handleDelete ? (
+				<View>
 					<Animated.View
 						style={{
 							flex: 1,
@@ -89,7 +94,7 @@ export default class ConnectLink extends Component {
 								<EditModeEdit
 									activeOpacity={0.8}
 									onPress={() => {
-										console.log("test");
+										this.handleEdit(this.editInfo);
 									}}
 									hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
 									<Icon name="pencil" style={{ color: "white", fontSize: 20, height: 20 }} />
@@ -97,20 +102,19 @@ export default class ConnectLink extends Component {
 								<EditModeClose
 									activeOpacity={0.8}
 									onPress={() => {
-										this.props.handleDelete(true);
+										this.props.handleDelete({ id: this.props.id, name: this.props.name, link: this.props.link });
 									}}
 									hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
 									<Icon name="close" style={{ color: "#F44336", fontSize: 20, height: 20, fontWeight: 800 }} />
 								</EditModeClose>
 							</EditModeButtons>
 						)}
-						<JobPosition>
-							{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}{" "}
-						</JobPosition>
+						<Icon
+							name={this.props.name.toLowerCase()}
+							style={{ color: "white", fontSize: 50, height: 50, textAlign: "center" }}
+						/>
 					</Animated.View>
-				) : (
-					<Text> Test </Text>
-				)}
+				</View>
 			</NetworkContainer>
 		);
 	}

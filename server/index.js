@@ -26,7 +26,7 @@ app.get("/api/user/getInfo/:id", userCtrl.getUser);
 app.get("/api/user/getConnectLinks/:id", userCtrl.getConnectLinks);
 app.post("/api/user/connectLink/add", userCtrl.addConnectLink);
 app.put("/api/user/connectLink/update", userCtrl.updateConnectLink);
-app.post("/api/user/connectLink/delete", userCtrl.deleteConnectLink);
+app.delete("/api/user/connectLink/delete/:id", userCtrl.deleteConnectLink);
 
 app.listen(port, () => {
 	console.log(`Listening on ${port}.`);

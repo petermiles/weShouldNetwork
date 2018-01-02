@@ -8,20 +8,25 @@ import { ConnectLinkPageContainer, ConnectLinkContainer } from "./styles";
 
 export default class ConnectLinkPage extends Component {
 	constructor(props) {
+		console.log(props, "here");
 		super(props);
+
 		this.state = {
 			editable: false,
 			editableName: "",
 			editableLink: "",
 		};
-		this.openModal = props.handleEdit.bind(this);
-		this.handleEdit = this.handleEdit.bind(this);
 		this.spinValue = new Animated.Value(0);
+		this.openModal = props.handleEdit.bind(this);
+		this.handleEdit = val => {
+			this.props.handleEdit(val);
+		};
 	}
 
 	componentDidMount() {
 		this.spin();
 	}
+
 	spin() {
 		this.spinValue.setValue(0);
 		Animated.timing(this.spinValue, {
@@ -31,12 +36,6 @@ export default class ConnectLinkPage extends Component {
 			useNativeDriver: true,
 		}).start(() => this.spin());
 	}
-
-	handleEdit(val) {
-		this.props.handleEdit(val);
-		this.spin();
-	}
-
 	render() {
 		const spin = this.spinValue.interpolate({
 			inputRange: [0, 0.33, 0.66, 1],
@@ -47,33 +46,21 @@ export default class ConnectLinkPage extends Component {
 				{this.props.links.map((x, i) => {
 					return (
 						<ConnectLinkContainer key={i} index={i}>
-							{this.state.editable ? (
-								<ConnectLink
-									handleDelete={this.props.handleDelete}
-									delete={this.props.delete}
-									editable={this.handleEdit}
-									editInfo={this.props.editInfo}
-									id={x.id}
-									link={x.link}
-									name={x.servicename.toLowerCase()}
-									ownProfile={this.props.ownProfile}
-								/>
-							) : (
-								<View>
-									<Animated.View style={{ transform: [{ rotate: spin }] }}>
-										<ConnectLink
-											handleDelete={this.props.handleDelete}
-											delete={this.props.delete}
-											editable={this.handleEdit}
-											editInfo={this.props.editInfo}
-											id={x.id}
-											link={x.link}
-											name={x.servicename.toLowerCase()}
-											ownProfile={this.props.ownProfile}
-										/>
-									</Animated.View>
-								</View>
-							)}
+							<View>
+								<Animated.View style={this.props.editable && { transform: [{ rotate: spin }] }}>
+									<ConnectLink
+										handleDelete={this.props.handleDelete}
+										delete={this.props.delete}
+										handleEdit={this.handleEdit}
+										editable={this.props.editable}
+										editInfo={this.props.editInfo}
+										id={x.id}
+										link={x.link}
+										name={x.servicename.toLowerCase()}
+										ownProfile={this.props.ownProfile}
+									/>
+								</Animated.View>
+							</View>
 						</ConnectLinkContainer>
 					);
 				})}

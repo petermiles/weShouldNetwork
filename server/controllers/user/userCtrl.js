@@ -38,9 +38,8 @@ const updateConnectLink = (req, res) => {
 const deleteConnectLink = (req, res) => {
 	req.app
 		.get("db")
-		.connectLinkDelete({ id: req.body.id, uid: req.body.uid })
+		.connectLinkDelete({ id: req.params.id })
 		.then(result => {
-			console.log(result);
 			return res.json(result);
 		});
 };

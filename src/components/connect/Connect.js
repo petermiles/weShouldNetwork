@@ -20,12 +20,14 @@ export default class Connect extends Component {
     this.state = {
       editable: false,
       loading: true,
+
       links: [],
       editableName: "",
       editableLink: "",
       editableColor: "",
       ownProfile: true,
       addLink: false,
+      addLinkShow: false,
       active: true,
       handleDelete: false,
     };
@@ -47,12 +49,22 @@ export default class Connect extends Component {
   }
 
   editInfo(state) {
+    console.log(state);
     const editInfo = {
       link: state.editLink,
       id: state.editId,
     };
     axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
       this.setState({ editable: false });
+    });
+  }
+
+  handleDelete(state) {
+    console.log(state);
+    axios.delete("http://172.31.99.35:3001/api/user/connectLink/delete/" + state.id).then(result => {
+      AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
+        this.setState({ links: result.data });
+      });
     });
   }
 
@@ -89,18 +101,14 @@ export default class Connect extends Component {
   }
 
   render() {
-    if (!this.state.links.length) {
-      return null;
-    }
     return (
       <Container>
         <Content>
           <ConnectLinkPage
-            handleDelete={val => {
-              this.setState({ handleDelete: val });
-            }}
+            handleDelete={state => this.handleDelete(state)}
             delete={this.state.handleDelete}
             links={this.state.links}
+            editable={this.state.editable}
             editInfo={this.editInfo}
             handleEdit={this.openEditModal}
             ownProfile={this.state.ownProfile}
@@ -119,22 +127,26 @@ export default class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <ActionButton
-            active={this.state.active}
             spacing={15}
             buttonColor="#F44336"
-            icon={<Icon name="more-horiz" style={{ color: "white", fontSize: 30, height: 30 }} />}
+            icon={
+              <Icon name={this.state.editable ? "close" : "more-horiz"} style={{ color: "white", fontSize: 30, height: 30 }} />
+            }
             activeOpacity={1}
             hideShadow={false}
             degrees={90}
             offsetX={20}
             offsetY={20}
             fixNativeFeedbackRadius={true}
-            onPress={() => this.setState({ active: !this.state.active })}>
+            onPress={() => {
+              this.setState({ editable: this.state.editable && false });
+            }}>
             <ActionButton.Item
               buttonColor="#42A5F5"
               title="Edit Links"
               onPress={() => {
-                this.setState({ editLink: true });
+                console.log("test");
+                this.setState({ editable: true });
               }}>
               <Icon name="create" style={styles.actionButtonIcon} />
             </ActionButton.Item>
@@ -158,6 +170,7 @@ export default class Connect extends Component {
             updateLink={() => {
               this.getUserData;
             }}
+            addLinkShow={this.state.addLinkShow}
             visible={this.state.addLink}
             links={this.state.links}
           />
