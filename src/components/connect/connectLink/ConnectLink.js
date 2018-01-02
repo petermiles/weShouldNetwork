@@ -28,8 +28,6 @@ export default class ConnectLink extends Component {
 			color: brandColors[props.name],
 			id: props.id,
 		};
-
-		this.slop = { top: 15, left: 15, right: 15, down: 15 };
 	}
 
 	componentWillMount() {
@@ -97,16 +95,14 @@ export default class ConnectLink extends Component {
 									activeOpacity={0.8}
 									onPress={() => {
 										this.handleEdit(this.editInfo);
-									}}
-									hitSlop={this.slop}>
+									}}>
 									<Icon name="pencil" style={{ color: "white", fontSize: 20, height: 20 }} />
 								</EditModeEdit>
 								<EditModeClose
 									activeOpacity={0.8}
 									onPress={() => {
 										this.props.handleDelete({ id: this.props.id, name: this.props.name, link: this.props.link });
-									}}
-									hitSlop={this.slop}>
+									}}>
 									<Icon name="close" style={{ color: "#F44336", fontSize: 20, height: 20, fontWeight: 800 }} />
 								</EditModeClose>
 							</EditModeButtons>

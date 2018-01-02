@@ -20,6 +20,7 @@ export default class AddLinkModal extends Component {
 			confirmLink: "",
 			sizeChange: false,
 			baseLinks: {
+				website: "https://",
 				twitter: "www.twitter.com/",
 				linkedin: "www.linkedin.com/in/",
 				dribbble: "www.dribbble.com/",
@@ -33,18 +34,22 @@ export default class AddLinkModal extends Component {
 	}
 
 	saveLink(link, provider) {
-		AsyncStorage.getItem("USER_DATA").then(result => {
-			axios
-				.post("http://172.31.99.35:3001/api/user/connectLink/add", { link, provider, uid: JSON.parse(result).uid })
-				.then(result => {
-					AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
-						AsyncStorage.getItem("USER_LINKS").then(result => {
-							console.log(JSON.parse(result));
-							this.props.closeModal();
+		this.setState({ loading: true }, () => {
+			AsyncStorage.getItem("USER_DATA").then(result => {
+				axios
+					.post("http://172.31.99.35:3001/api/user/connectLink/add", { link, provider, uid: JSON.parse(result).uid })
+					.then(result => {
+						AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
+							AsyncStorage.getItem("USER_LINKS").then(result => {
+								console.log(JSON.parse(result));
+								this.setState({ loading: false }, () => {
+									this.props.closeModal();
+								});
+							});
 						});
-					});
-				})
-				.catch(error => {});
+					})
+					.catch(error => {});
+			});
 		});
 	}
 
@@ -65,6 +70,11 @@ export default class AddLinkModal extends Component {
 							ref={scrollview => (this.ScrollView = scrollview)}
 							onContentSizeChange={width => {
 								this.setState({ width });
+								this.ScrollView.scrollTo({
+									x: this.state.width,
+									y: 0,
+									animated: true,
+								});
 							}}>
 							<ProvidersSlide
 								closeModal={() => {
@@ -73,15 +83,14 @@ export default class AddLinkModal extends Component {
 									});
 								}}
 								providers={["LinkedIn", "Twitter", "Medium", "Phone", "Email"]}
-								select={val =>
-									this.setState({ selected: val }, () => {
-										this.ScrollView.scrollTo({
-											x: this.state.selected ? Dimensions.get("window").width * 0.95 : this.state.width,
-											y: 0,
-											animated: true,
-										});
-									})
-								}
+								select={val => {
+									this.setState({ selected: val });
+									this.ScrollView.scrollTo({
+										x: this.state.width,
+										y: 0,
+										animated: true,
+									});
+								}}
 							/>
 							{this.state.selected ? (
 								<LinkSlide

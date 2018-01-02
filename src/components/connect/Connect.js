@@ -22,7 +22,6 @@ export default class Connect extends Component {
     this.state = {
       editable: false,
       loading: true,
-
       links: [],
       editableName: "",
       editableLink: "",
@@ -41,7 +40,6 @@ export default class Connect extends Component {
   openEditModal(val) {
     Vibration.vibrate(15);
     this.setState({
-      // editable: !this.state.editable,
       editableName: val.name,
       editableLink: val.link,
       editableColor: val.color,
@@ -62,6 +60,7 @@ export default class Connect extends Component {
 
   handleDelete(state) {
     axios.delete("http://172.31.99.35:3001/api/user/connectLink/delete/" + state.id).then(result => {
+      console.log(result);
       AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
         this.setState({ links: result.data });
       });
@@ -128,7 +127,7 @@ export default class Connect extends Component {
         {this.state.ownProfile && (
           <Fab
             linksLength={this.state.links.length}
-            openItems={() => this.setState({ editable: this.state.editable ? false : true })}
+            openItems={() => this.setState({ editable: !this.state.editable })}
             editLinks={() => this.setState({ editable: true })}
             addLink={() => this.setState({ addLink: !this.state.addLink })}
             editable={this.state.editable}
@@ -139,7 +138,7 @@ export default class Connect extends Component {
             closeModal={() => {
               this.setState({ addLink: false }, () => {
                 AsyncStorage.getItem("USER_LINKS").then(res => {
-                  this.setState({ links: JSON.parse(res) });
+                  this.setState({ links: JSON.parse(res), editable: false });
                 });
               });
             }}
