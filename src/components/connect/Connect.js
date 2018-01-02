@@ -11,6 +11,8 @@ import ConnectLinkPage from "./connectLink/ConnectLinkPage";
 
 import AddLinkModal from "./editLinks/AddLink/AddLinkModal";
 
+import { Fab } from "./fab/Fab";
+
 import EditModal from "./connectLink/EditModal";
 
 export default class Connect extends Component {
@@ -49,7 +51,6 @@ export default class Connect extends Component {
   }
 
   editInfo(state) {
-    console.log(state);
     const editInfo = {
       link: state.editLink,
       id: state.editId,
@@ -60,7 +61,6 @@ export default class Connect extends Component {
   }
 
   handleDelete(state) {
-    console.log(state);
     axios.delete("http://172.31.99.35:3001/api/user/connectLink/delete/" + state.id).then(result => {
       AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
         this.setState({ links: result.data });
@@ -69,7 +69,6 @@ export default class Connect extends Component {
   }
 
   getUserData() {
-    console.log("test");
     AsyncStorage.getItem("USER_LINKS").then(res => {
       this.setState({ links: JSON.parse(res) });
     });
@@ -126,37 +125,12 @@ export default class Connect extends Component {
           ) : null}
         </Content>
         {this.state.ownProfile && (
-          <ActionButton
-            spacing={15}
-            buttonColor="#F44336"
-            icon={
-              <Icon name={this.state.editable ? "close" : "more-horiz"} style={{ color: "white", fontSize: 30, height: 30 }} />
-            }
-            activeOpacity={1}
-            hideShadow={false}
-            degrees={90}
-            offsetX={20}
-            offsetY={20}
-            fixNativeFeedbackRadius={true}
-            onPress={() => {
-              this.setState({ editable: this.state.editable && false });
-            }}>
-            <ActionButton.Item
-              buttonColor="#42A5F5"
-              title="Edit Links"
-              onPress={() => {
-                console.log("test");
-                this.setState({ editable: true });
-              }}>
-              <Icon name="create" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-            <ActionButton.Item
-              buttonColor="#66BB6A"
-              title="Add A Link"
-              onPress={() => this.setState({ addLink: true, active: false })}>
-              <Icon name="add" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-          </ActionButton>
+          <Fab
+            openItems={() => this.setState({ editable: this.state.editable ? false : true })}
+            editLinks={() => this.setState({ editable: true })}
+            addLink={() => this.setState({ addLink: !this.state.addLink })}
+            editable={this.state.editable}
+          />
         )}
         <KeyboardAvoidingView behavior={"padding"}>
           <AddLinkModal
@@ -168,7 +142,7 @@ export default class Connect extends Component {
               });
             }}
             updateLink={() => {
-              this.getUserData;
+              this.getUserData();
             }}
             addLinkShow={this.state.addLinkShow}
             visible={this.state.addLink}
@@ -179,11 +153,3 @@ export default class Connect extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: "white",
-  },
-});
