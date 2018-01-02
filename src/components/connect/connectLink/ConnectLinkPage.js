@@ -8,15 +8,19 @@ import { ConnectLinkPageContainer, ConnectLinkContainer } from "./styles";
 
 export default class ConnectLinkPage extends Component {
 	constructor(props) {
+		console.log(props, "here");
 		super(props);
+
 		this.state = {
 			editable: false,
 			editableName: "",
 			editableLink: "",
 		};
-		this.openModal = props.handleEdit.bind(this);
-		this.handleEdit = this.handleEdit.bind(this);
 		this.spinValue = new Animated.Value(0);
+		this.openModal = props.handleEdit.bind(this);
+		this.handleEdit = val => {
+			this.props.handleEdit(val);
+		};
 	}
 
 	componentDidMount() {
@@ -32,11 +36,6 @@ export default class ConnectLinkPage extends Component {
 			useNativeDriver: true,
 		}).start(() => this.spin());
 	}
-
-	handleEdit(val) {
-		this.props.handleEdit(val);
-	}
-
 	render() {
 		const spin = this.spinValue.interpolate({
 			inputRange: [0, 0.33, 0.66, 1],

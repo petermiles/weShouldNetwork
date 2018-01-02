@@ -10,7 +10,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default class ConnectLink extends Component {
 	constructor(props) {
-		console.log(props);
 		super(props);
 
 		this.state = {
@@ -56,9 +55,10 @@ export default class ConnectLink extends Component {
 		// if (this.state.pressAction._value === 1 && this.props.ownProfile) {
 		// 	this.handleEdit(this.editInfo);
 		// } else {
-			if (this.props.editable) {
-				return null;
-			} else {
+		if (this.props.editable) {
+			return null;
+		} else {
+			if (this.state.pressAction._value === 1) {
 				if (this.props.name.toLowerCase() === "phone") {
 					Linking.openURL("tel:" + this.props.link);
 				} else if (this.props.name.toLowerCase() === "email") {
@@ -67,15 +67,15 @@ export default class ConnectLink extends Component {
 					Linking.openURL(this.props.link);
 				}
 			}
+		}
 		// }
 		// this.val = 0;
 	}
 
 	render() {
-		console.lo;
 		return (
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
-				{this.props.handleDelete ? (
+				<View>
 					<Animated.View
 						style={{
 							flex: 1,
@@ -102,7 +102,7 @@ export default class ConnectLink extends Component {
 								<EditModeClose
 									activeOpacity={0.8}
 									onPress={() => {
-										this.props.handleDelete(true);
+										this.props.handleDelete({ id: this.props.id, name: this.props.name, link: this.props.link });
 									}}
 									hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
 									<Icon name="close" style={{ color: "#F44336", fontSize: 20, height: 20, fontWeight: 800 }} />
@@ -114,9 +114,7 @@ export default class ConnectLink extends Component {
 							style={{ color: "white", fontSize: 50, height: 50, textAlign: "center" }}
 						/>
 					</Animated.View>
-				) : (
-					<Text> Test </Text>
-				)}
+				</View>
 			</NetworkContainer>
 		);
 	}

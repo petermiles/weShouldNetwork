@@ -34,7 +34,6 @@ export default class Connect extends Component {
 
     this.openEditModal = this.openEditModal.bind(this);
     this.editInfo = this.editInfo.bind(this);
-    this.updateInfo = this.updateInfo.bind(this);
   }
 
   openEditModal(val) {
@@ -49,10 +48,6 @@ export default class Connect extends Component {
     });
   }
 
-  updateInfo(state) {
-    this.setState({ links: state });
-  }
-
   editInfo(state) {
     console.log(state);
     const editInfo = {
@@ -61,6 +56,15 @@ export default class Connect extends Component {
     };
     axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
       this.setState({ editable: false });
+    });
+  }
+
+  handleDelete(state) {
+    console.log(state);
+    axios.delete("http://172.31.99.35:3001/api/user/connectLink/delete/" + state.id).then(result => {
+      AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
+        this.setState({ links: result.data });
+      });
     });
   }
 
@@ -97,16 +101,11 @@ export default class Connect extends Component {
   }
 
   render() {
-    if (!this.state.links.length) {
-      return null;
-    }
     return (
       <Container>
         <Content>
           <ConnectLinkPage
-            handleDelete={val => {
-              this.setState({ handleDelete: val });
-            }}
+            handleDelete={state => this.handleDelete(state)}
             delete={this.state.handleDelete}
             links={this.state.links}
             editable={this.state.editable}
@@ -118,9 +117,6 @@ export default class Connect extends Component {
             <EditModal
               editInfo={this.editInfo}
               visible={this.state.editable}
-              updateInfo={val => {
-                this.updateInfo(val);
-              }}
               handleModal={this.openEditModal}
               name={this.state.editableName}
               link={this.state.editableLink}

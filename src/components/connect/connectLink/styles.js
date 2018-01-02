@@ -52,12 +52,12 @@ export const brandColors = {
 	twitterActive: "#036EAE",
 	medium: "black",
 	mediumActive: "#464646",
-	email: "#00BCD4",
-	emailActive: "#00ACC1",
+	email: "#607D8B",
+	emailActive: "#455A64",
 	website: "#4caf50",
 	websiteActive: "#087f23",
-	phone: "#26A69A",
-	phoneActive: "#00897B",
+	phone: "#66BB6A",
+	phoneActive: "#43A047",
 };
 
 export const EditButton = styled.Text`
@@ -102,8 +102,8 @@ export const colors = {
 	dribble: "#ea4c89",
 	twitter: "#1da1f2",
 	medium: "black",
-	phone: "#26A69A",
-	email: "#f44336",
+	phone: "#66BB6A",
+	email: "#EF5350",
 	website: "#4caf50",
 	add: "#C8E6C9",
 };
@@ -121,7 +121,7 @@ export const ModalContent = styled.View`
 	width: 95%;
 	height: 40%;
 	justify-content: center
-	background-color: #FAFAFA
+	background-color: ${props => props.color || "white"}
 `;
 
 export const ModalHeader = styled.View`
@@ -178,8 +178,8 @@ export const EditModeButtons = styled.View`
 
 export const EditModeClose = styled.TouchableOpacity`
 	position: absolute;
-	top: 3;
-	left: 3;
+	top: 4;
+	right: 4
 	elevation: 3;
 	padding-top: 5;
 	padding-bottom: 5;
@@ -189,8 +189,8 @@ export const EditModeClose = styled.TouchableOpacity`
 
 export const EditModeEdit = styled.TouchableOpacity`
 	position: absolute;
-	top: 3;
-	right: 3;
+	top: 4;
+	left: 4;
 	elevation: 3;
 	padding-top: 5;
 	padding-bottom: 5;

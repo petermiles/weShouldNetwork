@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components/native";
-import { View, Modal, TextInput } from "react-native";
+import { View, Modal } from "react-native";
+
+import { TextField } from "react-native-material-textfield";
 
 import {
 	ModalContainer,
@@ -10,6 +12,7 @@ import {
 	ModalFooter,
 	FooterButton,
 	FooterButtonText,
+	EditModalClose,
 	colors,
 } from "./styles";
 
@@ -24,6 +27,14 @@ export default class EditModal extends Component {
 			delete: false,
 			primary: "",
 			typing: false,
+			baseLinks: {
+				twitter: "www.twitter.com/",
+				linkedin: "www.linkedin.com/in/",
+				dribbble: "www.dribbble.com/",
+				medium: "www.medium.com/",
+				email: "",
+				phone: "",
+			},
 		};
 	}
 
@@ -37,32 +48,29 @@ export default class EditModal extends Component {
 				onRequestClose={this.props.handleModal}
 				hardwareAccelerated={true}>
 				<ModalContainer>
-					<ModalContent>
-						<ModalHeader color={colors[`${this.props.name}`]}>
-							<ModalHeaderText>
-								{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}
-							</ModalHeaderText>
-						</ModalHeader>
+					<ModalContent color={colors[`${this.props.name}`]}>
+					<EditModalClose> 
+							
+					</EditModalClose>
 						<View
 							style={{
 								justifyContent: "center",
 								alignItems: "center",
 								flexDirection: "row",
 							}}>
-							<TextInput
-								onChangeText={text => {
-									this.setState({ editLink: text });
-								}}
-								defaultValue={this.props.link}
-								editable={true}
-								style={{ fontSize: 20, flex: 0.8 }}
-								returnKeyType={"done"}
+							<TextField
+								label={this.state.baseLinks[this.props.name.toLowerCase()] + this.props.link}
+								baseColor="white"
+								tintColor="white"
+								textColor="white"
+								containerStyle={{ width: "70%" }}
+								value={this.props.name}
 								onFocus={() => {
-									this.setState({ typing: true });
+									this.props.sizeChange(true);
 								}}
-								onEndEditing={() => {
-									this.setState({ typing: false });
-								}}
+								onChangeText={editLink => this.setState({ editLink })}
+								autoCapitalize={"none"}
+								returnKeyType={"done"}
 							/>
 						</View>
 
