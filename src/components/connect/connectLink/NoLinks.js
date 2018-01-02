@@ -12,8 +12,6 @@ export const NoLinks = props => {
 			<Icon name="emoticon-sad" style={{ color: "#2196f3", fontSize: 150, height: 150 }} />
 			<NoLinkText primary> Your profile doesn't have any links. </NoLinkText>
 
-			<NoLinkText> Add links so people can easily connect with you. </NoLinkText>
-
 			<AddLinkButton activeOpacity={0.8} onPress={props.addLink}>
 				<AddLinkButtonText> Add a Link </AddLinkButtonText>
 			</AddLinkButton>

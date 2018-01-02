@@ -21,7 +21,7 @@ export default class Connect extends Component {
 
     this.state = {
       editable: false,
-      loading: true,
+      loading: false,
       links: [],
       editableName: "",
       editableLink: "",
@@ -42,7 +42,6 @@ export default class Connect extends Component {
     this.setState({
       editableName: val.name,
       editableLink: val.link,
-      editableColor: val.color,
       editableId: val.id,
       active: false,
     });
@@ -54,7 +53,8 @@ export default class Connect extends Component {
       id: state.editId,
     };
     axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
-      this.setState({ editable: false });
+      console.log("saved");
+      this.setState({ editable: !this.state.editable });
     });
   }
 
@@ -116,6 +116,9 @@ export default class Connect extends Component {
             <EditModal
               editInfo={this.editInfo}
               visible={this.state.editable}
+              closeModal={() => {
+                this.setState({ editable: false });
+              }}
               handleModal={this.openEditModal}
               name={this.state.editableName}
               link={this.state.editableLink}

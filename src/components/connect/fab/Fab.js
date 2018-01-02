@@ -17,7 +17,10 @@ export const Fab = props => {
 				degrees={90}
 				offsetX={20}
 				offsetY={20}
-				fixNativeFeedbackRadius={true}>
+				fixNativeFeedbackRadius={true}
+				onPress={() => {
+					props.editable ? props.openItems() : null;
+				}}>
 				<ActionButton.Item buttonColor="#42A5F5" title="Edit Links" onPress={props.editLinks}>
 					<Icon name="create" style={styles.actionButtonIcon} />
 				</ActionButton.Item>

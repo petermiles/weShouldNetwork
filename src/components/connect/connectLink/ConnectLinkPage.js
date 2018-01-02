@@ -10,7 +10,6 @@ import { NoLinks } from "./NoLinks";
 
 export default class ConnectLinkPage extends Component {
 	constructor(props) {
-		console.log(props, "here");
 		super(props);
 
 		this.state = {
