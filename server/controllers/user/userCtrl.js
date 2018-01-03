@@ -11,7 +11,7 @@ const getUser = (req, res) => {
 const getConnectLinks = (req, res) => {
   req.app
     .get('db')
-    .getConnectLinks({ uid: req.params.id })
+    .getConnectLinks({ uid: req.params.userid })
     .then((result) => {
       res.json(result);
     })
@@ -35,7 +35,7 @@ const updateConnectLink = (req, res) => {
 const deleteConnectLink = (req, res) => {
   req.app
     .get('db')
-    .connectLinkDelete({ id: req.params.id })
+    .connectLinkDelete({ id: req.params.userid })
     .then((result) => {
       req.app
         .get('db')
@@ -55,6 +55,16 @@ const saveFavorite = (req, res) => {
     });
 };
 
+const getFavorites = (req, res) => {
+  req.app
+    .get('db')
+    .favoriteGet({ id: req.params.userid })
+    .then((result) => {
+      console.log(result);
+      return res.json(result);
+    });
+};
+
 module.exports = {
   getUser,
   getConnectLinks,
@@ -62,4 +72,5 @@ module.exports = {
   updateConnectLink,
   deleteConnectLink,
   saveFavorite,
+  getFavorites,
 };

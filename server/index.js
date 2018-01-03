@@ -23,12 +23,13 @@ app.post('/api/user/create', authCtrl.createUser);
 app.get('/api/user/createWithLinkedIn/:id', authCtrl.createWithLinkedIn);
 app.get('/api/user/getInfo/:id', userCtrl.getUser);
 
-app.get('/api/user/getConnectLinks/:id', userCtrl.getConnectLinks);
+app.get('/api/user/getConnectLinks/:userid', userCtrl.getConnectLinks);
 app.post('/api/user/connectLink/add', userCtrl.addConnectLink);
 app.put('/api/user/connectLink/update', userCtrl.updateConnectLink);
-app.delete('/api/user/connectLink/delete/:id', userCtrl.deleteConnectLink);
+app.delete('/api/user/connectLink/delete/:userid', userCtrl.deleteConnectLink);
 
-app.post('/api/favorites/save', userCtrl.saveFavorite);
+app.get('/api/user/favorites/get/:userid', userCtrl.getFavorites);
+app.post('/api/user/favorites/save', userCtrl.saveFavorite);
 
 app.listen(port, () => {
   console.log(`Listening on ${port}.`);

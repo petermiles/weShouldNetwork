@@ -1,58 +1,46 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import IndivFavorite from "./IndivFavorite";
+import React, { Component } from 'react';
+import { View, AsyncStorage, Text } from 'react-native';
+import IndivFavorite from './IndivFavorite';
+import axios from 'axios';
 
 export default class FavoritesPage extends Component {
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.state = {
-			favorites: [
-				{
-					name: "Riley Adair",
-					position: "Junior Web Developer",
-					company: "The Richards Group",
-				},
-				{
-					name: "Benjamin Kincaid",
-					position: "Server",
-					company: "Stovepipe Wells",
-				},
-				{
-					name: "Mark Erickson",
-					position: "Senior Architect of Design",
-					company: "Big Name Company Incorporated",
-				},
-				{
-					name: "Urna Ramumu",
-					position: "Human Resources Consultant",
-					company: "HR Inc.",
-				},
-				{
-					name: "Les Paul",
-					position: "Musician",
-					company: "Self",
-				},
-			],
-			loading: true,
-		};
-	}
+    this.state = {
+      favorites: '',
+      loading: true,
+    };
+  }
 
-	render() {
-		return (
-			<View style={{ marginTop: "4%" }}>
-				{this.state.favorites.map((item, i) => {
-					return (
+  componentDidMount() {
+    AsyncStorage.getItem('USER_DATA').then((result) => {
+      console.log(JSON.parse(result).uid);
+      axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then((result) => {
+        this.setState({ favorites: result.data, loading: false });
+      });
+    });
+  }
+
+  render() {
+    return (
+			<View style={{ marginTop: '4%' }}>
+				{this.state.favorites.length ? (
+					this.state.favorites.map((favorite, i) => (
 						<IndivFavorite
 							key={i}
 							loading={this.state.loading}
-							name={item.name}
-							position={item.position}
-							company={item.company}
+							name={favorite.name}
+							picture={favorite.profilepic}
+							position={favorite.position}
+							company={favorite.company}
+							profileuid={favorite.favoriteuid}
 						/>
-					);
-				})}
+					))
+				) : (
+					<Text> Loading </Text>
+				)}
 			</View>
-		);
-	}
+    );
+  }
 }

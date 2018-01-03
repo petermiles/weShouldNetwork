@@ -34,7 +34,10 @@ export default function profileHead(props) {
 						onPress={() => {
 							!props.saved &&
 								axios
-									.post('http://172.31.99.35:3001/api/favorites/save', { profileUid: props.profileUid, userUid: props.userUid })
+									.post('http://172.31.99.35:3001/api/user/favorites/save', {
+										profileUid: props.profileUid,
+										userUid: props.userUid,
+									})
 									.then((result) => {
 										AsyncStorage.setItem('USER_FAVORITES', JSON.parse(result.data), () => {
 											props.savedItem();
