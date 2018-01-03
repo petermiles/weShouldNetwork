@@ -34,70 +34,48 @@ export default class Profile extends Component {
     });
     this.props.navigation.state.params
       ? axios.get(`http://172.31.99.35:3001/api/user/getInfo/${this.props.navigation.state.params.uid}`).then(({ data }) => {
-        console.log(data);
-        this.setState({
-          ...format(data),
-          ownProfile: false,
-        });
-      })
-      : AsyncStorage.getItem('USER_DATA')
-        ? AsyncStorage.getItem('USER_DATA').then((res) => {
-          const data = JSON.parse(res);
-          this.setState(format(data));
-        })
-        : AsyncStorage.getItem('USER_KEY').then((id) => {
-          axios.get(`http://172.31.99.35:3001/api/user/getInfo/${id}`).then((result) => {
-            this.setState(format(result.data));
+        AsyncStorage.getItem('USER_DATA').then((res) => {
+          this.setState({
+            ...format(data),
+            userUid: JSON.parse(res).uid,
+            ownProfile: false,
           });
         });
+      })
+      : AsyncStorage.getItem('USER_DATA').then((res) => {
+        const data = JSON.parse(res);
+        this.setState({ ...format(data), userUid: data.uid });
+      });
   }
   render() {
-    console.log(this.props);
     const { navigate } = this.props.navigation;
     return (
-      <Container>
-        <Content>
-          <ProfileHead
-            name={this.state.name}
-            company={this.state.company}
-            position={this.state.position}
-            picURL={this.state.profilePicURL}
-            loading={this.state.loading}
-            navigate={navigate}
-          />
-          <CenteredView>
-            {!this.state.loading ? (
-              <QRCode
-                value={this.props.navigation.state.params ? this.props.navigation.state.params.uid : this.state.uid}
-                size={200}
-                bgColor="black"
-                fgColor="white"
-              />
-            ) : (
-              <QRCodeLoading />
-            )}
-          </CenteredView>
-        </Content>
-        {!this.state.loading ? (
-          this.state.ownProfile ? (
-            <Footer
-              activeOpacity={0.8}
-              onPress={() => {
-                navigate('Scan');
-              }}>
-              <FooterText> Scan </FooterText>
-            </Footer>
-          ) : (
-            <Footer
-              activeOpacity={0.8}
-              onPress={() => {
-                navigate('SignedIn');
-              }}>
-              <FooterText> Go Back To My Profile </FooterText>
-            </Footer>
-          )
-        ) : null}
-      </Container>
+			<Container>
+				<Content>
+					<ProfileHead {...this.state} />
+					<CenteredView>
+						{!this.state.loading ? (
+							<QRCode
+								value={this.props.navigation.state.params ? this.props.navigation.state.params.uid : this.state.uid}
+								size={200}
+								bgColor="black"
+								fgColor="white"
+							/>
+						) : (
+							<QRCodeLoading />
+						)}
+					</CenteredView>
+				</Content>
+				{!this.state.loading ? (
+					<Footer
+						activeOpacity={0.8}
+						onPress={() => {
+							this.state.ownProfile ? navigate('Scan') : navigate('SignedIn');
+						}}>
+						<FooterText>{this.state.ownProfile ? 'Scan' : 'Go Back To My Profile'} </FooterText>
+					</Footer>
+				) : null}
+			</Container>
     );
   }
 }

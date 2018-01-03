@@ -18,7 +18,7 @@ import {
 } from './styles';
 
 export default function profileHead(props) {
-  const image = !props.picURL ? require('./placeholder.png') : { uri: props.picURL };
+  const image = !props.profilePicURL ? require('./placeholder.png') : { uri: props.profilePicURL };
   if (!props.loading) {
     return (
 			<CenterView>
@@ -29,9 +29,12 @@ export default function profileHead(props) {
 				{!props.ownProfile ? (
 					<FavoriteButton
 						onPress={() => {
-							axios.post('/api/favorites/save', { profileUid: props.profileUid, userUid: props.userUid }).then((result) => {
-								console.log(result);
-							});
+							console.log(props);
+							axios
+								.post('http://172.31.99.35:3001/api/favorites/save', { profileUid: props.profileUid, userUid: props.userUid })
+								.then((result) => {
+									console.log(result);
+								});
 						}}>
 						<FavoriteButtonText>Add to Favorites </FavoriteButtonText>
 					</FavoriteButton>

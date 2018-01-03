@@ -46,6 +46,7 @@ const deleteConnectLink = (req, res) => {
 };
 
 const saveFavorite = (req, res) => {
+  console.log(req.body);
   req.app
     .get('db')
     .favoriteSave(req.body)
