@@ -20,6 +20,7 @@ export default class Profile extends Component {
       company: '',
       userUid: '',
       ownProfile: true,
+      saved: false,
     };
   }
 
@@ -52,7 +53,12 @@ export default class Profile extends Component {
     return (
 			<Container>
 				<Content>
-					<ProfileHead {...this.state} />
+					<ProfileHead
+						{...this.state}
+						saveItem={() => {
+							this.setState({ saved: true });
+						}}
+					/>
 					<CenteredView>
 						{!this.state.loading ? (
 							<QRCode

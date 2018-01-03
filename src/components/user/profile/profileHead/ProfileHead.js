@@ -3,6 +3,8 @@ import { View, Text, AsyncStorage } from 'react-native';
 import Placeholder from 'rn-placeholder';
 import axios from 'axios';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {
   ProfileImage,
   ProfileImageLoading,
@@ -28,15 +30,32 @@ export default function profileHead(props) {
 				<JobCompany> {props.company} </JobCompany>
 				{!props.ownProfile ? (
 					<FavoriteButton
+						saved={props.saved}
 						onPress={() => {
-							console.log(props);
-							axios
-								.post('http://172.31.99.35:3001/api/favorites/save', { profileUid: props.profileUid, userUid: props.userUid })
-								.then((result) => {
-									console.log(result);
-								});
+							!props.saved &&
+								axios
+									.post('http://172.31.99.35:3001/api/favorites/save', { profileUid: props.profileUid, userUid: props.userUid })
+									.then((result) => {
+										AsyncStorage.setItem('USER_FAVORITES', JSON.parse(result.data), () => {
+											props.savedItem();
+										});
+									});
 						}}>
-						<FavoriteButtonText>Add to Favorites </FavoriteButtonText>
+						<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+							{props.saved && (
+								<Icon
+									name={'check'}
+									style={{
+										color: 'white',
+										fontSize: 23,
+										height: 23,
+										marginRight: 5,
+									}}
+								/>
+							)}
+
+							<FavoriteButtonText saved={props.saved}>{props.saved ? 'Saved' : 'Add to Favorites'} </FavoriteButtonText>
+						</View>
 					</FavoriteButton>
 				) : (
 					<View style={{ height: 40, marginBottom: 20 }} />

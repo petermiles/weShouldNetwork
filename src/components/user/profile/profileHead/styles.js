@@ -78,7 +78,7 @@ export const JobCompanyLoading = styled.View`
 export const FavoriteButton = styled.TouchableOpacity`
 	flex: 1;
 	justify-content: center;
-	background-color: #0069c0;
+	background-color: ${props => (props.saved ? '#4CAF50' : '#0069c0')};
 	height: 40;
 	width: 200;
 	margin-bottom: 20;
@@ -88,6 +88,8 @@ export const FavoriteButton = styled.TouchableOpacity`
 export const FavoriteButtonText = styled.Text`
 	text-align: center;
 	color: white;
+	font-size: 18;
+	margin-right: ${props => (props.saved ? 7 : 0)};
 `;
 
 export const CenterView = styled.View`
