@@ -87,15 +87,10 @@ export default class Connect extends Component {
       })
       : AsyncStorage.getItem('USER_LINKS')
         ? AsyncStorage.getItem('USER_LINKS').then((res) => {
-          this.setState(
-            {
-              links: JSON.parse(res),
-              providers: this.state.providers.filter((x, i) => !JSON.parse(res).find(curr => x.toLowerCase() === curr.servicename.toLowerCase())),
-            },
-            () => {
-              console.log(this.state);
-            },
-          );
+          this.setState({
+            links: JSON.parse(res),
+            providers: this.state.providers.filter((x, i) => !JSON.parse(res).find(curr => x.toLowerCase() === curr.servicename.toLowerCase())),
+          });
         })
         : AsyncStorage.getItem('USER_DATA')
           .then((result) => {
@@ -111,61 +106,61 @@ export default class Connect extends Component {
 
   render() {
     return (
-			<Container>
-				<Content>
-					<ConnectLinkPage
-						handleDelete={state => this.handleDelete(state)}
-						delete={this.state.handleDelete}
-						links={this.state.links}
-						editable={this.state.editable}
-						editInfo={this.editInfo}
-						handleEdit={this.openEditModal}
-						ownProfile={this.state.ownProfile}
-						addLink={() => this.setState({ addLink: !this.state.addLink })}
-					/>
-					{this.state.editableLink ? (
-						<EditModal
-							editInfo={this.editInfo}
-							visible={this.state.editable}
-							closeModal={() => {
-								this.setState({ editable: false });
-							}}
-							handleModal={this.openEditModal}
-							name={this.state.editableName}
-							link={this.state.editableLink}
-							id={this.state.editableId}
-							color={this.state.editableColor}
-						/>
-					) : null}
-				</Content>
-				{this.state.ownProfile && (
-					<Fab
-						linksLength={this.state.links.length}
-						openItems={() => this.setState({ editable: !this.state.editable })}
-						editLinks={() => this.setState({ editable: true })}
-						addLink={() => this.setState({ addLink: !this.state.addLink })}
-						editable={this.state.editable}
-					/>
-				)}
-				<KeyboardAvoidingView behavior="padding">
-					<AddLinkModal
-						closeModal={() => {
-							this.setState({ addLink: false }, () => {
-								AsyncStorage.getItem('USER_LINKS').then((res) => {
-									this.setState({ links: JSON.parse(res), editable: false });
-								});
-							});
-						}}
-						updateLink={() => {
-							this.getUserData();
-						}}
-						providers={this.state.providers}
-						addLinkShow={this.state.addLinkShow}
-						visible={this.state.addLink}
-						links={this.state.links}
-					/>
-				</KeyboardAvoidingView>
-			</Container>
+      <Container>
+        <Content>
+          <ConnectLinkPage
+            handleDelete={state => this.handleDelete(state)}
+            delete={this.state.handleDelete}
+            links={this.state.links}
+            editable={this.state.editable}
+            editInfo={this.editInfo}
+            handleEdit={this.openEditModal}
+            ownProfile={this.state.ownProfile}
+            addLink={() => this.setState({ addLink: !this.state.addLink })}
+          />
+          {this.state.editableLink ? (
+            <EditModal
+              editInfo={this.editInfo}
+              visible={this.state.editable}
+              closeModal={() => {
+                this.setState({ editable: false });
+              }}
+              handleModal={this.openEditModal}
+              name={this.state.editableName}
+              link={this.state.editableLink}
+              id={this.state.editableId}
+              color={this.state.editableColor}
+            />
+          ) : null}
+        </Content>
+        {this.state.ownProfile && (
+          <Fab
+            linksLength={this.state.links.length}
+            openItems={() => this.setState({ editable: !this.state.editable })}
+            editLinks={() => this.setState({ editable: true })}
+            addLink={() => this.setState({ addLink: !this.state.addLink })}
+            editable={this.state.editable}
+          />
+        )}
+        <KeyboardAvoidingView behavior="padding">
+          <AddLinkModal
+            closeModal={() => {
+              this.setState({ addLink: false }, () => {
+                AsyncStorage.getItem('USER_LINKS').then((res) => {
+                  this.setState({ links: JSON.parse(res), editable: false });
+                });
+              });
+            }}
+            updateLink={() => {
+              this.getUserData();
+            }}
+            providers={this.state.providers}
+            addLinkShow={this.state.addLinkShow}
+            visible={this.state.addLink}
+            links={this.state.links}
+          />
+        </KeyboardAvoidingView>
+      </Container>
     );
   }
 }

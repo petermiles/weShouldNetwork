@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, AsyncStorage } from 'react-native';
+import Placeholder from 'rn-placeholder';
+import axios from 'axios';
 
 import {
   ProfileImage,
@@ -11,34 +13,40 @@ import {
   JobCompany,
   JobCompanyLoading,
   FavoriteButton,
+  FavoriteButtonText,
+  CenterView,
 } from './styles';
 
 export default function profileHead(props) {
   const image = !props.picURL ? require('./placeholder.png') : { uri: props.picURL };
   if (!props.loading) {
     return (
-			<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+			<CenterView>
 				<ProfileImage source={image} />
 				<MainName> {props.name} </MainName>
 				<JobPosition> {props.position} </JobPosition>
 				<JobCompany> {props.company} </JobCompany>
-				<FavoriteButton
-					color="#0069c0"
-					onPress={() => {
-						AsyncStorage.removeItem('USER_DATA');
-						props.navigate('SignedOut');
-					}}>
-					<Text style={{ textAlign: 'center', color: 'white' }}>Add to Favorites</Text>
-				</FavoriteButton>
-			</View>
+				{!props.ownProfile ? (
+					<FavoriteButton
+						onPress={() => {
+							axios.post('/api/favorites/save', { profileUid: props.profileUid, userUid: props.userUid }).then((result) => {
+								console.log(result);
+							});
+						}}>
+						<FavoriteButtonText>Add to Favorites </FavoriteButtonText>
+					</FavoriteButton>
+				) : (
+					<View style={{ height: 40, marginBottom: 20 }} />
+				)}
+			</CenterView>
     );
   }
   return (
-		<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+		<CenterView>
 			<ProfileImageLoading />
 			<MainNameLoading />
 			<JobPositionLoading />
 			<JobCompanyLoading />
-		</View>
+		</CenterView>
   );
 }

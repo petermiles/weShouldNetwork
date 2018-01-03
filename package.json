@@ -51,6 +51,7 @@
     "react-native-svg-animated-linear-gradient": "^0.1.8",
     "react-native-swiper": "^1.5.13",
     "react-navigation": "^1.0.0-beta.21",
+    "rn-placeholder": "^1.2.0",
     "styled-components": "^2.2.4"
   }
 }
