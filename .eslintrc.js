@@ -1,19 +1,15 @@
 module.exports = {
-  extends: ["eslint:recommended", "plugin:react/recommended"],
-  env: {
-    node: true,
-    browser: true,
-  },
+  parser: "babel-eslint",
+  plugins: ["react", "react-native"],
   parserOptions: {
-    ecmaVersion: 6,
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
       jsx: true,
+      modules: true,
     },
-    sourceType: "module",
   },
-  plugins: ["react"],
+  extends: ["eslint:recommended", "plugin:react/recommended", "airbnb-base"],
   rules: {
+    "arrow-body-style": "warn",
     "react/prop-types": 0,
   },
 };

@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
 export const ProfileImage = styled.Image`
 	height: 90;
@@ -30,10 +30,10 @@ export const MainName = styled.Text`
 
 export const MainNameLoading = styled.View`
 	height: 30;
-	width: 90;
+	width: 180;
 	background-color: #cfd8dc;
-	margin-bottom: 3
-	margin-top: 3
+	margin-bottom: 8
+	margin-top: 8
 `;
 
 export const JobPosition = styled.Text`
@@ -50,12 +50,10 @@ export const JobPositionLoading = styled.View`
 	height: 17;
 	width: 130;
 	padding-top: 5;
-	padding-bottom: 2;
 	padding-left: 10;
 	padding-right: 10;
-	margin-bottom: 3
 	margin-top: 3
-	
+	background-color: #cfd8dc
 `;
 
 export const JobCompany = styled.Text`
@@ -71,17 +69,15 @@ export const JobCompanyLoading = styled.View`
 	width: 100;
 	height: 14;
 	background-color: #cfd8dc;
-	margin-top: 15;
-	padding-top: 1;
-	padding-bottom: 12;
-	padding-left: 10;
-	padding-right: 10;
+
+	margin-top: 10
+	margin-bottom: 75
 `;
 
 export const FavoriteButton = styled.TouchableOpacity`
 	flex: 1;
 	justify-content: center;
-	background-color: ${props => props.color || "#42A5F5"};
+	background-color: ${props => props.color || '#cfd8dc'};
 	height: 40;
 	width: 200;
 	margin-bottom: 20;
