@@ -34,6 +34,7 @@ export default class Profile extends Component {
     });
     this.props.navigation.state.params
       ? axios.get(`http://172.31.99.35:3001/api/user/getInfo/${this.props.navigation.state.params.uid}`).then(({ data }) => {
+        console.log(data);
         this.setState({
           ...format(data),
           ownProfile: false,
@@ -51,6 +52,7 @@ export default class Profile extends Component {
         });
   }
   render() {
+    console.log(this.props);
     const { navigate } = this.props.navigation;
     return (
       <Container>
@@ -62,7 +64,6 @@ export default class Profile extends Component {
             picURL={this.state.profilePicURL}
             loading={this.state.loading}
             navigate={navigate}
-            ownProfile={this.state.ownProfile}
           />
           <CenteredView>
             {!this.state.loading ? (
@@ -78,13 +79,23 @@ export default class Profile extends Component {
           </CenteredView>
         </Content>
         {!this.state.loading ? (
-          <Footer
-            activeOpacity={0.8}
-            onPress={() => {
-              this.state.ownProfile ? navigate('Scan') : navigate('SignedIn');
-            }}>
-            <FooterText>{this.state.ownProfile ? 'Scan' : 'Go Back To My Profile'} </FooterText>
-          </Footer>
+          this.state.ownProfile ? (
+            <Footer
+              activeOpacity={0.8}
+              onPress={() => {
+                navigate('Scan');
+              }}>
+              <FooterText> Scan </FooterText>
+            </Footer>
+          ) : (
+            <Footer
+              activeOpacity={0.8}
+              onPress={() => {
+                navigate('SignedIn');
+              }}>
+              <FooterText> Go Back To My Profile </FooterText>
+            </Footer>
+          )
         ) : null}
       </Container>
     );

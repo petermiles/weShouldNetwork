@@ -28,7 +28,7 @@ app.post('/api/user/connectLink/add', userCtrl.addConnectLink);
 app.put('/api/user/connectLink/update', userCtrl.updateConnectLink);
 app.delete('/api/user/connectLink/delete/:id', userCtrl.deleteConnectLink);
 
-app.post('/api/favorites/save', userCtrl.saveFavorites);
+app.post('/api/favorites/save', userCtrl.saveFavorite);
 
 app.listen(port, () => {
   console.log(`Listening on ${port}.`);

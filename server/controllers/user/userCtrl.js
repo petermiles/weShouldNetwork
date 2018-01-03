@@ -2,7 +2,10 @@ const getUser = (req, res) => {
   req.app
     .get('db')
     .getUserProfileInfo({ uid: req.params.id })
-    .then(result => res.json(result[0]));
+    .then((result) => {
+      console.log(result);
+      res.json(result[0]);
+    });
 };
 
 const getConnectLinks = (req, res) => {
@@ -57,4 +60,5 @@ module.exports = {
   addConnectLink,
   updateConnectLink,
   deleteConnectLink,
+  saveFavorite,
 };
