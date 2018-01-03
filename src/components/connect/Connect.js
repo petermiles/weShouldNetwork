@@ -15,6 +15,8 @@ import { Fab } from "./fab/Fab";
 
 import EditModal from "./connectLink/EditModal";
 
+const providers = ["LinkedIn", "Twitter", "Medium", "Phone", "Email"];
+
 export default class Connect extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,7 @@ export default class Connect extends Component {
       editable: false,
       loading: false,
       links: [],
+      providers: ["LinkedIn", "Twitter", "Medium", "Phone", "Email"],
       editableName: "",
       editableLink: "",
       editableColor: "",
@@ -84,7 +87,19 @@ export default class Connect extends Component {
         })
       : AsyncStorage.getItem("USER_LINKS")
         ? AsyncStorage.getItem("USER_LINKS").then(res => {
-            this.setState({ links: JSON.parse(res) });
+            this.setState(
+              {
+                links: JSON.parse(res),
+                providers: this.state.providers.filter((x, i) => {
+                  return !JSON.parse(res).find(curr => {
+                    return x.toLowerCase() === curr.servicename.toLowerCase();
+                  });
+                }),
+              },
+              () => {
+                console.log(this.state);
+              }
+            );
           })
         : AsyncStorage.getItem("USER_DATA")
             .then(result => {
@@ -148,6 +163,7 @@ export default class Connect extends Component {
             updateLink={() => {
               this.getUserData();
             }}
+            providers={this.state.providers}
             addLinkShow={this.state.addLinkShow}
             visible={this.state.addLink}
             links={this.state.links}

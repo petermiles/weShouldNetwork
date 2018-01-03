@@ -9,6 +9,10 @@ import { ConfirmSlide } from "./slides/ConfirmSlide";
 
 import axios from "axios";
 
+import { uniq } from "lodash";
+
+const providers = ["LinkedIn", "Twitter", "Medium", "Phone", "Email"];
+
 export default class AddLinkModal extends Component {
 	constructor(props) {
 		super(props);
@@ -30,6 +34,13 @@ export default class AddLinkModal extends Component {
 			},
 		};
 
+		let lower = providers.filter((x, i) => {
+			return !props.links.find(curr => {
+				return x.toLowerCase() === curr.servicename.toLowerCase();
+			});
+		});
+
+		console.log(lower);
 		this.saveLink = this.saveLink.bind(this);
 	}
 
@@ -54,6 +65,7 @@ export default class AddLinkModal extends Component {
 	}
 
 	render() {
+		console.log(this.state);
 		return (
 			<Modal
 				transparent={true}
@@ -82,7 +94,7 @@ export default class AddLinkModal extends Component {
 										this.props.closeModal();
 									});
 								}}
-								providers={["LinkedIn", "Twitter", "Medium", "Phone", "Email"]}
+								providers={this.props.providers}
 								select={val => {
 									this.setState({ selected: val });
 									this.ScrollView.scrollTo({
