@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import styled from "styled-components/native";
-import { View, Modal } from "react-native";
+import { View, Modal, BackHandler } from "react-native";
 
 import { TextField } from "react-native-material-textfield";
+
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import {
 	ModalContainer,
@@ -18,6 +20,7 @@ import {
 
 export default class EditModal extends Component {
 	constructor(props) {
+		console.log(props);
 		super(props);
 
 		this.state = {
@@ -27,6 +30,8 @@ export default class EditModal extends Component {
 			delete: false,
 			primary: "",
 			typing: false,
+			sizeChange: false,
+			visible: props.visible,
 			baseLinks: {
 				twitter: "www.twitter.com/",
 				linkedin: "www.linkedin.com/in/",
@@ -36,10 +41,26 @@ export default class EditModal extends Component {
 				phone: "",
 			},
 		};
+
+		this.sizeChange = this.sizeChange.bind(this);
+	}
+
+	componentWillMount() {
+		BackHandler.addEventListener("hardwareBackPress", () => {
+			console.log("test");
+			return true;
+		});
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener("hardwareBackPress");
+	}
+
+	sizeChange() {
+		this.setState({ sizeChange: !this.state.sizeChange });
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<Modal
 				visible={this.props.visible}
@@ -48,27 +69,36 @@ export default class EditModal extends Component {
 				onRequestClose={this.props.handleModal}
 				hardwareAccelerated={true}>
 				<ModalContainer>
-					<ModalContent color={colors[`${this.props.name}`]}>
-					<EditModalClose> 
-							
-					</EditModalClose>
+					<ModalContent color={colors[this.props.name.toLowerCase()]} size={this.state.sizeChange}>
+						<EditModalClose
+							onPress={() => {
+								this.props.closeModal();
+							}}>
+							<Icon name={"close"} style={{ color: "white", fontSize: 25, height: 25 }} />
+						</EditModalClose>
 						<View
 							style={{
-								justifyContent: "center",
 								alignItems: "center",
-								flexDirection: "row",
 							}}>
+							<Icon name={this.props.name.toLowerCase()} style={{ color: "white", fontSize: 50, height: 50, marginBottom: 5 }} />
 							<TextField
 								label={this.state.baseLinks[this.props.name.toLowerCase()] + this.props.link}
 								baseColor="white"
 								tintColor="white"
 								textColor="white"
 								containerStyle={{ width: "70%" }}
-								value={this.props.name}
+								value={this.props.editLink}
 								onFocus={() => {
-									this.props.sizeChange(true);
+									this.setState({ sizeChange: true });
+								}}
+								onBlur={() => {
+									this.setState({ sizeChange: false });
+								}}
+								onEndEditing={() => {
+									this.setState({ sizeChange: false });
 								}}
 								onChangeText={editLink => this.setState({ editLink })}
+								spellCheck={false}
 								autoCapitalize={"none"}
 								returnKeyType={"done"}
 							/>
@@ -79,12 +109,10 @@ export default class EditModal extends Component {
 								save
 								activeOpacity={0.7}
 								onPress={() => {
+									console.log("test");
 									this.props.editInfo(this.state);
 								}}>
 								<FooterButtonText> Save </FooterButtonText>
-							</FooterButton>
-							<FooterButton onPress={this.props.handleModal} activeOpacity={0.7}>
-								<FooterButtonText> Cancel </FooterButtonText>
 							</FooterButton>
 						</ModalFooter>
 					</ModalContent>

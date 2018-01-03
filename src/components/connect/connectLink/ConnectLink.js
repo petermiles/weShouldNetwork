@@ -55,7 +55,7 @@ export default class ConnectLink extends Component {
 		// if (this.state.pressAction._value === 1 && this.props.ownProfile) {
 		// 	this.handleEdit(this.editInfo);
 		// } else {
-		if (this.props.editable) {
+		if (this.props.editable && this.state.pressAction._value === 1) {
 			return null;
 		} else {
 			if (this.state.pressAction._value === 1) {
@@ -95,16 +95,14 @@ export default class ConnectLink extends Component {
 									activeOpacity={0.8}
 									onPress={() => {
 										this.handleEdit(this.editInfo);
-									}}
-									hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
+									}}>
 									<Icon name="pencil" style={{ color: "white", fontSize: 20, height: 20 }} />
 								</EditModeEdit>
 								<EditModeClose
 									activeOpacity={0.8}
 									onPress={() => {
 										this.props.handleDelete({ id: this.props.id, name: this.props.name, link: this.props.link });
-									}}
-									hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
+									}}>
 									<Icon name="close" style={{ color: "#F44336", fontSize: 20, height: 20, fontWeight: 800 }} />
 								</EditModeClose>
 							</EditModeButtons>

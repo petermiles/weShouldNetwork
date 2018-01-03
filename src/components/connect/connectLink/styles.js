@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { Dimensions } from "react-native";
 
 export const JobPosition = styled.Text`
 	font-size: 30;
@@ -119,7 +119,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
 	width: 95%;
-	height: 40%;
+	height: ${props => (!props.size ? "42%" : "80%")}
 	justify-content: center
 	background-color: ${props => props.color || "white"}
 `;
@@ -157,7 +157,7 @@ export const FooterButton = styled.TouchableOpacity`
 	margin-left: 5;
 	margin-right: 5;
 	width: 35%;
-	elevation: 2;
+	elevation: 5;
 	background: ${props => (!props.save ? "#E53935" : "#43A047")};
 	padding-top: 6;
 	padding-bottom: 6;
@@ -191,6 +191,52 @@ export const EditModeEdit = styled.TouchableOpacity`
 	position: absolute;
 	top: 4;
 	left: 4;
+	elevation: 3;
+	padding-top: 5;
+	padding-bottom: 5;
+	padding-left: 5;
+	padding-right: 5;
+`;
+
+export const NoLinkContainer = styled.View`
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+	justify-content: center;
+	align-items: center
+	padding-top: ${Dimensions.get("window").height * 0.05};
+`;
+
+export const NoLinkText = styled.Text`
+	padding-top: ${props => (props.primary ? "7%" : "4%")}
+	padding-bottom: ${props => (!props.primary ? "8%" : 0)}
+	font-size: ${props => (props.primary ? 30 : 18)}}
+	color: black;
+	font-weight: bold
+	text-align: center;
+`;
+
+export const AddLinkButton = styled.TouchableOpacity`
+	margin-top: 10%
+	background: #4CAF50
+	border-radius: 3
+	padding-top: 10;
+	padding-bottom: 10;
+	padding-left: 10;
+	padding-right: 10;
+	elevation: 5;
+`;
+
+export const AddLinkButtonText = styled.Text`
+	color: white
+	font-size: 30;
+	font-weight: bold
+`;
+
+export const EditModalClose = styled.TouchableOpacity`
+	position: absolute;
+	top: 8;
+	left: 8;
 	elevation: 3;
 	padding-top: 5;
 	padding-bottom: 5;

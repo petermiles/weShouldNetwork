@@ -40,7 +40,13 @@ const deleteConnectLink = (req, res) => {
 		.get("db")
 		.connectLinkDelete({ id: req.params.id })
 		.then(result => {
-			return res.json(result);
+			req.app
+				.get("db")
+				.connectLinkGet({ uid: result[0].uid })
+				.then(result => {
+					return res.json(result);
+				});
+			// return res.json(result);
 		});
 };
 
