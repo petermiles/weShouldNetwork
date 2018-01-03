@@ -8,8 +8,6 @@ import axios from 'axios';
 
 import { CenteredView, QRCodeLoading, Footer, FooterText } from './styles';
 
-import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient';
-
 export default class Profile extends Component {
   constructor(props) {
     super(props);
