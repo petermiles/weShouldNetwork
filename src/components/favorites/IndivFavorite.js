@@ -24,6 +24,7 @@ export default function IndivFavorite(props) {
 	return (
 		<StyledContainer
 			activeOpacity={0.8}
+			last={props.last}
 			onPress={() => {
 				if (props.name !== "uhoh") {
 					props.navigate(
