@@ -15,7 +15,7 @@ import {
 	FooterButton,
 	FooterButtonText,
 	EditModalClose,
-	colors,
+	brandColors,
 } from "./styles";
 
 export default class EditModal extends Component {
@@ -42,6 +42,16 @@ export default class EditModal extends Component {
 			},
 		};
 
+		this.label =
+			this.props.name !== "email" || this.props.name !== "email"
+				? this.props.link.toLowerCase().includes(baselink)
+					? this.props.link.substring(
+							this.props.name === "email" || this.props.name === "phone" ? 0 : 8,
+							baselink.split("").length + (this.props.name === "linkedin" ? 8 : 0)
+						)
+					: baselink
+				: this.props.link;
+
 		this.sizeChange = this.sizeChange.bind(this);
 	}
 
@@ -61,6 +71,17 @@ export default class EditModal extends Component {
 	}
 
 	render() {
+		let baselink = this.state.baseLinks[this.props.name.toLowerCase()];
+		let label =
+			this.props.name !== "email" || this.props.name !== "email"
+				? this.props.link.toLowerCase().includes(baselink)
+					? this.props.link.substring(
+							this.props.name === "email" || this.props.name === "phone" ? 0 : 8,
+							baselink.split("").length + (this.props.name === "linkedin" ? 8 : 0)
+						)
+					: baselink
+				: this.props.link;
+
 		return (
 			<Modal
 				visible={this.props.visible}
@@ -69,10 +90,12 @@ export default class EditModal extends Component {
 				onRequestClose={this.props.handleModal}
 				hardwareAccelerated={true}>
 				<ModalContainer>
-					<ModalContent color={colors[this.props.name.toLowerCase()]} size={this.state.sizeChange}>
+					<ModalContent color={brandColors[this.props.name.toLowerCase()]} size={this.state.sizeChange}>
 						<EditModalClose
 							onPress={() => {
-								this.props.closeModal();
+								this.setState({ editLink: "", editName: "" }, () => {
+									this.props.closeModal();
+								});
 							}}>
 							<Icon name={"close"} style={{ color: "white", fontSize: 25, height: 25 }} />
 						</EditModalClose>
@@ -82,7 +105,7 @@ export default class EditModal extends Component {
 							}}>
 							<Icon name={this.props.name.toLowerCase()} style={{ color: "white", fontSize: 50, height: 50, marginBottom: 5 }} />
 							<TextField
-								label={this.state.baseLinks[this.props.name.toLowerCase()] + this.props.link}
+								label={this.label}
 								baseColor="white"
 								tintColor="white"
 								textColor="white"
@@ -110,7 +133,9 @@ export default class EditModal extends Component {
 								activeOpacity={0.7}
 								onPress={() => {
 									console.log("test");
-									this.props.editInfo(this.state);
+									this.setState({ editLink: "", editName: "" }, () => {
+										this.props.editInfo(this.state);
+									});
 								}}>
 								<FooterButtonText> Save </FooterButtonText>
 							</FooterButton>
