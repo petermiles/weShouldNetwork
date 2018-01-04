@@ -1,2 +1,2 @@
-INSERT INTO user_favorites (userid, favoriteid) VALUES (${userUid}, ${profileUid});
-SELECT * FROM user_favorites WHERE userid = ${userUid}
+INSERT INTO user_favorites (userid, favoriteuid) VALUES (${userUid}, ${profileUid});
+SELECT * FROM  user_favorites JOIN user_data ON user_data.uid = user_favorites.favoriteuid WHERE favoriteuid = ${profileUid};

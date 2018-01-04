@@ -1,0 +1,1 @@
+SELECT * FROM  user_favorites JOIN user_data ON user_data.uid = user_favorites.favoriteuid WHERE userid = ${id};
