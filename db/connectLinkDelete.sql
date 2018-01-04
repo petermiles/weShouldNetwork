@@ -1,0 +1,1 @@
+DELETE from user_links where id = ${id} returning uid;

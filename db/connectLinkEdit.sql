@@ -1,0 +1,1 @@
+UPDATE user_links SET link = ${link} WHERE id = ${id} RETURNING *;
