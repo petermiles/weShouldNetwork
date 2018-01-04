@@ -1,15 +1,21 @@
-import React, { Component } from "react";
-import { Container, Content } from "native-base";
+import React, { Component } from 'react';
+import { Container, Content } from 'native-base';
 
-import { Vibration, AsyncStorage, View, StyleSheet } from "react-native";
-import axios from "axios";
+import { Vibration, AsyncStorage, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import axios from 'axios';
 
-import ActionButton from "react-native-action-button";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import ConnectLinkPage from "./connectLink/ConnectLinkPage";
+import ConnectLinkPage from './connectLink/ConnectLinkPage';
 
-import EditModal from "./connectLink/EditModal";
+import AddLinkModal from './editLinks/AddLink/AddLinkModal';
+
+import { Fab } from './fab/Fab';
+
+import EditModal from './connectLink/EditModal';
+
+const providers = ['LinkedIn', 'Twitter', 'Medium', 'Phone', 'Email'];
 
 export default class Connect extends Component {
   constructor(props) {
@@ -17,12 +23,17 @@ export default class Connect extends Component {
 
     this.state = {
       editable: false,
-      loading: true,
+      loading: false,
       links: [],
-      editableName: "",
-      editableLink: "",
-      editableColor: "",
+      providers: ['LinkedIn', 'Twitter', 'Medium', 'Phone', 'Email'],
+      editableName: '',
+      editableLink: '',
+      editableColor: '',
       ownProfile: true,
+      addLink: false,
+      addLinkShow: false,
+      active: true,
+      handleDelete: false,
     };
 
     this.openEditModal = this.openEditModal.bind(this);
@@ -32,10 +43,8 @@ export default class Connect extends Component {
   openEditModal(val) {
     Vibration.vibrate(15);
     this.setState({
-      editable: !this.state.editable,
       editableName: val.name,
       editableLink: val.link,
-      editableColor: val.color,
       editableId: val.id,
       active: false,
     });
@@ -46,53 +55,76 @@ export default class Connect extends Component {
       link: state.editLink,
       id: state.editId,
     };
-    axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
-      this.setState({ editable: false });
+    axios.put('http://172.31.99.35:3001/api/user/connectLink/update', editInfo).then(() => {
+      console.log('saved');
+      this.setState({ editable: !this.state.editable });
+    });
+  }
+
+  handleDelete(state) {
+    axios.delete(`http://172.31.99.35:3001/api/user/connectLink/delete/${state.id}`).then((result) => {
+      console.log(result);
+      AsyncStorage.setItem('USER_LINKS', JSON.stringify(result.data), () => {
+        this.setState({ links: result.data });
+      });
+    });
+  }
+
+  getUserData() {
+    AsyncStorage.getItem('USER_LINKS').then((res) => {
+      this.setState({ links: JSON.parse(res) });
     });
   }
 
   componentDidMount() {
     this.props.navigation.state.params
-      ? axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then(result => {
+      ? axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then((result) => {
+        this.setState({
+          links: result.data,
+          loading: false,
+          ownProfile: false,
+        });
+      })
+      : AsyncStorage.getItem('USER_LINKS')
+        ? AsyncStorage.getItem('USER_LINKS').then((res) => {
           this.setState({
-            links: result.data,
-            loading: false,
-            ownProfile: false,
+            links: JSON.parse(res),
+            providers: this.state.providers.filter((x, i) => !JSON.parse(res).find(curr => x.toLowerCase() === curr.servicename.toLowerCase())),
           });
         })
-      : AsyncStorage.getItem("USER_LINKS")
-        ? AsyncStorage.getItem("USER_LINKS").then(res => {
-            this.setState({ links: JSON.parse(res) });
+        : AsyncStorage.getItem('USER_DATA')
+          .then((result) => {
+            axios
+              .get(`http://172.31.99.35:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
+              .then((result) => {
+                this.setState({ links: result.data, loading: false });
+              })
+              .catch(console.log);
           })
-        : AsyncStorage.getItem("USER_DATA")
-            .then(result => {
-              axios
-                .get(`http://172.31.99.35:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
-                .then(result => {
-                  this.setState({ links: result.data, loading: false });
-                })
-                .catch(console.log);
-            })
-            .catch(console.log);
+          .catch(console.log);
   }
 
   render() {
-    if (!this.state.links.length) {
-      return null;
-    }
     return (
       <Container>
         <Content>
           <ConnectLinkPage
+            handleDelete={state => this.handleDelete(state)}
+            delete={this.state.handleDelete}
             links={this.state.links}
+            editable={this.state.editable}
             editInfo={this.editInfo}
-            editable={this.openEditModal}
+            handleEdit={this.openEditModal}
             ownProfile={this.state.ownProfile}
+            addLink={() => this.setState({ addLink: !this.state.addLink })}
           />
           {this.state.editableLink ? (
             <EditModal
               editInfo={this.editInfo}
               visible={this.state.editable}
+              closeModal={() => {
+                this.setState({ editable: false });
+              }}
               handleModal={this.openEditModal}
               name={this.state.editableName}
               link={this.state.editableLink}
@@ -101,24 +133,34 @@ export default class Connect extends Component {
             />
           ) : null}
         </Content>
-        <ActionButton buttonColor="#F44336" activeOpacity={1} hideShadow={false} offsetX={20} offsetY={20}>
-          <ActionButton.Item buttonColor="#66BB6A" title="Edit Links" onPress={() => console.log("notes tapped!")}>
-            <Icon name="create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor="#42A5F5" title="Add A Link" onPress={() => console.log("notes tapped!")}>
-            <Icon name="add" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
-        <View />
+        {this.state.ownProfile && (
+          <Fab
+            linksLength={this.state.links.length}
+            openItems={() => this.setState({ editable: !this.state.editable })}
+            editLinks={() => this.setState({ editable: true })}
+            addLink={() => this.setState({ addLink: !this.state.addLink })}
+            editable={this.state.editable}
+          />
+        )}
+        <KeyboardAvoidingView behavior="padding">
+          <AddLinkModal
+            closeModal={() => {
+              this.setState({ addLink: false }, () => {
+                AsyncStorage.getItem('USER_LINKS').then((res) => {
+                  this.setState({ links: JSON.parse(res), editable: false });
+                });
+              });
+            }}
+            updateLink={() => {
+              this.getUserData();
+            }}
+            providers={this.state.providers}
+            addLinkShow={this.state.addLinkShow}
+            visible={this.state.addLink}
+            links={this.state.links}
+          />
+        </KeyboardAvoidingView>
       </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: "white",
-  },
-});

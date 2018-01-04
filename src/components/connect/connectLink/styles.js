@@ -1,4 +1,6 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
+
+import { Dimensions } from 'react-native';
 
 export const JobPosition = styled.Text`
 	font-size: 30;
@@ -38,22 +40,24 @@ export const ConnectLinkPageContainer = styled.View`
 
 export const ConnectLinkContainer = styled.View`
 	margin: 1%;
-	width: ${props => (props.index === 0 ? "98%" : "48%")};
+	width: ${props => (props.index === 0 ? '98%' : '48%')};
 `;
 
 export const brandColors = {
-	linkedin: "#008CC9",
-	linkedinActive: "#006794",
-	dribble: "#ea4c89",
-	dribbleActive: "#E32B72",
-	twitter: "#1da1f2",
-	twitterActive: "#036EAE",
-	medium: "black",
-	mediumActive: "#464646",
-	email: "#00BCD4",
-	emailActive: "#00ACC1",
-	website: "#4caf50",
-	websiteActive: "#087f23",
+  linkedin: '#008CC9',
+  linkedinActive: '#006794',
+  dribbble: '#ea4c89',
+  dribbbleActive: '#E32B72',
+  twitter: '#1da1f2',
+  twitterActive: '#036EAE',
+  medium: 'black',
+  mediumActive: '#464646',
+  email: '#607D8B',
+  emailActive: '#455A64',
+  website: '#4caf50',
+  websiteActive: '#087f23',
+  phone: '#66BB6A',
+  phoneActive: '#43A047',
 };
 
 export const EditButton = styled.Text`
@@ -94,14 +98,14 @@ export const LinkLogo = styled.View`
 `;
 
 export const colors = {
-	linkedin: "#008CC9",
-	dribble: "#ea4c89",
-	twitter: "#1da1f2",
-	medium: "black",
-	phone: "#ff9800",
-	email: "#f44336",
-	website: "#4caf50",
-	add: "#C8E6C9",
+  linkedin: '#008CC9',
+  dribble: '#ea4c89',
+  twitter: '#1da1f2',
+  medium: 'black',
+  phone: '#66BB6A',
+  email: '#EF5350',
+  website: '#4caf50',
+  add: '#C8E6C9',
 };
 
 export const ModalContainer = styled.View`
@@ -115,9 +119,9 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
 	width: 95%;
-	height: 45%;
+	height: ${props => (!props.size ? '42%' : '80%')}
 	justify-content: center
-	background-color: #FAFAFA
+	background-color: ${props => props.color || 'white'}
 `;
 
 export const ModalHeader = styled.View`
@@ -125,7 +129,7 @@ export const ModalHeader = styled.View`
 	top: 0
 	left: 0
 	right: 0
-	background-color: ${props => (props.color ? props.color : "cornflowerblue")}
+	background-color: ${props => (props.color ? props.color : 'cornflowerblue')}
 	width: 100%;
 	elevation: 3
 `;
@@ -153,8 +157,8 @@ export const FooterButton = styled.TouchableOpacity`
 	margin-left: 5;
 	margin-right: 5;
 	width: 35%;
-	elevation: 2;
-	background: ${props => (!props.save ? "#E53935" : "#43A047")};
+	elevation: 5;
+	background: ${props => (!props.save ? '#E53935' : '#43A047')};
 	padding-top: 6;
 	padding-bottom: 6;
 	align-items: center;
@@ -163,4 +167,79 @@ export const FooterButton = styled.TouchableOpacity`
 export const FooterButtonText = styled.Text`
 	color: white;
 	font-size: 22;
+`;
+
+export const EditModeButtons = styled.View`
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+`;
+
+export const EditModeClose = styled.TouchableOpacity`
+	position: absolute;
+	top: 4;
+	right: 4
+	elevation: 3;
+	padding-top: 5;
+	padding-bottom: 5;
+	padding-left: 5;
+	padding-right: 5;
+`;
+
+export const EditModeEdit = styled.TouchableOpacity`
+	position: absolute;
+	top: 4;
+	left: 4;
+	elevation: 3;
+	padding-top: 5;
+	padding-bottom: 5;
+	padding-left: 5;
+	padding-right: 5;
+`;
+
+export const NoLinkContainer = styled.View`
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+	justify-content: center;
+	align-items: center
+	padding-top: ${Dimensions.get('window').height * 0.05};
+`;
+
+export const NoLinkText = styled.Text`
+	padding-top: ${props => (props.primary ? '7%' : '4%')}
+	padding-bottom: ${props => (!props.primary ? '8%' : 0)}
+	font-size: ${props => (props.primary ? 30 : 18)}}
+	color: black;
+	font-weight: bold
+	text-align: center;
+`;
+
+export const AddLinkButton = styled.TouchableOpacity`
+	margin-top: 10%
+	background: #4CAF50
+	border-radius: 3
+	padding-top: 10;
+	padding-bottom: 10;
+	padding-left: 10;
+	padding-right: 10;
+	elevation: 5;
+`;
+
+export const AddLinkButtonText = styled.Text`
+	color: white
+	font-size: 30;
+	font-weight: bold
+`;
+
+export const EditModalClose = styled.TouchableOpacity`
+	position: absolute;
+	top: 8;
+	left: 8;
+	elevation: 3;
+	padding-top: 5;
+	padding-bottom: 5;
+	padding-left: 5;
+	padding-right: 5;
 `;

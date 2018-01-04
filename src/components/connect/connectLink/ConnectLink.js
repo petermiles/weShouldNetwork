@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 
-import { Animated, Dimensions, Linking } from "react-native";
+import { Animated, Dimensions, Linking, Text, View } from "react-native";
 
-import { JobPosition, NetworkContainer, brandColors } from "./styles";
+import { JobPosition, NetworkContainer, EditModeClose, EditModeEdit, EditModeButtons, brandColors } from "./styles";
+
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+// Clean up this page, Peter.
 
 export default class ConnectLink extends Component {
 	constructor(props) {
@@ -16,7 +20,14 @@ export default class ConnectLink extends Component {
 		this.pressIn = this.pressIn.bind(this);
 		this.pressOut = this.pressOut.bind(this);
 		this.completePress = this.completePress.bind(this);
-		this.handleEdit = props.editable.bind(this);
+		this.handleEdit = props.handleEdit.bind(this);
+
+		this.editInfo = {
+			name: props.name,
+			link: props.link,
+			color: brandColors[props.name],
+			id: props.id,
+		};
 	}
 
 	componentWillMount() {
@@ -41,39 +52,67 @@ export default class ConnectLink extends Component {
 	}
 
 	completePress() {
-		var editInfo = {
-			name: this.props.name,
-			link: this.props.link,
-			color: brandColors[this.props.name],
-			id: this.props.id,
-		};
-		if (this.state.pressAction._value === 1 && this.props.ownProfile) {
-			this.handleEdit(editInfo);
+		// if (this.state.pressAction._value === 1 && this.props.ownProfile) {
+		// 	this.handleEdit(this.editInfo);
+		// } else {
+		if (this.props.editable && this.state.pressAction._value === 1) {
+			return null;
 		} else {
-			Linking.openURL(this.props.link);
+			if (this.state.pressAction._value === 1) {
+				if (this.props.name.toLowerCase() === "phone") {
+					Linking.openURL("tel:" + this.props.link);
+				} else if (this.props.name.toLowerCase() === "email") {
+					Linking.openURL("mailto:" + this.props.link);
+				} else {
+					Linking.openURL(this.props.link);
+				}
+			}
 		}
-		this.val = 0;
+		// }
+		// this.val = 0;
 	}
 
 	render() {
 		return (
 			<NetworkContainer onPressIn={this.pressIn} onPressOut={this.pressOut}>
-				<Animated.View
-					style={{
-						flex: 1,
-						flexDirection: "column",
-						justifyContent: "center",
-						alignItems: "center",
-						borderRadius: 3,
-						backgroundColor: !this.state.held ? brandColors[`${this.props.name}`] : brandColors[`${this.props.name}Active`],
-						height: Dimensions.get("window").height * 0.9 / 4.5,
-						elevation: 3,
-					}}
-				>
-					<JobPosition>
-						{this.props.name ? this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1) : null}{" "}
-					</JobPosition>
-				</Animated.View>
+				<View>
+					<Animated.View
+						style={{
+							flex: 1,
+							flexDirection: "column",
+							justifyContent: "center",
+							alignItems: "center",
+							borderRadius: 3,
+							backgroundColor: !this.state.held
+								? brandColors[`${this.props.name.toLowerCase()}`]
+								: brandColors[`${this.props.name.toLowerCase()}Active`],
+							height: Dimensions.get("window").height * 0.9 / 4.5,
+							elevation: 3,
+						}}>
+						{this.props.editable && (
+							<EditModeButtons>
+								<EditModeEdit
+									activeOpacity={0.8}
+									onPress={() => {
+										this.handleEdit(this.editInfo);
+									}}>
+									<Icon name="pencil" style={{ color: "white", fontSize: 20, height: 20 }} />
+								</EditModeEdit>
+								<EditModeClose
+									activeOpacity={0.8}
+									onPress={() => {
+										this.props.handleDelete({ id: this.props.id, name: this.props.name, link: this.props.link });
+									}}>
+									<Icon name="close" style={{ color: "#F44336", fontSize: 20, height: 20, fontWeight: 800 }} />
+								</EditModeClose>
+							</EditModeButtons>
+						)}
+						<Icon
+							name={this.props.name.toLowerCase()}
+							style={{ color: "white", fontSize: 50, height: 50, textAlign: "center" }}
+						/>
+					</Animated.View>
+				</View>
 			</NetworkContainer>
 		);
 	}
