@@ -10,7 +10,7 @@ export default class FavoritesPage extends Component {
 		super(props);
 
 		this.state = {
-			favorites: "",
+			favorites: [],
 			searchedFavorites: [],
 			loading: true,
 			noResults: false,
@@ -39,11 +39,11 @@ export default class FavoritesPage extends Component {
 	}
 
 	componentDidMount() {
-		AsyncStorage.getItem("USER_DATA").then(result => {
-			axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
-				this.setState({ favorites: result.data, loading: false });
-			});
-		});
+		// AsyncStorage.getItem("USER_DATA").then(result => {
+		// 	axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
+		// 		this.setState({ favorites: result.data, loading: false });
+		// 	});
+		// });
 	}
 
 	render() {
@@ -65,7 +65,13 @@ export default class FavoritesPage extends Component {
 						/>
 					))
 				) : (
-					<Text> Loading </Text>
+					<IndivFavorite
+						name={"Uhoh!"}
+						picture={""}
+						position={"You don't have any favorites."}
+						company={"Scan someone's profile to add them to your favorites."}
+						profileuid={""}
+					/>
 				)}
 			</View>
 		);
