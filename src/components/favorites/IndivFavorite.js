@@ -17,23 +17,19 @@ import {
 	FavoriteName,
 	FavoritePosition,
 	FavoriteCompany,
-	InfoContainer,
 } from "./styles";
 
 export default function IndivFavorite(props) {
 	return (
 		<StyledContainer
 			activeOpacity={0.8}
-			last={props.last}
 			onPress={() => {
-				if (props.name !== "uhoh") {
-					props.navigate(
-						NavigationActions.navigate({
-							routeName: "ScannedProfile",
-							params: { uid: props.profileuid },
-						})
-					);
-				}
+				props.navigate(
+					NavigationActions.navigate({
+						routeName: "ScannedProfile",
+						params: { uid: props.profileuid },
+					})
+				);
 			}}>
 			<CenteredRow>
 				<ImageContainer>
@@ -41,7 +37,7 @@ export default function IndivFavorite(props) {
 						<FavoritePicture source={props.picture ? { uri: props.picture } : require("./placeholder.png")} />
 					</Placeholder.Media>
 				</ImageContainer>
-				<InfoContainer>
+				<View style={{ flex: 1, flexDirection: "column", marginLeft: 20 }}>
 					<Placeholder.Line color="#E0E0E0" animate="fade" width="35%" textSize={25} onReady={!props.loading}>
 						<FavoriteName>{props.name}</FavoriteName>
 					</Placeholder.Line>
@@ -53,7 +49,7 @@ export default function IndivFavorite(props) {
 					<Placeholder.Line color="#E0E0E0" animate="fade" width="55%" textSize={14} onReady={!props.loading}>
 						<FavoriteCompany>{props.company}</FavoriteCompany>
 					</Placeholder.Line>
-				</InfoContainer>
+				</View>
 			</CenteredRow>
 		</StyledContainer>
 	);
