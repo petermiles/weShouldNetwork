@@ -103,7 +103,7 @@ export default class EditModal extends Component {
 							style={{
 								alignItems: "center",
 							}}>
-							<Icon name={this.props.name.toLowerCase()} style={{ color: "white", fontSize: 50, height: 50, marginBottom: 5 }} />
+							<Icon name={this.props.name.toLowerCase()} style={{ color: "white", fontSize: 45, height: 45, marginBottom: 0 }} />
 							<TextField
 								label={this.label}
 								baseColor="white"

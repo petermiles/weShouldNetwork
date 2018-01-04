@@ -58,7 +58,7 @@ export default class Connect extends Component {
     };
     axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
       console.log("saved");
-      this.setState({ visble: false });
+      this.setState({ visible: false });
     });
   }
 

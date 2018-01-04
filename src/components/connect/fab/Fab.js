@@ -6,7 +6,7 @@ import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 export const Fab = props => {
-	if (props.linksLength) {
+	if (props.linksLength && !props.editable) {
 		return (
 			<ActionButton
 				spacing={15}
@@ -28,6 +28,19 @@ export const Fab = props => {
 					<Icon name="add" style={styles.actionButtonIcon} />
 				</ActionButton.Item>
 			</ActionButton>
+		);
+	} else if (props.editable) {
+		return (
+			<ActionButton
+				spacing={15}
+				buttonColor={"#42A5F5"}
+				icon={<Icon name={"check"} style={{ color: "white", fontSize: 30, height: 30 }} />}
+				degrees={90}
+				offsetX={20}
+				offsetY={20}
+				fixNativeFeedbackRadius={true}
+				onPress={props.openItems}
+			/>
 		);
 	} else {
 		return null;
