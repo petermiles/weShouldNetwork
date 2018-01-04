@@ -13,6 +13,7 @@ export default class FavoritesPage extends Component {
 			favorites: "",
 			searchedFavorites: [],
 			loading: true,
+			noResults: false,
 		};
 		this.handleSearch = this.handleSearch.bind(this);
 	}
@@ -60,6 +61,7 @@ export default class FavoritesPage extends Component {
 							position={favorite.position}
 							company={favorite.company}
 							profileuid={favorite.favoriteuid}
+							navigate={this.props.navigation.dispatch}
 						/>
 					))
 				) : (

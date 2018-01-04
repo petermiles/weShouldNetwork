@@ -6,6 +6,7 @@ export const StyledContainer = styled.TouchableOpacity`
 	background-color: #eeeeee;
 	margin-top: 5;
 	margin-bottom: 5;
+	margin-left: 2.5%
 	elevation: 4;
 `;
 
@@ -46,7 +47,7 @@ export const FavoriteCompany = styled.Text`
 
 export const SearchContainer = styled.View`
 	margin-left: 2.5%
-	width: 92%
+	width: 95%
 	align-items: center
 	flex-direction: row
 `;
