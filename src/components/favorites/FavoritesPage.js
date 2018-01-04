@@ -1,32 +1,57 @@
-import React, { Component } from 'react';
-import { View, AsyncStorage, Text } from 'react-native';
-import IndivFavorite from './IndivFavorite';
-import axios from 'axios';
+import React, { Component } from "react";
+import { View, AsyncStorage, Text } from "react-native";
+import IndivFavorite from "./IndivFavorite";
+import axios from "axios";
+
+import { Search } from "./Search";
 
 export default class FavoritesPage extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      favorites: '',
-      loading: true,
-    };
-  }
+		this.state = {
+			favorites: "",
+			searchedFavorites: [],
+			loading: true,
+		};
+		this.handleSearch = this.handleSearch.bind(this);
+	}
 
-  componentDidMount() {
-    AsyncStorage.getItem('USER_DATA').then((result) => {
-      console.log(JSON.parse(result).uid);
-      axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then((result) => {
-        this.setState({ favorites: result.data, loading: false });
-      });
-    });
-  }
+	handleSearch(text) {
+		let favorites = [];
 
-  render() {
-    return (
-			<View style={{ marginTop: '4%' }}>
-				{this.state.favorites.length ? (
-					this.state.favorites.map((favorite, i) => (
+		this.state.favorites.map((person, i) => {
+			let obj = {
+				company: person.company,
+				name: person.name,
+				position: person.position,
+			};
+			if (text) {
+				for (var key in obj) {
+					if (obj[key].slice(0, text.split("").length).toLowerCase() === text.toLowerCase()) {
+						favorites.push(obj);
+					}
+				}
+			}
+		});
+		this.setState({ searchedFavorites: Array.from(new Set(favorites)) });
+	}
+
+	componentDidMount() {
+		AsyncStorage.getItem("USER_DATA").then(result => {
+			axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
+				this.setState({ favorites: result.data, loading: false });
+			});
+		});
+	}
+
+	render() {
+		let favs = this.state.searchedFavorites.length ? this.state.searchedFavorites : this.state.favorites;
+		return (
+			<View>
+				<Search changeSearchText={text => this.handleSearch(text)} />
+				{favs.length ? (
+					favs.map((favorite, i) => (
 						<IndivFavorite
 							key={i}
 							loading={this.state.loading}
@@ -41,6 +66,6 @@ export default class FavoritesPage extends Component {
 					<Text> Loading </Text>
 				)}
 			</View>
-    );
-  }
+		);
+	}
 }

@@ -1,60 +1,80 @@
-import React from 'react';
+import React from "react";
 
-import { View, Text } from 'react-native';
+import { View, Text, Image } from "react-native";
 
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
-const StyledContainer = styled.View`
-	width: 95%;
-	height: 110;
-	background-color: #eeeeee;
-	margin-top: 3;
-	margin-bottom: 3;
-	border-color: transparent;
-	border-bottom-width: 1;
-	elevation: 4;
-	width: 95%;
-`;
+import Placeholder from "rn-placeholder";
 
-const ImagePlaceholder = styled.View`
-	width: 60;
-	height: 60;
-	margin-left: 10;
-	border-radius: 35;
-	background-color: #bdbdbd;
-`;
+import {
+	StyledContainer,
+	IndivFavContainer,
+	CenteredRow,
+	ImageContainer,
+	FavoritePicture,
+	FavoriteName,
+	FavoritePosition,
+	FavoriteCompany,
+} from "./styles";
 
 export default function IndivFavorite(props) {
-  if (!props.loading) {
-    return (
-			<View style={{ alignItems: 'center' }}>
-				<StyledContainer>
-					<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-						<ImagePlaceholder />
-						<View style={{ flex: 1, flexDirection: 'column' }}>
-							<Text
-								style={{
-									fontWeight: 'bold',
-									fontSize: 18,
-									marginBottom: 15,
-									marginLeft: 20,
-								}}>
-								{props.name}
-							</Text>
-							<Text style={{ marginBottom: 3, marginLeft: 20 }}>{props.position}</Text>
-							<Text style={{ marginBottom: 3, marginLeft: 20 }}>{props.company}</Text>
+	return (
+		<IndivFavContainer>
+			<StyledContainer activeOpacity={0.8}>
+				<CenteredRow>
+					<ImageContainer>
+						<Placeholder.Media color="#E0E0E0" size={65} hasRadius onReady={!props.loading} style={{ paddingLeft: 10 }}>
+							<FavoritePicture source={props.picture ? { uri: props.picture } : require("./placeholder.png")} />
+						</Placeholder.Media>
+					</ImageContainer>
+					<View style={{ flex: 1, flexDirection: "column", marginLeft: 20 }}>
+						<Placeholder.Line color="#E0E0E0" animate="fade" width="35%" textSize={25} onReady={!props.loading}>
+							<FavoriteName>{props.name}</FavoriteName>
+						</Placeholder.Line>
+						<View style={{ marginBottom: 5, marginTop: 11 }}>
+							<Placeholder.Line color="#E0E0E0" animate="fade" width="45%" textSize={12} onReady={!props.loading}>
+								<FavoritePosition>{props.position}</FavoritePosition>
+							</Placeholder.Line>
 						</View>
+						<Placeholder.Line color="#E0E0E0" animate="fade" width="55%" textSize={14} onReady={!props.loading}>
+							<FavoriteCompany>{props.company}</FavoriteCompany>
+						</Placeholder.Line>
 					</View>
-				</StyledContainer>
-			</View>
-    );
-  }
-  return (
-			<StyledContainer>
-				<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-					<ImagePlaceholder />
-					<Text style={{ marginBottom: 50, marginLeft: 20 }}> Not Loading Anymore </Text>
-				</View>
+				</CenteredRow>
 			</StyledContainer>
-  );
+		</IndivFavContainer>
+	);
 }
+
+// f (!props.loading) {
+//     return (
+// 			<View style={{ alignItems: 'center' }}>
+// 				<StyledContainer>
+// 					<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+// 						<ImagePlaceholder />
+// 						<View style={{ flex: 1, flexDirection: 'column' }}>
+// 							<Text
+// 								style={{
+// 									fontWeight: 'bold',
+// 									fontSize: 18,
+// 									marginBottom: 15,
+// 									marginLeft: 20,
+// 								}}>
+// 								{props.name}
+// 							</Text>
+// 							<Text style={{ marginBottom: 3, marginLeft: 20 }}>{props.position}</Text>
+// 							<Text style={{ marginBottom: 3, marginLeft: 20 }}>{props.company}</Text>
+// 						</View>
+// 					</View>
+// 				</StyledContainer>
+// 			</View>
+//     );
+//   }
+//   return (
+// 		<StyledContainer>
+// 			<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+// 				<ImagePlaceholder />
+// 				<Text style={{ marginBottom: 50, marginLeft: 20 }}> Not Loading Anymore </Text>
+// 			</View>
+// 		</StyledContainer>
+//   );

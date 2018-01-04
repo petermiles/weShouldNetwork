@@ -10,8 +10,8 @@ export const Fab = props => {
 		return (
 			<ActionButton
 				spacing={15}
-				buttonColor="#F44336"
-				icon={<Icon name={props.editable ? "close" : "more-horiz"} style={{ color: "white", fontSize: 30, height: 30 }} />}
+				buttonColor={props.editable ? "#42A5F5" : "#F44336"}
+				icon={<Icon name={props.editable ? "check" : "more-horiz"} style={{ color: "white", fontSize: 30, height: 30 }} />}
 				activeOpacity={1}
 				hideShadow={false}
 				degrees={90}
