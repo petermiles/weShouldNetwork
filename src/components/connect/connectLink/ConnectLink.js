@@ -25,7 +25,6 @@ export default class ConnectLink extends Component {
 		this.editInfo = {
 			name: props.name,
 			link: props.link,
-			color: brandColors[props.name],
 			id: props.id,
 		};
 	}
@@ -101,7 +100,7 @@ export default class ConnectLink extends Component {
 								<EditModeClose
 									activeOpacity={0.8}
 									onPress={() => {
-										this.props.handleDelete({ id: this.props.id, name: this.props.name, link: this.props.link });
+										this.props.handleDelete(this.editInfo);
 									}}>
 									<Icon name="close" style={{ color: "#F44336", fontSize: 20, height: 20, fontWeight: 800 }} />
 								</EditModeClose>

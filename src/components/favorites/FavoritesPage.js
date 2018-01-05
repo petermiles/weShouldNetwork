@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, AsyncStorage, Text } from "react-native";
+import { View, AsyncStorage, ScrollView } from "react-native";
 import IndivFavorite from "./IndivFavorite";
 import axios from "axios";
 
@@ -10,7 +10,7 @@ export default class FavoritesPage extends Component {
 		super(props);
 
 		this.state = {
-			favorites: "",
+			favorites: [],
 			searchedFavorites: [],
 			loading: true,
 			noResults: false,
@@ -31,6 +31,8 @@ export default class FavoritesPage extends Component {
 				for (var key in obj) {
 					if (obj[key].slice(0, text.split("").length).toLowerCase() === text.toLowerCase()) {
 						favorites.push(obj);
+					} else {
+						console.log("not found");
 					}
 				}
 			}
@@ -41,7 +43,9 @@ export default class FavoritesPage extends Component {
 	componentDidMount() {
 		AsyncStorage.getItem("USER_DATA").then(result => {
 			axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
-				this.setState({ favorites: result.data, loading: false });
+				this.setState({ favorites: result.data, loading: false }, () => {
+					AsyncStorage.setItem("USER_FAVORITES", JSON.stringify(result.data));
+				});
 			});
 		});
 	}
@@ -51,22 +55,31 @@ export default class FavoritesPage extends Component {
 		return (
 			<View>
 				<Search changeSearchText={text => this.handleSearch(text)} />
-				{favs.length ? (
-					favs.map((favorite, i) => (
+				<ScrollView>
+					{favs.length ? (
+						favs.map((favorite, i) => (
+							<IndivFavorite
+								last={favs.length === i + 1}
+								key={i}
+								loading={this.state.loading}
+								name={favorite.name}
+								picture={favorite.profilepic}
+								position={favorite.position}
+								company={favorite.company}
+								profileuid={favorite.favoriteuid}
+								navigate={this.props.navigation.dispatch}
+							/>
+						))
+					) : (
 						<IndivFavorite
-							key={i}
-							loading={this.state.loading}
-							name={favorite.name}
-							picture={favorite.profilepic}
-							position={favorite.position}
-							company={favorite.company}
-							profileuid={favorite.favoriteuid}
-							navigate={this.props.navigation.dispatch}
+							name={"Uhoh!"}
+							picture={""}
+							position={"You don't have any favorites."}
+							company={"Scan someone's profile to add them to your favorites."}
+							profileuid={""}
 						/>
-					))
-				) : (
-					<Text> Loading </Text>
-				)}
+					)}
+				</ScrollView>
 			</View>
 		);
 	}

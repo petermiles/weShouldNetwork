@@ -2,11 +2,12 @@ import styled from "styled-components/native";
 
 export const StyledContainer = styled.TouchableOpacity`
 	width: 95%;
-	height: 110;
+	height: 120;
 	background-color: #eeeeee;
 	margin-top: 5;
-	margin-bottom: 5;
+	margin-bottom: ${props => (props.last ? 85 : 5)}
 	margin-left: 2.5%
+	
 	elevation: 4;
 `;
 
@@ -18,6 +19,9 @@ export const CenteredRow = styled.View`
 	flex: 1;
 	flex-direction: row
 	align-items: center;
+	padding-right: 5
+	padding-bottom: 5
+	padding-right: 15
 `;
 
 export const ImageContainer = styled.View`
@@ -50,4 +54,11 @@ export const SearchContainer = styled.View`
 	width: 95%
 	align-items: center
 	flex-direction: row
+`;
+
+export const InfoContainer = styled.View`
+	flex: 1;
+	flex-direction: column;
+	margin-left: 20;
+	padding-right: 5;
 `;

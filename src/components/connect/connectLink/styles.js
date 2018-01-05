@@ -1,6 +1,6 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
-import { Dimensions } from 'react-native';
+import { Dimensions } from "react-native";
 
 export const JobPosition = styled.Text`
 	font-size: 30;
@@ -40,24 +40,24 @@ export const ConnectLinkPageContainer = styled.View`
 
 export const ConnectLinkContainer = styled.View`
 	margin: 1%;
-	width: ${props => (props.index === 0 ? '98%' : '48%')};
+	width: ${props => (props.index === 0 ? "98%" : "48%")};
 `;
 
 export const brandColors = {
-  linkedin: '#008CC9',
-  linkedinActive: '#006794',
-  dribbble: '#ea4c89',
-  dribbbleActive: '#E32B72',
-  twitter: '#1da1f2',
-  twitterActive: '#036EAE',
-  medium: 'black',
-  mediumActive: '#464646',
-  email: '#607D8B',
-  emailActive: '#455A64',
-  website: '#4caf50',
-  websiteActive: '#087f23',
-  phone: '#66BB6A',
-  phoneActive: '#43A047',
+	linkedin: "#008CC9",
+	linkedinActive: "#006794",
+	dribbble: "#ea4c89",
+	dribbbleActive: "#E32B72",
+	twitter: "#1da1f2",
+	twitterActive: "#036EAE",
+	medium: "black",
+	mediumActive: "#464646",
+	email: "#607D8B",
+	emailActive: "#455A64",
+	website: "#4caf50",
+	websiteActive: "#087f23",
+	phone: "#66BB6A",
+	phoneActive: "#43A047",
 };
 
 export const EditButton = styled.Text`
@@ -98,14 +98,14 @@ export const LinkLogo = styled.View`
 `;
 
 export const colors = {
-  linkedin: '#008CC9',
-  dribble: '#ea4c89',
-  twitter: '#1da1f2',
-  medium: 'black',
-  phone: '#66BB6A',
-  email: '#EF5350',
-  website: '#4caf50',
-  add: '#C8E6C9',
+	linkedin: "#008CC9",
+	dribble: "#ea4c89",
+	twitter: "#1da1f2",
+	medium: "black",
+	phone: "#66BB6A",
+	email: "#EF5350",
+	website: "#4caf50",
+	add: "#C8E6C9",
 };
 
 export const ModalContainer = styled.View`
@@ -119,9 +119,9 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
 	width: 95%;
-	height: ${props => (!props.size ? '42%' : '80%')}
+	height: ${props => (!props.size ? "42%" : "80%")}
 	justify-content: center
-	background-color: ${props => props.color || 'white'}
+	background-color: ${props => props.color || "white"}
 `;
 
 export const ModalHeader = styled.View`
@@ -129,7 +129,7 @@ export const ModalHeader = styled.View`
 	top: 0
 	left: 0
 	right: 0
-	background-color: ${props => (props.color ? props.color : 'cornflowerblue')}
+	background-color: ${props => (props.color ? props.color : "cornflowerblue")}
 	width: 100%;
 	elevation: 3
 `;
@@ -150,23 +150,23 @@ export const ModalFooter = styled.View`
 	align-items: center;
 	justify-content: center;
 	flex-direction: row;
-	padding-bottom: 15;
+	padding-bottom: 20;
 `;
 
 export const FooterButton = styled.TouchableOpacity`
 	margin-left: 5;
 	margin-right: 5;
 	width: 35%;
-	elevation: 5;
-	background: ${props => (!props.save ? '#E53935' : '#43A047')};
-	padding-top: 6;
-	padding-bottom: 6;
-	align-items: center;
+	elevation: 4;
+	background: ${props => (!props.save ? "#E53935" : "#43A047")};
+	padding-top: 5;
+	padding-bottom: 5;
 `;
 
 export const FooterButtonText = styled.Text`
 	color: white;
-	font-size: 22;
+	font-size: 20;
+	text-align: center;
 `;
 
 export const EditModeButtons = styled.View`
@@ -204,12 +204,12 @@ export const NoLinkContainer = styled.View`
 	margin-right: 5%;
 	justify-content: center;
 	align-items: center
-	padding-top: ${Dimensions.get('window').height * 0.05};
+	padding-top: ${Dimensions.get("window").height * 0.05};
 `;
 
 export const NoLinkText = styled.Text`
-	padding-top: ${props => (props.primary ? '7%' : '4%')}
-	padding-bottom: ${props => (!props.primary ? '8%' : 0)}
+	padding-top: ${props => (props.primary ? "7%" : "4%")}
+	padding-bottom: ${props => (!props.primary ? "8%" : 0)}
 	font-size: ${props => (props.primary ? 30 : 18)}}
 	color: black;
 	font-weight: bold

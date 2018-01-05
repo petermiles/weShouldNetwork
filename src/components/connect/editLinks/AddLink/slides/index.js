@@ -1,5 +1,5 @@
-export { default as LinkSlide } from "./LinkSlide";
+export { LinkSlide } from "./LinkSlide/LinkSlide";
 
-export { default as ProvidersSlide } from "./ProvidersSlide";
+export { ProvidersSlide } from "./ProvidersSlide/ProvidersSlide";
 
-export { default as ConfirmSlide } from "./ConfirmSlide";
+export { ConfirmSlide } from "./ConfirmSlide/ConfirmSlide";
