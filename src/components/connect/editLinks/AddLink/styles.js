@@ -132,6 +132,9 @@ export const ConfirmText = styled.Text`
 export const SaveButton = styled.TouchableOpacity`
   margin-top: 10%;
   width: 50%;
+  height: 16%
+  justify-content: center
+  align-items: center
   elevation: 2;
   background-color: ${props => (props.name === "phone" ? "#66bb6a" : "#42A5F5")};
 `;

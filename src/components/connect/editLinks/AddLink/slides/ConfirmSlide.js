@@ -19,11 +19,11 @@ export const ConfirmSlide = props => {
 				<Icon name={props.selected.toLowerCase()} style={{ color: "white", height: 60, fontSize: 60 }} />
 				<ConfirmText primary> Does this look right? </ConfirmText>
 				<ConfirmText> {props.confirmLink} </ConfirmText>
-				<SaveButton activeOpacity={0.6} onPress={props.saveLink}>
+				<SaveButton activeOpacity={0.6} onPress={!props.loading ? props.saveLink : null}>
 					{props.loading ? (
-						<ActivityIndicator color="white" size={40} />
+						<ActivityIndicator color="white" size={24} />
 					) : (
-						<SaveButtonText color={props.name}> Save </SaveButtonText>
+						<SaveButtonText name={props.name}> Save </SaveButtonText>
 					)}
 				</SaveButton>
 			</View>

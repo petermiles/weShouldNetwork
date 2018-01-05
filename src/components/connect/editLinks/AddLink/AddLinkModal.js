@@ -22,6 +22,7 @@ export default class AddLinkModal extends Component {
 			link: "",
 			confirmLink: "",
 			sizeChange: false,
+			loading: false,
 			baseLinks: {
 				website: "https://",
 				twitter: "www.twitter.com/",
@@ -79,11 +80,12 @@ export default class AddLinkModal extends Component {
 								closeModal={this.closeModal}
 								providers={this.props.providers}
 								select={val => {
-									this.setState({ selected: val });
-									this.ScrollView.scrollTo({
-										x: this.state.width * (this.state.selected === 1 ? 1 : 2),
-										y: 0,
-										animated: true,
+									this.setState({ selected: val }, () => {
+										this.ScrollView.scrollTo({
+											x: this.state.width * (this.state.selected === 1 ? 1 : 2),
+											y: 0,
+											animated: true,
+										});
 									});
 								}}
 							/>
