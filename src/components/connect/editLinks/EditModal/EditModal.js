@@ -42,22 +42,23 @@ export default class EditModal extends Component {
 			},
 		};
 
+		let baselink = this.state.baseLinks[props.name.toLowerCase()];
+
 		this.label =
-			this.props.name !== "email" || this.props.name !== "email"
-				? this.props.link.toLowerCase().includes(baselink)
-					? this.props.link.substring(
-							this.props.name === "email" || this.props.name === "phone" ? 0 : 8,
-							baselink.split("").length + (this.props.name === "linkedin" ? 8 : 0)
+			props.name !== "email" || props.name !== "email"
+				? props.link.toLowerCase().includes(baselink)
+					? props.link.substring(
+							props.name === "email" || props.name === "phone" ? 0 : 8,
+							baselink.split("").length + (props.name === "linkedin" ? 8 : 0)
 						)
 					: baselink
-				: this.props.link;
+				: baselink + props.link;
 
 		this.sizeChange = this.sizeChange.bind(this);
 	}
 
 	componentWillMount() {
 		BackHandler.addEventListener("hardwareBackPress", () => {
-			console.log("test");
 			return true;
 		});
 	}
@@ -71,16 +72,7 @@ export default class EditModal extends Component {
 	}
 
 	render() {
-		let baselink = this.state.baseLinks[this.props.name.toLowerCase()];
-		let label =
-			this.props.name !== "email" || this.props.name !== "email"
-				? this.props.link.toLowerCase().includes(baselink)
-					? this.props.link.substring(
-							this.props.name === "email" || this.props.name === "phone" ? 0 : 8,
-							baselink.split("").length + (this.props.name === "linkedin" ? 8 : 0)
-						)
-					: baselink
-				: this.props.link;
+		console.log(this.props.name, this.state.baseLinks, this.state.baseLinks[this.props.name.toLowerCase()]);
 
 		return (
 			<Modal

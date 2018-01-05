@@ -13,9 +13,7 @@ import AddLinkModal from "./editLinks/AddLink/AddLinkModal";
 
 import { Fab } from "./fab/Fab";
 
-import EditModal from "./connectLink/EditModal";
-
-const providers = ["LinkedIn", "Twitter", "Medium", "Phone", "Email"];
+import EditModal from "./editLinks/EditModal/EditModal";
 
 export default class Connect extends Component {
   constructor(props) {
@@ -126,7 +124,7 @@ export default class Connect extends Component {
               editInfo={this.editInfo}
               visible={this.state.visible}
               closeModal={() => {
-                this.setState({ visible: false });
+                this.setState({ visible: false, editableLink: "", editableName: "" });
               }}
               handleModal={this.openEditModal}
               name={this.state.editableName}
