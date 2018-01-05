@@ -123,10 +123,13 @@ export default class AddLinkModal extends Component {
 
 export const CloseButton = props => {
 	return (
-		<TouchableWithoutFeedback onPress={props.closeModal} hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}>
+		<TouchableWithoutFeedback
+			onPress={props.closeModal}
+			hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+			style={{ elevation: 10 }}>
 			<Icon
 				name={"close"}
-				style={{ color: "white", fontSize: 30, height: 30, position: "absolute", top: "4%", left: "4%", elevation: 5 }}
+				style={{ color: "white", fontSize: 30, height: 30, position: "absolute", top: "10%", left: "4%", elevation: 5 }}
 				onPress={props.closeModal}
 			/>
 		</TouchableWithoutFeedback>

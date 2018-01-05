@@ -38,8 +38,6 @@ export const ModalContent = styled.View`
 export const ModalHeader = styled.View`
   position: absolute
   top: 0
-  left: 0
-  right: 0
   background-color: ${props => (props.color ? props.color : "cornflowerblue")}
   width: 100%;
   elevation: 3
