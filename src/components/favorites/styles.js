@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-export const StyledContainer = styled.TouchableOpacity`
+export const StyledContainer = styled.TouchableHighlight`
 	width: 95%;
 	height: 120;
 	background-color: #eeeeee;
@@ -61,4 +61,16 @@ export const InfoContainer = styled.View`
 	flex-direction: column;
 	margin-left: 20;
 	padding-right: 5;
+`;
+
+export const MarginTopBottom = styled.View`
+	margin-top: 5
+	margin-bottom: 5
+`;
+
+export const InfoButton = styled.View`
+	position: absolute;
+	top: 10;
+	left: 10;
+	elevation: 10;
 `;

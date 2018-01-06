@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import { Dimensions } from "react-native";
 
 export const CenteredView = styled.View`
 	align-items: center;
@@ -18,6 +19,7 @@ export const Footer = styled.TouchableOpacity`
 	right: 0;
 	background-color: #2196F3
 	justify-content: center;
+	align-items: center
 	height: 10%;
 `;
 export const FooterText = styled.Text`
@@ -34,4 +36,8 @@ export const FavoriteButton = styled.TouchableOpacity`
 	height: 40;
 	width: 200;
 	margin-bottom: 20;
+`;
+
+export const ProfileScreen = styled.View`
+	height: ${Dimensions.get("window").height * 0.885};
 `;
