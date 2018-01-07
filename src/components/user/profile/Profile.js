@@ -6,7 +6,7 @@ import QRCode from "react-native-qrcode";
 import ProfileHead from "./profileHead/ProfileHead";
 import axios from "axios";
 
-import { Settings } from "../settings/Settings";
+import Settings from "../settings/Settings";
 
 import { CenteredView, QRCodeLoading, Footer, FooterText } from "./styles";
 
@@ -53,15 +53,22 @@ export default class Profile extends Component {
   }
   render() {
     const { navigate } = this.props.navigation;
-    const { loading, ownProfile, profilePicURL, settingsVisible, name, uid } = this.state;
+    const { loading, ownProfile, position, company, profilePicURL, settingsVisible, name, uid } = this.state;
     return (
       <Container>
         <Settings
           visible={settingsVisible}
           name={name}
           uid={uid}
+          position={position}
+          company={company}
           ownProfile={ownProfile}
-          profilepic={profilePicURL}
+          profilePic={profilePicURL}
+          navigation={navigate}
+          handleTextChange={(key, val) => {
+            console.log(key, val);
+            this.setState({ key: val });
+          }}
           handleModal={() => {
             this.setState({ settingsVisible: false });
           }}

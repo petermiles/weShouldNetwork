@@ -1,4 +1,4 @@
-package com.weshouldnetwork.android;
+package com.petermiles.WeShouldNetwork;
 
 import com.facebook.react.ReactActivity;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;

@@ -1332,7 +1332,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.weshouldnetwork.android;
+				PRODUCT_BUNDLE_IDENTIFIER = com.petermiles.WeShouldNetwork;
 				PRODUCT_NAME = android;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1356,7 +1356,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.weshouldnetwork.android;
+				PRODUCT_BUNDLE_IDENTIFIER = com.petermiles.WeShouldNetwork;
 				PRODUCT_NAME = android;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

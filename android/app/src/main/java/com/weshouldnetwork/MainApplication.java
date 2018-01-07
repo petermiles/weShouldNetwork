@@ -1,4 +1,4 @@
-package com.weshouldnetwork.android;
+package com.petermiles.WeShouldNetwork;
 
 import android.app.Application;
 
@@ -39,9 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
         new MainReactPackage(),
         new RNFirebasePackage(),
         // add/remove these packages as appropriate
-        new ImagePickerPackage() // <-- add this line
-        // OR if you want to customize dialog style
-        new ImagePickerPackage(R.style.my_dialog_style)
+        new ImagePickerPackage(),
         new RNFirebaseAdMobPackage(),
         new RNFirebaseAnalyticsPackage(),
         new RNFirebaseAuthPackage(),
