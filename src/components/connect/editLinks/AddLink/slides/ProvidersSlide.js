@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Dimensions } from "react-native";
-
 import { Slide, ModalHeader, ModalHeaderText, ProviderContainer, Provider, ProviderText } from "../styles";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -25,8 +23,7 @@ export const ProvidersSlide = props => {
 						activeOpacity={0.6}
 						onPress={() => {
 							props.select(x);
-						}}
-					>
+						}}>
 						<Icon name={x.toLowerCase()} style={{ color: "white", fontSize: 30, height: 30 }} />
 						<ProviderText> {x} </ProviderText>
 					</Provider>

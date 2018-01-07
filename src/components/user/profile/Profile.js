@@ -1,29 +1,29 @@
 import React, { Component } from "react";
-import { Container } from "native-base";
+import { Container, Content } from "native-base";
 
-import { AsyncStorage, ScrollView, Text } from "react-native";
+import { AsyncStorage } from "react-native";
 import QRCode from "react-native-qrcode";
 import ProfileHead from "./profileHead/ProfileHead";
 import axios from "axios";
 
-import { CenteredView, QRCodeLoading, Footer, FooterText, ProfileScreen } from "./styles";
-
 import { Settings } from "../settings/Settings";
+
+import { CenteredView, QRCodeLoading, Footer, FooterText } from "./styles";
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
+      ownProfile: true,
+      saved: false,
+      settingsVisible: false,
       profileUid: "",
       name: "",
       position: "",
       profilePicURL: "",
       company: "",
       userUid: "",
-      ownProfile: true,
-      saved: false,
-      settings: false,
     };
   }
 
@@ -53,61 +53,53 @@ export default class Profile extends Component {
   }
   render() {
     const { navigate } = this.props.navigation;
+    const { loading, ownProfile, profilePicURL, settingsVisible, name, uid } = this.state;
     return (
-      <ScrollView
-        ref={scrollview => (this.scrollView = scrollview)}
-        onContentSizeChange={(w, h) => {
-          this.setState({ height: h });
-        }}>
-        {this.state.settings && (
-          <ProfileScreen>
-            <Settings
-              updateInfo={val => this.setState({ ...val })}
-              close={() => {
-                this.setState({ settings: false });
-              }}
-            />
-          </ProfileScreen>
-        )}
-
-        {!this.state.settings && (
-          <ProfileScreen>
-            <Container>
-              <ProfileHead
-                {...this.state}
-                saveItem={() => {
-                  this.setState({ saved: true });
-                }}
-                openSettings={() => {
-                  this.setState({ settings: true });
-                }}
+      <Container>
+        <Settings
+          visible={settingsVisible}
+          name={name}
+          uid={uid}
+          ownProfile={ownProfile}
+          profilepic={profilePicURL}
+          handleModal={() => {
+            this.setState({ settingsVisible: false });
+          }}
+        />
+        <Content>
+          <ProfileHead
+            {...this.state}
+            handleModal={() => {
+              this.setState({ settingsVisible: true });
+            }}
+            saveItem={() => {
+              this.setState({ saved: true });
+            }}
+          />
+          <CenteredView>
+            {!loading ? (
+              <QRCode
+                value={this.props.navigation.state.params ? this.props.navigation.state.params.uid : uid}
+                size={200}
+                bgColor="black"
+                fgColor="white"
               />
-              <CenteredView>
-                {!this.state.loading ? (
-                  <QRCode
-                    value={this.props.navigation.state.params ? this.props.navigation.state.params.uid : this.state.uid}
-                    size={200}
-                    bgColor="black"
-                    fgColor="white"
-                  />
-                ) : (
-                  <QRCodeLoading />
-                )}
-              </CenteredView>
+            ) : (
+              <QRCodeLoading />
+            )}
+          </CenteredView>
+        </Content>
 
-              {!this.state.loading ? (
-                <Footer
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    this.state.ownProfile ? navigate("Scan") : navigate("SignedIn");
-                  }}>
-                  <FooterText>{this.state.ownProfile ? "Scan" : "Go Back To My Profile"} </FooterText>
-                </Footer>
-              ) : null}
-            </Container>
-          </ProfileScreen>
-        )}
-      </ScrollView>
+        {!loading && !settingsVisible ? (
+          <Footer
+            activeOpacity={0.8}
+            onPress={() => {
+              ownProfile ? navigate("Scan") : navigate("SignedIn");
+            }}>
+            <FooterText>{ownProfile ? "Scan" : "Go Back To My Profile"} </FooterText>
+          </Footer>
+        ) : null}
+      </Container>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/MaterialIcons";

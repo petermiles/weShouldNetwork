@@ -8,6 +8,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.imagepicker.ImagePickerPackage;
 
 import io.invertase.firebase.RNFirebasePackage;
 // optional packages - add/remove as appropriate
@@ -38,6 +39,9 @@ public class MainApplication extends Application implements ReactApplication {
         new MainReactPackage(),
         new RNFirebasePackage(),
         // add/remove these packages as appropriate
+        new ImagePickerPackage() // <-- add this line
+        // OR if you want to customize dialog style
+        new ImagePickerPackage(R.style.my_dialog_style)
         new RNFirebaseAdMobPackage(),
         new RNFirebaseAnalyticsPackage(),
         new RNFirebaseAuthPackage(),

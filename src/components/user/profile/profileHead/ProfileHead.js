@@ -22,11 +22,7 @@ export default function profileHead(props) {
 	if (!props.loading) {
 		return (
 			<View>
-				<InfoButton
-					onPress={() => {
-						console.log(props);
-						props.openSettings();
-					}}>
+				<InfoButton hitSlop={{ top: 15, left: 15, right: 25, bottom: 25 }} onPress={props.handleModal}>
 					<Icon name={"settings"} style={{ color: "#757575", fontSize: 30, height: 70 }} />
 				</InfoButton>
 				<CenterView>

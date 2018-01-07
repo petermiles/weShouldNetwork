@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
-import { Container, Content } from 'native-base';
+import React, { Component } from "react";
+import { Container, Content } from "native-base";
 
-import { Vibration, AsyncStorage, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import axios from 'axios';
+import { Vibration, AsyncStorage, KeyboardAvoidingView } from "react-native";
+import axios from "axios";
 
-import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import ConnectLinkPage from "./connectLink/ConnectLinkPage";
 
-import ConnectLinkPage from './connectLink/ConnectLinkPage';
+import AddLinkModal from "./editLinks/AddLink/AddLinkModal";
 
-import AddLinkModal from './editLinks/AddLink/AddLinkModal';
+import { Fab } from "./fab/Fab";
 
-import { Fab } from './fab/Fab';
-
-import EditModal from './connectLink/EditModal';
-
-const providers = ['LinkedIn', 'Twitter', 'Medium', 'Phone', 'Email'];
+import EditModal from "./connectLink/EditModal";
 
 export default class Connect extends Component {
   constructor(props) {
@@ -25,10 +20,10 @@ export default class Connect extends Component {
       editable: false,
       loading: false,
       links: [],
-      providers: ['LinkedIn', 'Twitter', 'Medium', 'Phone', 'Email'],
-      editableName: '',
-      editableLink: '',
-      editableColor: '',
+      providers: ["LinkedIn", "Twitter", "Medium", "Phone", "Email"],
+      editableName: "",
+      editableLink: "",
+      editableColor: "",
       ownProfile: true,
       addLink: false,
       addLinkShow: false,
@@ -55,53 +50,55 @@ export default class Connect extends Component {
       link: state.editLink,
       id: state.editId,
     };
-    axios.put('http://172.31.99.35:3001/api/user/connectLink/update', editInfo).then(() => {
-      console.log('saved');
+    axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
+      console.log("saved");
       this.setState({ editable: !this.state.editable });
     });
   }
 
   handleDelete(state) {
-    axios.delete(`http://172.31.99.35:3001/api/user/connectLink/delete/${state.id}`).then((result) => {
+    axios.delete(`http://172.31.99.35:3001/api/user/connectLink/delete/${state.id}`).then(result => {
       console.log(result);
-      AsyncStorage.setItem('USER_LINKS', JSON.stringify(result.data), () => {
+      AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
         this.setState({ links: result.data });
       });
     });
   }
 
   getUserData() {
-    AsyncStorage.getItem('USER_LINKS').then((res) => {
+    AsyncStorage.getItem("USER_LINKS").then(res => {
       this.setState({ links: JSON.parse(res) });
     });
   }
 
   componentDidMount() {
     this.props.navigation.state.params
-      ? axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then((result) => {
-        this.setState({
-          links: result.data,
-          loading: false,
-          ownProfile: false,
-        });
-      })
-      : AsyncStorage.getItem('USER_LINKS')
-        ? AsyncStorage.getItem('USER_LINKS').then((res) => {
+      ? axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then(result => {
           this.setState({
-            links: JSON.parse(res),
-            providers: this.state.providers.filter((x, i) => !JSON.parse(res).find(curr => x.toLowerCase() === curr.servicename.toLowerCase())),
+            links: result.data,
+            loading: false,
+            ownProfile: false,
           });
         })
-        : AsyncStorage.getItem('USER_DATA')
-          .then((result) => {
-            axios
-              .get(`http://172.31.99.35:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
-              .then((result) => {
-                this.setState({ links: result.data, loading: false });
-              })
-              .catch(console.log);
+      : AsyncStorage.getItem("USER_LINKS")
+        ? AsyncStorage.getItem("USER_LINKS").then(res => {
+            this.setState({
+              links: JSON.parse(res),
+              providers: this.state.providers.filter(
+                (x, i) => !JSON.parse(res).find(curr => x.toLowerCase() === curr.servicename.toLowerCase())
+              ),
+            });
           })
-          .catch(console.log);
+        : AsyncStorage.getItem("USER_DATA")
+            .then(result => {
+              axios
+                .get(`http://172.31.99.35:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
+                .then(result => {
+                  this.setState({ links: result.data, loading: false });
+                })
+                .catch(console.log);
+            })
+            .catch(console.log);
   }
 
   render() {
@@ -146,7 +143,7 @@ export default class Connect extends Component {
           <AddLinkModal
             closeModal={() => {
               this.setState({ addLink: false }, () => {
-                AsyncStorage.getItem('USER_LINKS').then((res) => {
+                AsyncStorage.getItem("USER_LINKS").then(res => {
                   this.setState({ links: JSON.parse(res), editable: false });
                 });
               });
