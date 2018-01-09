@@ -1,21 +1,17 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity, Modal, Dimensions } from "react-native";
 
-import {
-	closeIconStyle,
-	ProfileImageChange,
-	ProfileImage,
-	TextFieldsContainer,
-	TextFieldProps,
-	SaveButton,
-	SaveButtonText,
-} from "./styles";
+import { connect } from "react-redux";
+
+import { closeIconStyle, ProfileImageChange, ProfileImage, TextFieldProps, SaveButton, SaveButtonText } from "./styles";
 
 import { TextField } from "react-native-material-textfield";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+// import { changeName } from "src/ducks/user/settings/actions";
 
 export default class Settings extends Component {
 	constructor(props) {
@@ -95,3 +91,7 @@ export default class Settings extends Component {
 		);
 	}
 }
+
+// const mapStateToProps = state => state;
+
+// export default connect(mapStateToProps, { changeName })(Settings);
