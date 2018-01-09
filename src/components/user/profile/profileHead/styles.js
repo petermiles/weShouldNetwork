@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
 export const ProfileImage = styled.Image`
 	height: 90;
@@ -78,7 +78,7 @@ export const JobCompanyLoading = styled.View`
 export const FavoriteButton = styled.TouchableOpacity`
 	flex: 1;
 	justify-content: center;
-	background-color: ${props => (props.saved ? '#4CAF50' : '#0069c0')};
+	background-color: ${props => (props.saved ? "#4CAF50" : "#0069c0")};
 	height: 40;
 	width: 200;
 	margin-bottom: 20;
@@ -95,4 +95,11 @@ export const FavoriteButtonText = styled.Text`
 export const CenterView = styled.View`
 	align-items: center;
 	justify-content: center;
+`;
+
+export const InfoButton = styled.TouchableOpacity`
+	position: absolute;
+	top: 15;
+	left: 15;
+	elevation: 10;
 `;

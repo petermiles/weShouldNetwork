@@ -5,6 +5,9 @@ import { createRootNavigator } from "./router";
 
 import { checkAuth } from "./src/functions/auth";
 
+import { Provider } from "react-redux";
+import store from "./src/ducks/store";
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +31,11 @@ export default class App extends React.Component {
       return null;
     }
     const Layout = createRootNavigator(signedIn);
-    return <Layout props={checkAuth} />;
+    return (
+      <Provider store={store}>
+        <Layout props={checkAuth} />
+      </Provider>
+    );
   }
 }
 

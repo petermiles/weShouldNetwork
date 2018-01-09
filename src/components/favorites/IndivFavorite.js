@@ -1,16 +1,12 @@
 import React from "react";
 
-import { View, Text, Image } from "react-native";
-
-import styled from "styled-components/native";
-
+import { View } from "react-native";
 import { NavigationActions } from "react-navigation";
-
 import Placeholder from "rn-placeholder";
 
 import {
 	StyledContainer,
-	IndivFavContainer,
+	MarginTopBottom,
 	CenteredRow,
 	ImageContainer,
 	FavoritePicture,
@@ -25,7 +21,8 @@ import {
 export default function IndivFavorite(props) {
 	return (
 		<StyledContainer
-			activeOpacity={0.8}
+			underlayColor={"#E3F2FD"}
+			activeOpacity={1}
 			last={props.last}
 			onPress={() => {
 				if (props.name !== "uhoh") {
@@ -37,26 +34,28 @@ export default function IndivFavorite(props) {
 					);
 				}
 			}}>
-			<CenteredRow>
-				<ImageContainer>
-					<Placeholder.Media color="#E0E0E0" size={65} hasRadius onReady={!props.loading} style={{ paddingLeft: 10 }}>
-						<FavoritePicture source={props.picture ? { uri: props.picture } : require("./placeholder.png")} />
-					</Placeholder.Media>
-				</ImageContainer>
-				<InfoContainer>
-					<Placeholder.Line color="#E0E0E0" animate="fade" width="35%" textSize={25} onReady={!props.loading}>
-						<FavoriteName>{props.name}</FavoriteName>
-					</Placeholder.Line>
-					<View style={{ marginBottom: 5, marginTop: 11 }}>
-						<Placeholder.Line color="#E0E0E0" animate="fade" width="45%" textSize={12} onReady={!props.loading}>
-							<FavoritePosition>{props.position}</FavoritePosition>
+			<View style={{ flex: 1, elevation: 5 }} hitSlop={{ top: 15, left: 200, bottom: 80, right: 0 }}>
+				<CenteredRow>
+					<ImageContainer>
+						<Placeholder.Media color="#E0E0E0" size={65} hasRadius onReady={!props.loading} style={{ paddingLeft: 10 }}>
+							<FavoritePicture source={props.picture ? { uri: props.picture } : require("./placeholder.png")} />
+						</Placeholder.Media>
+					</ImageContainer>
+					<InfoContainer>
+						<Placeholder.Line color="#E0E0E0" animate="fade" width="35%" textSize={25} onReady={!props.loading}>
+							<FavoriteName>{props.name}</FavoriteName>
 						</Placeholder.Line>
-					</View>
-					<Placeholder.Line color="#E0E0E0" animate="fade" width="55%" textSize={14} onReady={!props.loading}>
-						<FavoriteCompany>{props.company}</FavoriteCompany>
-					</Placeholder.Line>
-				</InfoContainer>
-			</CenteredRow>
+						<MarginTopBottom>
+							<Placeholder.Line color="#E0E0E0" animate="fade" width="45%" textSize={12} onReady={!props.loading}>
+								<FavoritePosition>{props.position}</FavoritePosition>
+							</Placeholder.Line>
+						</MarginTopBottom>
+						<Placeholder.Line color="#E0E0E0" animate="fade" width="55%" textSize={14} onReady={!props.loading}>
+							<FavoriteCompany>{props.company}</FavoriteCompany>
+						</Placeholder.Line>
+					</InfoContainer>
+				</CenteredRow>
+			</View>
 		</StyledContainer>
 	);
 }
