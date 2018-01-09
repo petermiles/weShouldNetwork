@@ -6,7 +6,7 @@ import QRCode from "react-native-qrcode";
 import ProfileHead from "./profileHead/ProfileHead";
 import axios from "axios";
 
-import { Settings } from "../settings/Settings";
+import Settings from "../settings/Settings";
 
 import { CenteredView, QRCodeLoading, Footer, FooterText } from "./styles";
 
@@ -24,6 +24,7 @@ export default class Profile extends Component {
       profilePicURL: "",
       company: "",
       userUid: "",
+      defaults: {},
     };
   }
 
@@ -41,6 +42,7 @@ export default class Profile extends Component {
           AsyncStorage.getItem("USER_DATA").then(res => {
             this.setState({
               ...format(data),
+              defaults: { ...format(data) },
               userUid: JSON.parse(res).uid,
               ownProfile: false,
             });
@@ -53,15 +55,17 @@ export default class Profile extends Component {
   }
   render() {
     const { navigate } = this.props.navigation;
-    const { loading, ownProfile, profilePicURL, settingsVisible, name, uid } = this.state;
+    const { loading, ownProfile, position, company, profilePicURL, settingsVisible, name, uid } = this.state;
     return (
       <Container>
         <Settings
-          visible={settingsVisible}
-          name={name}
-          uid={uid}
-          ownProfile={ownProfile}
-          profilepic={profilePicURL}
+          visible={this.state.settingsVisible}
+          name={this.state.name}
+          uid={this.state.uid}
+          position={this.state.position}
+          company={this.state.company}
+          ownProfile={this.state.ownProfile}
+          profilePic={this.state.profilePicURL}
           handleModal={() => {
             this.setState({ settingsVisible: false });
           }}

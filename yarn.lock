@@ -1222,7 +1222,7 @@ babel-register@^6.24.1, babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.0.0, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0, babel-runtime@^6.6.1:
+babel-runtime@^6.0.0, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -5037,12 +5037,6 @@ react-clone-referenced-element@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-clone-referenced-element/-/react-clone-referenced-element-1.0.1.tgz#2bba8c69404c5e4a944398600bcc4c941f860682"
 
-react-content-loader@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-1.7.3.tgz#aadef5e86947387981c3920af3152a79aeae7f6e"
-  dependencies:
-    babel-runtime "^6.6.1"
-
 react-deep-force-update@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.1.1.tgz#bcd31478027b64b3339f108921ab520b4313dc2c"
@@ -5103,6 +5097,10 @@ react-native-firebase@^3.1.1:
     opencollective "^1.0.3"
     postinstall-build "^5.0.1"
     prop-types "^15.6.0"
+
+react-native-image-picker@^0.26.7:
+  version "0.26.7"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.7.tgz#ad2ee957f7f6cc01396893ea03d84cb2adb2e376"
 
 react-native-iphone-x-helper@^1.0.1:
   version "1.0.1"
@@ -5545,6 +5543,12 @@ rimraf@2, rimraf@^2.2.8, rimraf@^2.5.1, rimraf@^2.5.4, rimraf@^2.6.1:
 rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
+
+rn-placeholder@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rn-placeholder/-/rn-placeholder-1.2.0.tgz#d0d7c2fb278698f4101bd0a8a06b14f2147d994c"
+  dependencies:
+    prop-types "^15.5.10"
 
 rndm@1.2.0:
   version "1.2.0"
