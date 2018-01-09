@@ -1,5 +1,4 @@
 import axios from "axios";
-import { AsyncStorage } from "react-native";
 
 export const GET_USER_INFO = "GET_USER_INFO";
 export const CHANGE_EMAIL = "CHANGE_EMAIL";

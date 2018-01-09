@@ -31,7 +31,7 @@ export default function profileReducer(state = initialState, action) {
 				profilePicURL: profilepic,
 				loading: false,
 				profileUid: uid,
-				ownProfile: initialState.uid == uid,
+				ownProfile: initialState.uid === uid,
 			});
 		case `${GET_USER_INFO}_REJECTED`:
 			return Object.assign({}, state, { loading: true, error: true });
