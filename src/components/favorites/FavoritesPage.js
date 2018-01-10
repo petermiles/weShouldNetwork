@@ -21,7 +21,7 @@ export default class FavoritesPage extends Component {
 	handleSearch(text) {
 		let favorites = [];
 
-		this.state.favorites.map((person, i) => {
+		this.state.favorites.map(person => {
 			let obj = {
 				company: person.company,
 				name: person.name,
@@ -31,8 +31,6 @@ export default class FavoritesPage extends Component {
 				for (var key in obj) {
 					if (obj[key].slice(0, text.split("").length).toLowerCase() === text.toLowerCase()) {
 						favorites.push(obj);
-					} else {
-						console.log("not found");
 					}
 				}
 			}
@@ -42,7 +40,7 @@ export default class FavoritesPage extends Component {
 
 	componentDidMount() {
 		AsyncStorage.getItem("USER_DATA").then(result => {
-			axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
+			axios.get(`http://192.168.1.239:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
 				this.setState({ favorites: result.data, loading: false }, () => {
 					AsyncStorage.setItem("USER_FAVORITES", JSON.stringify(result.data));
 				});
@@ -57,19 +55,21 @@ export default class FavoritesPage extends Component {
 				<Search changeSearchText={text => this.handleSearch(text)} />
 				<ScrollView>
 					{favs.length ? (
-						favs.map((favorite, i) => (
-							<IndivFavorite
-								last={favs.length === i + 1}
-								key={i}
-								loading={this.state.loading}
-								name={favorite.name}
-								picture={favorite.profilepic}
-								position={favorite.position}
-								company={favorite.company}
-								profileuid={favorite.favoriteuid}
-								navigate={this.props.navigation.dispatch}
-							/>
-						))
+						favs.map((favorite, i) => {
+							return (
+								<IndivFavorite
+									last={favs.length === i + 1}
+									key={i}
+									loading={this.state.loading}
+									name={favorite.name}
+									picture={favorite.profilepic}
+									position={favorite.position}
+									company={favorite.company}
+									profileuid={favorite.favoriteuid}
+									navigate={this.props.navigation.dispatch}
+								/>
+							);
+						})
 					) : (
 						<IndivFavorite
 							name={"Uhoh!"}

@@ -1,28 +1,22 @@
 import React, { Component } from "react";
 import { Container, Content } from "native-base";
-
-import { Vibration, AsyncStorage, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { Vibration, AsyncStorage, KeyboardAvoidingView } from "react-native";
 import axios from "axios";
-
-import ActionButton from "react-native-action-button";
-import Icon from "react-native-vector-icons/MaterialIcons";
-
 import ConnectLinkPage from "./connectLink/ConnectLinkPage";
-
 import AddLinkModal from "./editLinks/AddLink/AddLinkModal";
-
 import { Fab } from "./fab/Fab";
+import EditModal from "./connectLink/EditModal";
+import { connect } from "react-redux";
 
-import EditModal from "./editLinks/EditModal/EditModal";
+import { getLinksFromNav, getLinksFromLocal } from "src/ducks/links/actions";
 
-export default class Connect extends Component {
+class Connect extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       editable: false,
       loading: false,
-      visible: false,
       links: [],
       providers: ["LinkedIn", "Twitter", "Medium", "Phone", "Email"],
       editableName: "",
@@ -45,7 +39,7 @@ export default class Connect extends Component {
       editableName: val.name,
       editableLink: val.link,
       editableId: val.id,
-      visible: true,
+      active: false,
     });
   }
 
@@ -54,15 +48,13 @@ export default class Connect extends Component {
       link: state.editLink,
       id: state.editId,
     };
-    axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
-      console.log("saved");
-      this.setState({ visible: false });
+    axios.put("http://192.168.1.239:3001/api/user/connectLink/update", editInfo).then(() => {
+      this.setState({ editable: !this.state.editable });
     });
   }
 
   handleDelete(state) {
-    axios.delete(`http://172.31.99.35:3001/api/user/connectLink/delete/${state.id}`).then(result => {
-      console.log(result);
+    axios.delete(`http://192.168.1.239:3001/api/user/connectLink/delete/${state.id}`).then(result => {
       AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
         this.setState({ links: result.data });
       });
@@ -76,27 +68,15 @@ export default class Connect extends Component {
   }
 
   componentDidMount() {
+    this.props.getLinksFromNav("LinkedIn-Bfnq6wZRo");
     this.props.navigation.state.params
-      ? axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${this.props.navigation.state.params.uid}`).then(result => {
-          this.setState({
-            links: result.data,
-            loading: false,
-            ownProfile: false,
-          });
-        })
+      ? this.props.getLinksFromNav(this.props.navigation.state.params.uid)
       : AsyncStorage.getItem("USER_LINKS")
-        ? AsyncStorage.getItem("USER_LINKS").then(res => {
-            this.setState({
-              links: JSON.parse(res),
-              providers: this.state.providers.filter(
-                (x, i) => !JSON.parse(res).find(curr => x.toLowerCase() === curr.servicename.toLowerCase())
-              ),
-            });
-          })
+        ? this.props.getLinksFromLocal()
         : AsyncStorage.getItem("USER_DATA")
             .then(result => {
               axios
-                .get(`http://172.31.99.35:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
+                .get(`http://192.168.1.239:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
                 .then(result => {
                   this.setState({ links: result.data, loading: false });
                 })
@@ -106,40 +86,53 @@ export default class Connect extends Component {
   }
 
   render() {
+    const {
+      editable,
+      ownProfile,
+      handleDelete,
+      addLink,
+      editableName,
+      editableLink,
+      editableId,
+      editableColor,
+      addLinkShow,
+    } = this.state;
+    const { providers, links } = this.props.linkReducer;
+
     return (
       <Container>
         <Content>
           <ConnectLinkPage
             handleDelete={state => this.handleDelete(state)}
-            delete={this.state.handleDelete}
-            links={this.state.links}
-            editable={this.state.editable}
+            delete={handleDelete}
+            links={links}
+            editable={editable}
             editInfo={this.editInfo}
             handleEdit={this.openEditModal}
-            ownProfile={this.state.ownProfile}
-            addLink={() => this.setState({ addLink: !this.state.addLink })}
+            ownProfile={ownProfile}
+            addLink={() => this.setState({ addLink: !addLink })}
           />
           {this.state.editableLink ? (
             <EditModal
               editInfo={this.editInfo}
-              visible={this.state.visible}
+              visible={this.state.editable}
               closeModal={() => {
-                this.setState({ visible: false, editableLink: "", editableName: "" });
+                this.setState({ editable: false });
               }}
               handleModal={this.openEditModal}
-              name={this.state.editableName}
-              link={this.state.editableLink}
-              id={this.state.editableId}
-              color={this.state.editableColor}
+              name={editableName}
+              link={editableLink}
+              id={editableId}
+              color={editableColor}
             />
           ) : null}
         </Content>
         {this.state.ownProfile && (
           <Fab
-            linksLength={this.state.links.length}
-            openItems={() => this.setState({ editable: !this.state.editable })}
+            linksLength={links.length}
+            openItems={() => this.setState({ editable: !editable })}
             editLinks={() => this.setState({ editable: true })}
-            addLink={() => this.setState({ addLink: !this.state.addLink })}
+            addLink={() => this.setState({ addLink: !addLink })}
             editable={this.state.editable}
           />
         )}
@@ -155,13 +148,19 @@ export default class Connect extends Component {
             updateLink={() => {
               this.getUserData();
             }}
-            providers={this.state.providers}
-            addLinkShow={this.state.addLinkShow}
-            visible={this.state.addLink}
-            links={this.state.links}
+            providers={providers}
+            addLinkShow={addLinkShow}
+            visible={addLink}
+            links={this.props.links}
           />
         </KeyboardAvoidingView>
       </Container>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return state;
+};
+
+export default connect(mapStateToProps, { getLinksFromNav, getLinksFromLocal })(Connect);
