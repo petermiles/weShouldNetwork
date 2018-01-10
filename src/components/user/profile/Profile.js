@@ -32,8 +32,8 @@ class Profile extends Component {
   }
 
   render() {
-    const { profileUid, ownProfile, navigation } = this.props;
-    const { settingsVisible, loading, company, position, name, profilePicURL } = this.state;
+    const { profileUid, ownProfile } = this.props.profileReducer;
+    const { settingsVisible, loading, company, position, name, profilePicURL, uid } = this.state;
     return (
       <ProfileContainer>
         <Settings
@@ -42,7 +42,7 @@ class Profile extends Component {
           uid={profileUid}
           position={position}
           company={company}
-          ownProfile={!ownProfile}
+          ownProfile={this.state.ownProfile}
           profilePic={profilePicURL}
           handleModal={() => {
             this.setState({ settingsVisible: false });
@@ -64,7 +64,7 @@ class Profile extends Component {
         <CenteredView>
           {!loading ? (
             <QRCode
-              value={navigation.state.params ? navigation.state.params.uid : profileUid}
+              value={this.props.navigation.state.params ? this.props.navigation.state.params.uid : profileUid}
               size={200}
               bgColor="black"
               fgColor="white"
@@ -78,10 +78,10 @@ class Profile extends Component {
           <Footer
             activeOpacity={0.8}
             onPress={() => {
-              ownProfile ? navigation.navigate("Scan") : navigation.navigate("SignedIn");
+              profileUid === uid ? this.props.navigation.navigate("Scan") : this.props.navigation.navigate("SignedIn");
             }}
-            ownProfile={!ownProfile}>
-            <FooterText>{!ownProfile ? "Scan" : "Go Back To My Profile"} </FooterText>
+            ownProfile={profileUid === uid}>
+            <FooterText>{profileUid === uid ? "Scan" : "Go Back To My Profile"} </FooterText>
           </Footer>
         ) : null}
       </ProfileContainer>

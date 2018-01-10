@@ -1,4 +1,4 @@
-import { StackNavigator, TabNavigator } from "react-navigation";
+import { StackNavigator, TabNavigator, addNavigationHelpers } from "react-navigation";
 import AppOnBoard from "./src/components/onBoarding/AppOnBoard/AppOnBoard";
 import SignUpOnBoard from "./src/components/onBoarding/SignUpOnBoard/SignUpOnBoard";
 import EmailSignUp from "./src/components/onBoarding/auth/signUp/EmailSignUp";
@@ -7,27 +7,10 @@ import Profile from "./src/components/user/profile/Profile";
 import Scan from "./src/components/scan/Scan";
 import FavoritesPage from "./src/components/favorites/FavoritesPage";
 
-export const ProfilePage = StackNavigator(
-  {
-    Profile: {
-      screen: Profile,
-    },
-    Settings: {
-      screen: Profile,
-    },
-    Info: {
-      screen: Profile,
-    },
-  },
-  {
-    initialRouteName: "Profile",
-  }
-);
-
 export const ScannedProfile = TabNavigator(
   {
     Profile: {
-      screen: ProfilePage,
+      screen: Profile,
       path: "/profile/:user",
       navigationOptions: {
         tabBarLabel: "Profile",

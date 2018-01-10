@@ -1,6 +1,6 @@
 import { AsyncStorage } from "react-native";
 
-import { CHANGE_EMAIL, CHANGE_NAME, CHANGE_PICTURE, GET_USER_INFO } from "./actions";
+import { CHANGE_EMAIL, CHANGE_NAME, CHANGE_PICTURE, GET_USER_INFO, SCAN_PROFILE } from "./actions";
 
 let initialState = {
 	uid: "",
@@ -23,7 +23,6 @@ export default function profileReducer(state = initialState, action) {
 		case GET_USER_INFO + "_PENDING":
 			return Object.assign({}, state, { loading: true });
 		case GET_USER_INFO + "_FULFILLED":
-			console.log(initialState.uid, action.payload.data.uid);
 			const { name, position, company, profilepic, uid } = action.payload.data;
 			return Object.assign({}, state, {
 				name,
@@ -32,7 +31,7 @@ export default function profileReducer(state = initialState, action) {
 				profilePicURL: profilepic,
 				loading: false,
 				profileUid: uid,
-				ownProfile: initialState.uid === uid,
+				ownProfile: initialState.uid === initialState.profileUid,
 			});
 		case `${GET_USER_INFO}_REJECTED`:
 			return Object.assign({}, state, { loading: true, error: true });
@@ -53,6 +52,12 @@ export default function profileReducer(state = initialState, action) {
 		case `${CHANGE_PICTURE}_FULFILLED`:
 			return Object.assign({}, state, { loading: false });
 		case `${CHANGE_PICTURE}_REJECTED`:
+			return Object.assign({}, state, { loading: true, error: true });
+		case `${SCAN_PROFILE}_PENDING`:
+			return Object.assign({}, state, { loading: true });
+		case `${SCAN_PROFILE}_FULFILLED`:
+			return Object.assign({}, state, { loading: false });
+		case `${SCAN_PROFILE}_REJECTED`:
 			return Object.assign({}, state, { loading: true, error: true });
 		default:
 			return state;

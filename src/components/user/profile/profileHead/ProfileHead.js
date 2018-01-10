@@ -18,7 +18,6 @@ import {
 } from "./styles";
 
 export default function profileHead(props) {
-	console.log(props);
 	const image = !props.profilePicURL ? require("./placeholder.png") : { uri: props.profilePicURL };
 	if (!props.loading) {
 		return (
@@ -31,7 +30,7 @@ export default function profileHead(props) {
 					<MainName> {props.name} </MainName>
 					<JobPosition> {props.position} </JobPosition>
 					<JobCompany> {props.company} </JobCompany>
-					{!props.ownProfile ? (
+					{props.ownProfile ? (
 						<ProfileFavoriteButton userUid={props.userUid} saveItem={props.saveItem} />
 					) : (
 						<View style={{ height: 40, marginBottom: 20 }} />

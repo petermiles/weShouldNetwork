@@ -4,6 +4,7 @@ export const GET_USER_INFO = "GET_USER_INFO";
 export const CHANGE_EMAIL = "CHANGE_EMAIL";
 export const CHANGE_NAME = "CHANGE_NAME";
 export const CHANGE_PICTURE = "CHANGE_PICTURE";
+export const SCAN_PROFILE = "SCAN_PROFILE";
 
 export function getUserInfo(uid) {
 	return {
@@ -39,5 +40,12 @@ export function changePicture() {
 			.post("/api/user/settings/changePicture")
 			.then(res => res.data)
 			.catch(console.log),
+	};
+}
+
+export function scanProfile(uid) {
+	return {
+		type: SCAN_PROFILE,
+		payload: console.log(uid),
 	};
 }
