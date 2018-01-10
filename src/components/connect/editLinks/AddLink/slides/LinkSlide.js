@@ -5,6 +5,8 @@ import { Slide, colors, ProviderLinkMainText, NextButton, NextButtonText } from 
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+import { CloseButton } from "../AddLinkModal";
+
 import { TextField } from "react-native-material-textfield";
 
 export default class LinkSlide extends Component {
@@ -25,8 +27,8 @@ export default class LinkSlide extends Component {
 						height: "100%",
 						justifyContent: "center",
 						alignItems: "center",
-						padding: "5%",
 					}}>
+					<CloseButton />
 					<Icon name={this.props.selected.toLowerCase()} style={{ color: "white", height: 50, fontSize: 50 }} />
 					<ProviderLinkMainText>
 						{this.props.selected !== "email" || this.props.selected !== "phone" ? `What's your ${this.props.selected}?` : null}
@@ -34,7 +36,7 @@ export default class LinkSlide extends Component {
 					<View
 						style={{
 							flexDirection: "row",
-							paddingTop: "3%",
+
 							width: "75%",
 							justifyContent: "space-between",
 						}}>

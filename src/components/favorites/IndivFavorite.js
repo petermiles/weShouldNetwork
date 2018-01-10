@@ -19,6 +19,8 @@ import {
 	FavoriteCompany,
 } from "./styles";
 
+// incorporate TouchableWithoutFeedback to allow editing. Perhaps just have an info icon they can click in the top right. But that runs into the issue again of having a touchableopacity on top of another touchable opacity
+
 export default function IndivFavorite(props) {
 	return (
 		<StyledContainer
