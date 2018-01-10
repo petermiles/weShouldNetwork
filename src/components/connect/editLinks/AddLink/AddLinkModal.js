@@ -37,7 +37,7 @@ export default class AddLinkModal extends Component {
     this.setState({ loading: true }, () => {
       AsyncStorage.getItem('USER_DATA').then((result) => {
         axios
-          .post('http://172.31.99.35:3001/api/user/connectLink/add', { link, provider, uid: JSON.parse(result).uid })
+          .post('http://192.168.1.239:3001/api/user/connectLink/add', { link, provider, uid: JSON.parse(result).uid })
           .then((result) => {
             AsyncStorage.setItem('USER_LINKS', JSON.stringify(result.data), () => {
               AsyncStorage.getItem('USER_LINKS').then((result) => {

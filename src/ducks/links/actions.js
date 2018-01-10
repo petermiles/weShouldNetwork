@@ -10,7 +10,7 @@ export const DELETE_LINK = "DELETE_LINK";
 export function getLinksFromNav(uid) {
 	return {
 		type: GET_LINKS_FROM_NAV,
-		payload: axios.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${uid}`).then(res => res),
+		payload: axios.get(`http://192.168.1.239:3001/api/user/getConnectLinks/${uid}`).then(res => res),
 	};
 }
 export function getLinksFromLocal(uid) {

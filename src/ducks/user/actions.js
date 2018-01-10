@@ -8,7 +8,7 @@ export const CHANGE_PICTURE = "CHANGE_PICTURE";
 export function getUserInfo(uid) {
 	return {
 		type: GET_USER_INFO,
-		payload: axios.get(`http://172.31.99.35:3001/api/user/getInfo/${uid}`),
+		payload: axios.get(`http://192.168.1.239:3001/api/user/getInfo/${uid}`),
 	};
 }
 

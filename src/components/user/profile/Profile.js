@@ -32,8 +32,8 @@ class Profile extends Component {
   }
 
   render() {
-    const { loading, name, position, company, profilePicURL, profileUid, ownProfile, navigation } = this.props;
-    const { settingsVisible } = this.state;
+    const { profileUid, ownProfile, navigation } = this.props;
+    const { settingsVisible, loading, company, position, name, profilePicURL } = this.state;
     return (
       <ProfileContainer>
         <Settings
@@ -42,15 +42,18 @@ class Profile extends Component {
           uid={profileUid}
           position={position}
           company={company}
-          ownProfile={ownProfile}
+          ownProfile={!ownProfile}
           profilePic={profilePicURL}
           handleModal={() => {
             this.setState({ settingsVisible: false });
           }}
         />
-
         <ProfileHead
-          {...this.state}
+          profilePicURL={profilePicURL}
+          company={company}
+          name={name}
+          position={position}
+          loading={loading}
           handleModal={() => {
             this.setState({ settingsVisible: true });
           }}
@@ -77,8 +80,8 @@ class Profile extends Component {
             onPress={() => {
               ownProfile ? navigation.navigate("Scan") : navigation.navigate("SignedIn");
             }}
-            ownProfile={this.props.ownProfile}>
-            <FooterText>{ownProfile ? "Scan" : "Go Back To My Profile"} </FooterText>
+            ownProfile={!ownProfile}>
+            <FooterText>{!ownProfile ? "Scan" : "Go Back To My Profile"} </FooterText>
           </Footer>
         ) : null}
       </ProfileContainer>

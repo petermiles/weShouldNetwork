@@ -48,13 +48,13 @@ class Connect extends Component {
       link: state.editLink,
       id: state.editId,
     };
-    axios.put("http://172.31.99.35:3001/api/user/connectLink/update", editInfo).then(() => {
+    axios.put("http://192.168.1.239:3001/api/user/connectLink/update", editInfo).then(() => {
       this.setState({ editable: !this.state.editable });
     });
   }
 
   handleDelete(state) {
-    axios.delete(`http://172.31.99.35:3001/api/user/connectLink/delete/${state.id}`).then(result => {
+    axios.delete(`http://192.168.1.239:3001/api/user/connectLink/delete/${state.id}`).then(result => {
       AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
         this.setState({ links: result.data });
       });
@@ -76,7 +76,7 @@ class Connect extends Component {
         : AsyncStorage.getItem("USER_DATA")
             .then(result => {
               axios
-                .get(`http://172.31.99.35:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
+                .get(`http://192.168.1.239:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
                 .then(result => {
                   this.setState({ links: result.data, loading: false });
                 })
@@ -97,7 +97,7 @@ class Connect extends Component {
       editableColor,
       addLinkShow,
     } = this.state;
-    const { providers, links } = this.props.linkProvider;
+    const { providers, links } = this.props.linkReducer;
 
     return (
       <Container>
@@ -129,7 +129,7 @@ class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <Fab
-            linksLength={this.state.links.length}
+            linksLength={links.length}
             openItems={() => this.setState({ editable: !editable })}
             editLinks={() => this.setState({ editable: true })}
             addLink={() => this.setState({ addLink: !addLink })}
@@ -148,7 +148,7 @@ class Connect extends Component {
             updateLink={() => {
               this.getUserData();
             }}
-            providers={this.props.linkProvider.providers}
+            providers={providers}
             addLinkShow={addLinkShow}
             visible={addLink}
             links={this.props.links}

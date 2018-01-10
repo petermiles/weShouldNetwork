@@ -18,6 +18,7 @@ import {
 } from "./styles";
 
 export default function profileHead(props) {
+	console.log(props);
 	const image = !props.profilePicURL ? require("./placeholder.png") : { uri: props.profilePicURL };
 	if (!props.loading) {
 		return (
