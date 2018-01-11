@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-export const StyledContainer = styled.TouchableOpacity`
+export const StyledContainer = styled.TouchableHighlight`
 	width: 95%;
 	height: 110;
 	background-color: #eeeeee;
@@ -51,3 +51,25 @@ export const SearchContainer = styled.View`
 	align-items: center
 	flex-direction: row
 `;
+<<<<<<< HEAD
+=======
+
+export const InfoContainer = styled.View`
+	flex: 1;
+	flex-direction: column;
+	margin-left: 20;
+	padding-right: 5;
+`;
+
+export const MarginTopBottom = styled.View`
+	margin-top: 5
+	margin-bottom: 5
+`;
+
+export const InfoButton = styled.View`
+	position: absolute;
+	top: 10;
+	left: 10;
+	elevation: 10;
+`;
+>>>>>>> 547d128468ac9b94249870dd4b4876923b461ed8
