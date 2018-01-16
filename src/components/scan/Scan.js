@@ -20,11 +20,11 @@ class Scan extends Component {
   }
 
   navigate(val) {
-const navigateAction = NavigationActions.navigate({
-  routeName: !val ? 'ScannedProfile' : 'SignedIn',
-  params: { uid: val.data },
-});
-this.props.navigation.dispatch(navigateAction);
+    const navigateAction = NavigationActions.navigate({
+      routeName: !val ? 'ScannedProfile' : 'SignedIn',
+      params: { uid: val.data },
+    });
+    this.props.navigation.dispatch(navigateAction);
     Vibration.vibrate(200);
   }
 

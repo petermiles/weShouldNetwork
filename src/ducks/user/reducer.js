@@ -70,7 +70,7 @@ export default function profileReducer(state = initialState, action) {
 				position: action.payload.position,
 				company: action.payload.company,
 				profilePicURL: action.payload.profilepic,
-				uid: action.payload.uid,
+				profileUid: action.payload.uid,
 				ownProfile: state.uid === action.payload.uid,
 			});
 		case `${PULL_USER_FROM_LOCAL}_REJECTED`:

@@ -67,6 +67,7 @@ class Profile extends Component {
           name={name}
           position={position}
           loading={loading}
+          ownProfile={ownProfile}
           handleModal={() => {
             this.setState({ settingsVisible: true });
           }}
@@ -95,7 +96,7 @@ class Profile extends Component {
           <Footer
             activeOpacity={0.8}
             onPress={() => {
-              profileUid === uid
+              ownProfile
                 ? this.props.navigation.navigate('Scan')
                 : this.props.navigation.navigate('SignedIn');
             }}
