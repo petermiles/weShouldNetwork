@@ -1,11 +1,14 @@
-import React, { Component } from "react";
-import { View, AsyncStorage, ScrollView } from "react-native";
-import IndivFavorite from "./IndivFavorite";
-import axios from "axios";
+import React, { Component } from 'react';
+import { View, AsyncStorage, ScrollView } from 'react-native';
+import IndivFavorite from './IndivFavorite';
+import axios from 'axios';
 
-import { Search } from "./Search";
+import { Search } from './Search';
+import { getUserInfo } from '../../ducks/user/actions';
+import { getFavorites } from '../../ducks/favorites/actions';
+import { connect } from 'react-redux';
 
-export default class FavoritesPage extends Component {
+class FavoritesPage extends Component {
 	constructor(props) {
 		super(props);
 
@@ -29,7 +32,10 @@ export default class FavoritesPage extends Component {
 			};
 			if (text) {
 				for (var key in obj) {
-					if (obj[key].slice(0, text.split("").length).toLowerCase() === text.toLowerCase()) {
+					if (
+						obj[key].slice(0, text.split('').length).toLowerCase() ===
+						text.toLowerCase()
+					) {
 						favorites.push(obj);
 					}
 				}
@@ -39,17 +45,14 @@ export default class FavoritesPage extends Component {
 	}
 
 	componentDidMount() {
-		AsyncStorage.getItem("USER_DATA").then(result => {
-			axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
-				this.setState({ favorites: result.data, loading: false }, () => {
-					AsyncStorage.setItem("USER_FAVORITES", JSON.stringify(result.data));
-				});
-			});
-		});
+		this.props.getFavorites(this.props.uid);
 	}
 
 	render() {
-		let favs = this.state.searchedFavorites.length ? this.state.searchedFavorites : this.state.favorites;
+		let { favorites, loading } = this.props.favoritesReducer;
+		let favs = this.state.searchedFavorites.length
+			? this.state.searchedFavorites
+			: favorites;
 		return (
 			<View>
 				<Search changeSearchText={text => this.handleSearch(text)} />
@@ -60,23 +63,24 @@ export default class FavoritesPage extends Component {
 								<IndivFavorite
 									last={favs.length === i + 1}
 									key={i}
-									loading={this.state.loading}
+									loading={loading}
 									name={favorite.name}
 									picture={favorite.profilepic}
 									position={favorite.position}
 									company={favorite.company}
 									profileuid={favorite.favoriteuid}
+									getUserInfo={val => this.props.getUserInfo(val)}
 									navigate={this.props.navigation.dispatch}
 								/>
 							);
 						})
 					) : (
 						<IndivFavorite
-							name={"Uhoh!"}
-							picture={""}
+							name={'Uhoh!'}
+							picture={''}
 							position={"You don't have any favorites."}
 							company={"Scan someone's profile to add them to your favorites."}
-							profileuid={""}
+							profileuid={''}
 						/>
 					)}
 				</ScrollView>
@@ -84,3 +88,12 @@ export default class FavoritesPage extends Component {
 		);
 	}
 }
+
+const mapStateToProps = ({ favoritesReducer, profileReducer }) => {
+	return { favoritesReducer, uid: profileReducer.uid };
+};
+
+export default connect(mapStateToProps, {
+	getUserInfo,
+	getFavorites,
+})(FavoritesPage);

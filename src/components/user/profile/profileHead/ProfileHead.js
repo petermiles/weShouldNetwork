@@ -26,7 +26,9 @@ import {
 class ProfileHead extends Component {
 	componentDidMount() {
 		const { profileUid, uid } = this.props.profileReducer;
-		this.props.checkFavoritesForSaved(profileUid, uid);
+		!this.props.profileReducer.ownProfile
+			? this.props.checkFavoritesForSaved(profileUid, uid)
+			: null;
 	}
 
 	render() {

@@ -1,7 +1,7 @@
 import {
 	SAVE_FAVORITE,
 	GET_FAVORITES_FROM_DB,
-	GET_FAVORITES_FROM_LOCAL,
+	GET_FAVORITES,
 	CHECK_FAVORITES_FOR_SAVED,
 } from './actions';
 
@@ -26,15 +26,16 @@ export default function favoritesReducer(state = initialState, action) {
 		case `${SAVE_FAVORITE}_REJECTED`:
 			return Object.assign({}, state, { loading: true });
 
-		case `${GET_FAVORITES_FROM_LOCAL}_PENDING`:
+		case `${GET_FAVORITES}_PENDING`:
 			return Object.assign({}, state, { loading: true });
-		case `${GET_FAVORITES_FROM_LOCAL}_FULFILLED`:
+		case `${GET_FAVORITES}_FULFILLED`:
+			AsyncStorage.setItem('USER_FAVORITES', JSON.stringify(action.payload));
 			return Object.assign({}, state, {
 				favorites: action.payload,
 				loading: false,
 				saved: true,
 			});
-		case `${GET_FAVORITES_FROM_LOCAL}_REJECTED`:
+		case `${GET_FAVORITES}_REJECTED`:
 			return Object.assign({}, state, { loading: true });
 
 		case `${GET_FAVORITES_FROM_DB}_PENDING`:
