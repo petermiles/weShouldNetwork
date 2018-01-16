@@ -30,7 +30,7 @@ export const ProfileFavoriteButton = props => {
 						}}
 					/>
 				)}
-				{loading ? (
+				{loading && !props.ownProfile ? (
 					<ActivityIndicator size={24} color={'white'} />
 				) : (
 					<FavoriteButtonText saved={saved}>
