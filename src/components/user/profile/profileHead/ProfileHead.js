@@ -38,19 +38,21 @@ export default function profileHead(props) {
 					<JobPosition> {props.position} </JobPosition>
 					<JobCompany> {props.company} </JobCompany>
 					<ProfileFavoriteButton
-						userUid={props.userUid}
+						profileUid={props.profileUid}
+						userUid={props.uid}
 						saveItem={props.saveItem}
 					/>
 				</CenterView>
 			</View>
 		);
+	} else {
+		return (
+			<CenterView>
+				<ProfileImageLoading />
+				<MainNameLoading />
+				<JobPositionLoading />
+				<JobCompanyLoading />
+			</CenterView>
+		);
 	}
-	return (
-		<CenterView>
-			<ProfileImageLoading />
-			<MainNameLoading />
-			<JobPositionLoading />
-			<JobCompanyLoading />
-		</CenterView>
-	);
 }

@@ -13,8 +13,10 @@ import { connect } from 'react-redux';
 
 let loading = false;
 let ownProfile = true;
+let saved = false;
 
 export const ProfileFavoriteButton = props => {
+	const { profileUid, userUid, saveItem } = props;
 	return ownProfile ? (
 		<FavoriteButtonPlaceholder />
 	) : (
@@ -22,11 +24,11 @@ export const ProfileFavoriteButton = props => {
 			saved={props.saved}
 			onPress={() => {
 				loading = true;
-				!props.saved &&
+				!saved &&
 					axios
 						.post('http://172.31.99.35:3001/api/user/favorites/save', {
-							profileUid: props.profileUid,
-							userUid: props.userUid,
+							profileUid: profileUid,
+							userUid: userUid,
 						})
 						.then(result => {
 							AsyncStorage.setItem(
@@ -34,13 +36,14 @@ export const ProfileFavoriteButton = props => {
 								JSON.stringify(result.data),
 								() => {
 									loading = false;
-									props.saveItem();
+									saved = true;
+									saveItem();
 								}
 							);
 						});
 			}}>
 			<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-				{props.saved && (
+				{saved && (
 					<Icon
 						name={'check'}
 						style={{
@@ -52,10 +55,10 @@ export const ProfileFavoriteButton = props => {
 					/>
 				)}
 				{loading ? (
-					<ActivityIndicator size={24} color={'white;'} />
+					<ActivityIndicator size={24} color={'white'} />
 				) : (
-					<FavoriteButtonText saved={props.saved}>
-						{props.saved ? 'Saved' : 'Add to Favorites'}{' '}
+					<FavoriteButtonText saved={saved}>
+						{saved ? 'Saved' : 'Add to Favorites'}{' '}
 					</FavoriteButtonText>
 				)}
 			</View>
