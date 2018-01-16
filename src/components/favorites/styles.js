@@ -2,12 +2,11 @@ import styled from "styled-components/native";
 
 export const StyledContainer = styled.TouchableHighlight`
 	width: 95%;
-	height: 120;
+	height: 110;
 	background-color: #eeeeee;
 	margin-top: 5;
-	margin-bottom: ${props => (props.last ? 85 : 5)}
+	margin-bottom: 5;
 	margin-left: 2.5%
-	
 	elevation: 4;
 `;
 
@@ -19,9 +18,6 @@ export const CenteredRow = styled.View`
 	flex: 1;
 	flex-direction: row
 	align-items: center;
-	padding-right: 5
-	padding-bottom: 5
-	padding-right: 15
 `;
 
 export const ImageContainer = styled.View`
@@ -55,6 +51,8 @@ export const SearchContainer = styled.View`
 	align-items: center
 	flex-direction: row
 `;
+<<<<<<< HEAD
+=======
 
 export const InfoContainer = styled.View`
 	flex: 1;
@@ -74,3 +72,4 @@ export const InfoButton = styled.View`
 	left: 10;
 	elevation: 10;
 `;
+>>>>>>> 547d128468ac9b94249870dd4b4876923b461ed8
