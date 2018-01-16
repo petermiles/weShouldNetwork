@@ -1,39 +1,52 @@
-import React, { Component } from "react";
-import { AsyncStorage } from "react-native";
-import QRCode from "react-native-qrcode";
-import ProfileHead from "./profileHead/ProfileHead";
-import Settings from "../settings/Settings";
+import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
+import QRCode from 'react-native-qrcode';
+import ProfileHead from './profileHead/ProfileHead';
+import Settings from '../settings/Settings';
 
-import { connect } from "react-redux";
-import { getUserInfo } from "src/ducks/user/actions";
+import { connect } from 'react-redux';
+import { getUserInfo, pullUserFromLocal } from 'src/ducks/user/actions';
 
-import { CenteredView, QRCodeLoading, Footer, FooterText, ProfileContainer } from "./styles";
+import {
+  CenteredView,
+  QRCodeLoading,
+  Footer,
+  FooterText,
+  ProfileContainer,
+} from './styles';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
       saved: false,
       settingsVisible: false,
     };
   }
 
   componentDidMount() {
+    let userData = AsyncStorage.getItem('USER_DATA');
     this.props.navigation.state.params
-      ? this.props.getUserInfo(this.props.navigation.state.params.uid, "")
-      : AsyncStorage.getItem("USER_DATA").then(result => {
-          this.props.getUserInfo(JSON.parse(result).uid);
-        });
+      ? this.props.getUserInfo(this.props.navigation.state.params.uid, '')
+      : userData ? this.props.pullUserFromLocal() : null;
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({ ...newProps.profileReducer });
-  }
+  // AsyncStorage.getItem('USER_DATA').then(result => {
+  //         this.props.getUserInfo(JSON.parse(result).uid,);
+  //       });
 
   render() {
-    const { profileUid, ownProfile } = this.props.profileReducer;
-    const { settingsVisible, loading, company, position, name, profilePicURL, uid } = this.state;
+    const { settingsVisible } = this.state;
+    const {
+      profileUid,
+      loading,
+      company,
+      position,
+      name,
+      profilePicURL,
+      uid,
+      ownProfile,
+    } = this.props;
     return (
       <ProfileContainer>
         <Settings
@@ -64,7 +77,11 @@ class Profile extends Component {
         <CenteredView>
           {!loading ? (
             <QRCode
-              value={this.props.navigation.state.params ? this.props.navigation.state.params.uid : profileUid}
+              value={
+                this.props.navigation.state.params
+                  ? this.props.navigation.state.params.uid
+                  : profileUid
+              }
               size={200}
               bgColor="black"
               fgColor="white"
@@ -78,10 +95,14 @@ class Profile extends Component {
           <Footer
             activeOpacity={0.8}
             onPress={() => {
-              profileUid === uid ? this.props.navigation.navigate("Scan") : this.props.navigation.navigate("SignedIn");
+              profileUid === uid
+                ? this.props.navigation.navigate('Scan')
+                : this.props.navigation.navigate('SignedIn');
             }}
-            ownProfile={profileUid === uid}>
-            <FooterText>{profileUid === uid ? "Scan" : "Go Back To My Profile"} </FooterText>
+            ownProfile={ownProfile}>
+            <FooterText>
+              {ownProfile ? 'Scan' : 'Go Back To My Profile'}{' '}
+            </FooterText>
           </Footer>
         ) : null}
       </ProfileContainer>
@@ -89,6 +110,10 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = ({ profileReducer }) => {
+  return profileReducer;
+};
 
-export default connect(mapStateToProps, { getUserInfo })(Profile);
+export default connect(mapStateToProps, { getUserInfo, pullUserFromLocal })(
+  Profile
+);

@@ -5,8 +5,8 @@ const cors = require('cors');
 
 const { herokuDB } = require('./config.js');
 
-massive(herokuDB).then((db) => {
-  app.set('db', db);
+massive(herokuDB).then(db => {
+	app.set('db', db);
 });
 
 const port = 3001;
@@ -32,5 +32,5 @@ app.get('/api/user/favorites/get/:userid', userCtrl.getFavorites);
 app.post('/api/user/favorites/save', userCtrl.saveFavorite);
 
 app.listen(port, () => {
-  console.log(`Listening on ${port}.`);
+	console.log(`Listening on ${port}.`);
 });

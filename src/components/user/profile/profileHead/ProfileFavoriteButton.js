@@ -16,7 +16,7 @@ export const ProfileFavoriteButton = props => {
 				loading = true;
 				!props.saved &&
 					axios
-						.post("http://192.168.1.239:3001/api/user/favorites/save", {
+						.post("http://172.31.99.35:3001/api/user/favorites/save", {
 							profileUid: props.profileUid,
 							userUid: props.userUid,
 						})
