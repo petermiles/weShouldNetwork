@@ -44,10 +44,10 @@ class Profile extends Component {
       position,
       name,
       profilePicURL,
-      uid,
       ownProfile,
-    } = this.props;
-    return (
+    } = this.props.profileReducer;
+
+    return loading ? null : (
       <ProfileContainer>
         <Settings
           visible={settingsVisible}
@@ -62,14 +62,6 @@ class Profile extends Component {
           }}
         />
         <ProfileHead
-          profilePicURL={profilePicURL}
-          company={company}
-          name={name}
-          position={position}
-          loading={loading}
-          uid={uid}
-          profileUid={profileUid}
-          ownProfile={profileUid === uid}
           handleModal={() => {
             this.setState({ settingsVisible: true });
           }}
@@ -113,8 +105,8 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = ({ profileReducer }) => {
-  return profileReducer;
+const mapStateToProps = ({ profileReducer, favoritesReducer }) => {
+  return { profileReducer, favoritesReducer };
 };
 
 export default connect(mapStateToProps, { getUserInfo, pullUserFromLocal })(

@@ -30,7 +30,6 @@ export default function profileReducer(state = initialState, action) {
 		case GET_USER_INFO + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case GET_USER_INFO + '_FULFILLED':
-			console.log(action.payload);
 			const { name, position, company, profilepic, uid } = action.payload;
 			return Object.assign({}, state, {
 				name,

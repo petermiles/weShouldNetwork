@@ -1,0 +1,1 @@
+SELECT * FROM user_favorites WHERE userid = ${userUid} AND favoriteuid = ${profileUid};

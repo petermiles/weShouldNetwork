@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
@@ -8,39 +8,15 @@ import {
 	FavoriteButtonPlaceholder,
 } from './styles';
 
-import axios from 'axios';
-import { connect } from 'react-redux';
-
-let loading = false;
-let ownProfile = true;
-let saved = false;
-
 export const ProfileFavoriteButton = props => {
-	const { profileUid, userUid, saveItem } = props;
-	return ownProfile ? (
+	const { saveItem, saved, loading } = props;
+	return props.ownProfile || loading ? (
 		<FavoriteButtonPlaceholder />
 	) : (
 		<FavoriteButton
-			saved={props.saved}
+			saved={saved}
 			onPress={() => {
-				loading = true;
-				!saved &&
-					axios
-						.post('http://172.31.99.35:3001/api/user/favorites/save', {
-							profileUid: profileUid,
-							userUid: userUid,
-						})
-						.then(result => {
-							AsyncStorage.setItem(
-								'USER_FAVORITES',
-								JSON.stringify(result.data),
-								() => {
-									loading = false;
-									saved = true;
-									saveItem();
-								}
-							);
-						});
+				!saved ? saveItem() : null;
 			}}>
 			<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 				{saved && (
@@ -65,10 +41,3 @@ export const ProfileFavoriteButton = props => {
 		</FavoriteButton>
 	);
 };
-
-const mapStateToProps = ({ profileReducer }) => {
-	ownProfile = profileReducer.uid === profileReducer.profileUid ? true : false;
-	return {};
-};
-
-export default connect(mapStateToProps)(ProfileFavoriteButton);

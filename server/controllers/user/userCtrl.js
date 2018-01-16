@@ -1,5 +1,4 @@
 const getUser = (req, res) => {
-  console.log(req.body);
   req.app
     .get('db')
     .getUserProfileInfo({ uid: req.params.id })
@@ -50,7 +49,6 @@ const saveFavorite = (req, res) => {
     .get('db')
     .favoriteSave(req.body)
     .then(result => {
-      console.log(result);
       res.json(result);
     });
 };
@@ -60,8 +58,16 @@ const getFavorites = (req, res) => {
     .get('db')
     .favoriteGet({ id: req.params.userid })
     .then(result => {
-      console.log(result);
       return res.json(result);
+    });
+};
+
+const checkSaved = (req, res) => {
+  req.app
+    .get('db')
+    .favoriteCheckSaved(req.body)
+    .then(result => {
+      result.length ? res.json(true) : res.json(false);
     });
 };
 
@@ -73,4 +79,5 @@ module.exports = {
   deleteConnectLink,
   saveFavorite,
   getFavorites,
+  checkSaved,
 };

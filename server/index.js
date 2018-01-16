@@ -30,6 +30,7 @@ app.delete('/api/user/connectLink/delete/:userid', userCtrl.deleteConnectLink);
 
 app.get('/api/user/favorites/get/:userid', userCtrl.getFavorites);
 app.post('/api/user/favorites/save', userCtrl.saveFavorite);
+app.post('/api/user/favorites/checkSaved', userCtrl.checkSaved);
 
 app.listen(port, () => {
 	console.log(`Listening on ${port}.`);
