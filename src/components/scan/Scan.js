@@ -7,7 +7,7 @@ import { NavigationActions } from 'react-navigation';
 import { once } from 'lodash';
 import Camera from 'react-native-camera';
 
-import { scanProfile } from '../../ducks/user/actions';
+import { getUserInfo } from '../../ducks/user/actions';
 
 class Scan extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Scan extends Component {
   navigate(val) {
     const navigateAction = NavigationActions.navigate({
       routeName: val ? 'ScannedProfile' : 'SignedIn',
-      params: { uid: val.data },
+      params: { ...val },
     });
     this.props.navigation.dispatch(navigateAction);
     Vibration.vibrate(200);
@@ -37,7 +37,9 @@ class Scan extends Component {
         <Camera
           onBarCodeRead={_.once(event => {
             this.setState({ hideCamera: true }, () => {
-              this.navigate(event);
+              this.props.getUserInfo(event.data, false).then(result => {
+                this.navigate(result);
+              });
             });
           })}
           style={styles.preview}
@@ -69,7 +71,7 @@ const mapStateToProps = ({ profileReducer }) => {
   return profileReducer;
 };
 
-export default connect(mapStateToProps, { scanProfile })(Scan);
+export default connect(mapStateToProps, { getUserInfo })(Scan);
 
 const styles = StyleSheet.create({
   container: {

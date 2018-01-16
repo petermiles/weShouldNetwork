@@ -9,9 +9,9 @@ import {
 } from './styles';
 
 export const ProfileFavoriteButton = props => {
-	const { saveItem, saved, loading } = props;
-	return props.ownProfile || loading ? (
-		<FavoriteButtonPlaceholder />
+	const { saveItem, saved, loading, ownProfile } = props;
+	return ownProfile || loading ? (
+		<FavoriteButtonPlaceholder loading={loading} ownProfile={ownProfile} />
 	) : (
 		<FavoriteButton
 			saved={saved}
@@ -30,7 +30,7 @@ export const ProfileFavoriteButton = props => {
 						}}
 					/>
 				)}
-				{loading && !props.ownProfile ? (
+				{loading && !ownProfile ? (
 					<ActivityIndicator size={24} color={'white'} />
 				) : (
 					<FavoriteButtonText saved={saved}>

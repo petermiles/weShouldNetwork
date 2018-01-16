@@ -40,7 +40,6 @@ export default function favoritesReducer(state = initialState, action) {
 		case `${GET_FAVORITES_FROM_DB}_PENDING`:
 			return Object.assign({}, state, { loading: true });
 		case `${GET_FAVORITES_FROM_DB}_FULFILLED`:
-			console.log(action.payload);
 			return Object.assign({}, state, {
 				favorites: action.payload,
 				loading: false,
@@ -52,7 +51,6 @@ export default function favoritesReducer(state = initialState, action) {
 		case `${CHECK_FAVORITES_FOR_SAVED}_PENDING`:
 			return Object.assign({}, state, { loading: true });
 		case `${CHECK_FAVORITES_FOR_SAVED}_FULFILLED`:
-			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
 				saved: action.payload,

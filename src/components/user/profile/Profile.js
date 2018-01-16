@@ -5,7 +5,11 @@ import ProfileHead from './profileHead/ProfileHead';
 import Settings from '../settings/Settings';
 
 import { connect } from 'react-redux';
-import { getUserInfo, pullUserFromLocal } from 'src/ducks/user/actions';
+import {
+  getUserInfo,
+  pullUserFromLocal,
+  pullUserFromDb,
+} from 'src/ducks/user/actions';
 
 import {
   CenteredView,
@@ -26,14 +30,10 @@ class Profile extends Component {
 
   componentDidMount() {
     let userData = AsyncStorage.getItem('USER_DATA');
-    this.props.navigation.state.params
-      ? this.props.getUserInfo(this.props.navigation.state.params.uid, '')
-      : userData ? this.props.pullUserFromLocal() : null;
+    !this.props.navigation.state.params
+      ? userData ? this.props.pullUserFromLocal() : this.props.pullUserFromDb()
+      : null;
   }
-
-  // AsyncStorage.getItem('USER_DATA').then(result => {
-  //         this.props.getUserInfo(JSON.parse(result).uid,);
-  //       });
 
   render() {
     const { settingsVisible } = this.state;
@@ -109,6 +109,8 @@ const mapStateToProps = ({ profileReducer, favoritesReducer }) => {
   return { profileReducer, favoritesReducer };
 };
 
-export default connect(mapStateToProps, { getUserInfo, pullUserFromLocal })(
-  Profile
-);
+export default connect(mapStateToProps, {
+  getUserInfo,
+  pullUserFromLocal,
+  pullUserFromDb,
+})(Profile);
