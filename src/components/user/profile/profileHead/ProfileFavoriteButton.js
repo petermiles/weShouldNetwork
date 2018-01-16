@@ -9,11 +9,13 @@ import {
 } from './styles';
 
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 let loading = false;
+let ownProfile = true;
 
 export const ProfileFavoriteButton = props => {
-	return !props.ownProfile ? (
+	return ownProfile ? (
 		<FavoriteButtonPlaceholder />
 	) : (
 		<FavoriteButton
@@ -60,3 +62,10 @@ export const ProfileFavoriteButton = props => {
 		</FavoriteButton>
 	);
 };
+
+const mapStateToProps = ({ profileReducer }) => {
+	ownProfile = profileReducer.uid === profileReducer.profileUid ? true : false;
+	return {};
+};
+
+export default connect(mapStateToProps)(ProfileFavoriteButton);

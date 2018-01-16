@@ -67,7 +67,7 @@ class Profile extends Component {
           name={name}
           position={position}
           loading={loading}
-          ownProfile={ownProfile}
+          ownProfile={profileUid === uid}
           handleModal={() => {
             this.setState({ settingsVisible: true });
           }}
