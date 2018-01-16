@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, AsyncStorage, Text } from "react-native";
+import { View, AsyncStorage, ScrollView } from "react-native";
 import IndivFavorite from "./IndivFavorite";
 import axios from "axios";
 
@@ -10,7 +10,7 @@ export default class FavoritesPage extends Component {
 		super(props);
 
 		this.state = {
-			favorites: "",
+			favorites: [],
 			searchedFavorites: [],
 			loading: true,
 			noResults: false,
@@ -40,15 +40,10 @@ export default class FavoritesPage extends Component {
 
 	componentDidMount() {
 		AsyncStorage.getItem("USER_DATA").then(result => {
-<<<<<<< HEAD
 			axios.get(`http://172.31.99.35:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
-				this.setState({ favorites: result.data, loading: false });
-=======
-			axios.get(`http://192.168.1.239:3001/api/user/favorites/get/${JSON.parse(result).uid}`).then(result => {
 				this.setState({ favorites: result.data, loading: false }, () => {
 					AsyncStorage.setItem("USER_FAVORITES", JSON.stringify(result.data));
 				});
->>>>>>> 547d128468ac9b94249870dd4b4876923b461ed8
 			});
 		});
 	}
@@ -58,10 +53,6 @@ export default class FavoritesPage extends Component {
 		return (
 			<View>
 				<Search changeSearchText={text => this.handleSearch(text)} />
-<<<<<<< HEAD
-				{favs.length ? (
-					favs.map((favorite, i) => (
-=======
 				<ScrollView>
 					{favs.length ? (
 						favs.map((favorite, i) => {
@@ -80,21 +71,15 @@ export default class FavoritesPage extends Component {
 							);
 						})
 					) : (
->>>>>>> 547d128468ac9b94249870dd4b4876923b461ed8
 						<IndivFavorite
-							key={i}
-							loading={this.state.loading}
-							name={favorite.name}
-							picture={favorite.profilepic}
-							position={favorite.position}
-							company={favorite.company}
-							profileuid={favorite.favoriteuid}
-							navigate={this.props.navigation.dispatch}
+							name={"Uhoh!"}
+							picture={""}
+							position={"You don't have any favorites."}
+							company={"Scan someone's profile to add them to your favorites."}
+							profileuid={""}
 						/>
-					))
-				) : (
-					<Text> Loading </Text>
-				)}
+					)}
+				</ScrollView>
 			</View>
 		);
 	}

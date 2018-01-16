@@ -1,8 +1,14 @@
-import React from "react";
-import { View } from "react-native";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { connect } from 'react-redux';
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { ProfileFavoriteButton } from "./ProfileFavoriteButton";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ProfileFavoriteButton } from './ProfileFavoriteButton';
+
+import {
+	saveFavorite,
+	checkFavoritesForSaved,
+} from './../../../../ducks/favorites/actions';
 
 import {
 	ProfileImage,
@@ -15,36 +21,76 @@ import {
 	JobCompanyLoading,
 	CenterView,
 	InfoButton,
-} from "./styles";
+} from './styles';
 
-export default function profileHead(props) {
-	const image = !props.profilePicURL ? require("./placeholder.png") : { uri: props.profilePicURL };
-	if (!props.loading) {
-		return (
-			<View>
-				<InfoButton hitSlop={{ top: 15, left: 15, right: 25, bottom: 25 }} onPress={props.handleModal}>
-					<Icon name={"settings"} style={{ color: "#757575", fontSize: 30, height: 70 }} />
-				</InfoButton>
-				<CenterView>
-					<ProfileImage source={image} />
-					<MainName> {props.name} </MainName>
-					<JobPosition> {props.position} </JobPosition>
-					<JobCompany> {props.company} </JobCompany>
-					{props.ownProfile ? (
-						<ProfileFavoriteButton userUid={props.userUid} saveItem={props.saveItem} />
-					) : (
-						<View style={{ height: 40, marginBottom: 20 }} />
-					)}
-				</CenterView>
-			</View>
-		);
+class ProfileHead extends Component {
+	componentDidMount() {
+		const { profileUid, uid } = this.props.profileReducer;
+		this.props.checkFavoritesForSaved(profileUid, uid);
 	}
-	return (
-		<CenterView>
-			<ProfileImageLoading />
-			<MainNameLoading />
-			<JobPositionLoading />
-			<JobCompanyLoading />
-		</CenterView>
-	);
+
+	render() {
+		const {
+			name,
+			position,
+			company,
+			profileUid,
+			uid,
+			profilePicURL,
+		} = this.props.profileReducer;
+
+		const { loading, saved } = this.props.favoritesReducer;
+
+		const image = !profilePicURL
+			? require('./placeholder.png')
+			: { uri: profilePicURL };
+		if (!this.props.loading) {
+			return (
+				<View>
+					<InfoButton
+						hitSlop={{ top: 15, left: 15, right: 25, bottom: 25 }}
+						onPress={this.props.handleModal}>
+						<Icon
+							name={'settings'}
+							style={{ color: '#757575', fontSize: 30, height: 70 }}
+						/>
+					</InfoButton>
+					<CenterView>
+						<ProfileImage source={image} />
+						<MainName> {name} </MainName>
+						<JobPosition> {position} </JobPosition>
+						<JobCompany> {company} </JobCompany>
+						<ProfileFavoriteButton
+							loading={loading}
+							saved={saved}
+							profileUid={profileUid}
+							userUid={uid}
+							ownProfile={profileUid === uid}
+							saveItem={() => {
+								this.props.saveFavorite(profileUid, uid);
+							}}
+						/>
+					</CenterView>
+				</View>
+			);
+		} else {
+			return (
+				<CenterView>
+					<ProfileImageLoading />
+					<MainNameLoading />
+					<JobPositionLoading />
+					<JobCompanyLoading />
+				</CenterView>
+			);
+		}
+	}
 }
+
+const mapStateToProps = ({ profileReducer, favoritesReducer }) => {
+	return { profileReducer, favoritesReducer };
+};
+
+export default connect(mapStateToProps, {
+	saveFavorite,
+	checkFavoritesForSaved,
+})(ProfileHead);

@@ -1,38 +1,29 @@
-import React from "react";
-import { View, AsyncStorage, ActivityIndicator } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { FavoriteButton, FavoriteButtonText } from "./styles";
-
-import axios from "axios";
-
-let loading = false;
+import {
+	FavoriteButton,
+	FavoriteButtonText,
+	FavoriteButtonPlaceholder,
+} from './styles';
 
 export const ProfileFavoriteButton = props => {
-	return (
+	const { saveItem, saved, loading } = props;
+	return props.ownProfile || loading ? (
+		<FavoriteButtonPlaceholder />
+	) : (
 		<FavoriteButton
-			saved={props.saved}
+			saved={saved}
 			onPress={() => {
-				loading = true;
-				!props.saved &&
-					axios
-						.post("http://192.168.1.239:3001/api/user/favorites/save", {
-							profileUid: props.profileUid,
-							userUid: props.userUid,
-						})
-						.then(result => {
-							AsyncStorage.setItem("USER_FAVORITES", JSON.stringify(result.data), () => {
-								loading = false;
-								props.saveItem();
-							});
-						});
+				!saved ? saveItem() : null;
 			}}>
-			<View style={{ flexDirection: "row", justifyContent: "center" }}>
-				{props.saved && (
+			<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+				{saved && (
 					<Icon
-						name={"check"}
+						name={'check'}
 						style={{
-							color: "white",
+							color: 'white',
 							fontSize: 23,
 							height: 23,
 							marginRight: 5,
@@ -40,9 +31,11 @@ export const ProfileFavoriteButton = props => {
 					/>
 				)}
 				{loading ? (
-					<ActivityIndicator size={24} color={"white;"} />
+					<ActivityIndicator size={24} color={'white'} />
 				) : (
-					<FavoriteButtonText saved={props.saved}>{props.saved ? "Saved" : "Add to Favorites"} </FavoriteButtonText>
+					<FavoriteButtonText saved={saved}>
+						{saved ? 'Saved' : 'Add to Favorites'}{' '}
+					</FavoriteButtonText>
 				)}
 			</View>
 		</FavoriteButton>

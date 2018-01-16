@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
 export const ProfileImage = styled.Image`
 	height: 90;
@@ -76,13 +76,12 @@ export const JobCompanyLoading = styled.View`
 `;
 
 export const FavoriteButton = styled.TouchableOpacity`
-	flex: 1;
 	justify-content: center;
-	background-color: ${props => (props.saved ? "#4CAF50" : "#0069c0")};
+	elevation: 5;
+	background-color: ${props => (props.saved ? '#4CAF50' : '#0069c0')};
 	height: 40;
 	width: 200;
 	margin-bottom: 20;
-	elevation: 2;
 `;
 
 export const FavoriteButtonText = styled.Text`
@@ -90,6 +89,12 @@ export const FavoriteButtonText = styled.Text`
 	color: white;
 	font-size: 18;
 	margin-right: ${props => (props.saved ? 7 : 0)};
+`;
+
+export const FavoriteButtonPlaceholder = styled.View`
+	height: 40;
+	width: 200;
+	margin-bottom: 20;
 `;
 
 export const CenterView = styled.View`

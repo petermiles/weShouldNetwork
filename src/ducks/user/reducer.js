@@ -1,29 +1,36 @@
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from 'react-native';
 
-import { CHANGE_EMAIL, CHANGE_NAME, CHANGE_PICTURE, GET_USER_INFO, SCAN_PROFILE } from "./actions";
+import {
+	CHANGE_EMAIL,
+	CHANGE_NAME,
+	CHANGE_PICTURE,
+	GET_USER_INFO,
+	SCAN_PROFILE,
+	PULL_USER_FROM_LOCAL,
+} from './actions';
 
 let initialState = {
-	uid: "",
+	uid: '',
 	loading: false,
 	error: false,
-	name: "",
-	company: "",
-	position: "",
-	profilePicURL: "",
-	profileUid: "",
+	name: '',
+	company: '',
+	position: '',
+	profilePicURL: '',
+	profileUid: '',
 	ownProfile: true,
 };
 
-AsyncStorage.getItem("USER_DATA").then(result => {
+AsyncStorage.getItem('USER_DATA').then(result => {
 	initialState.uid = JSON.parse(result).uid;
 });
 
 export default function profileReducer(state = initialState, action) {
 	switch (action.type) {
-		case GET_USER_INFO + "_PENDING":
+		case GET_USER_INFO + '_PENDING':
 			return Object.assign({}, state, { loading: true });
-		case GET_USER_INFO + "_FULFILLED":
-			const { name, position, company, profilepic, uid } = action.payload.data;
+		case GET_USER_INFO + '_FULFILLED':
+			const { name, position, company, profilepic, uid } = action.payload;
 			return Object.assign({}, state, {
 				name,
 				position,
@@ -53,11 +60,19 @@ export default function profileReducer(state = initialState, action) {
 			return Object.assign({}, state, { loading: false });
 		case `${CHANGE_PICTURE}_REJECTED`:
 			return Object.assign({}, state, { loading: true, error: true });
-		case `${SCAN_PROFILE}_PENDING`:
+		case `${PULL_USER_FROM_LOCAL}_PENDING`:
 			return Object.assign({}, state, { loading: true });
-		case `${SCAN_PROFILE}_FULFILLED`:
-			return Object.assign({}, state, { loading: false });
-		case `${SCAN_PROFILE}_REJECTED`:
+		case `${PULL_USER_FROM_LOCAL}_FULFILLED`:
+			return Object.assign({}, state, {
+				loading: false,
+				name: action.payload.name,
+				position: action.payload.position,
+				company: action.payload.company,
+				profilePicURL: action.payload.profilepic,
+				profileUid: action.payload.uid,
+				ownProfile: state.uid === action.payload.uid,
+			});
+		case `${PULL_USER_FROM_LOCAL}_REJECTED`:
 			return Object.assign({}, state, { loading: true, error: true });
 		default:
 			return state;

@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Container, Content } from "native-base";
-import { Vibration, AsyncStorage, KeyboardAvoidingView } from "react-native";
-import axios from "axios";
-import ConnectLinkPage from "./connectLink/ConnectLinkPage";
-import AddLinkModal from "./editLinks/AddLink/AddLinkModal";
-import { Fab } from "./fab/Fab";
-import EditModal from "./connectLink/EditModal";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Container, Content } from 'native-base';
+import { Vibration, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import axios from 'axios';
+import ConnectLinkPage from './connectLink/ConnectLinkPage';
+import AddLinkModal from './editLinks/AddLink/AddLinkModal';
+import { Fab } from './fab/Fab';
+import EditModal from './connectLink/EditModal';
+import { connect } from 'react-redux';
 
-import { getLinksFromNav, getLinksFromLocal } from "src/ducks/links/actions";
+import { getLinksFromNav, getLinksFromLocal } from 'src/ducks/links/actions';
 
 class Connect extends Component {
   constructor(props) {
@@ -18,10 +18,9 @@ class Connect extends Component {
       editable: false,
       loading: false,
       links: [],
-      providers: ["LinkedIn", "Twitter", "Medium", "Phone", "Email"],
-      editableName: "",
-      editableLink: "",
-      editableColor: "",
+      editableName: '',
+      editableLink: '',
+      editableColor: '',
       ownProfile: true,
       addLink: false,
       addLinkShow: false,
@@ -48,41 +47,51 @@ class Connect extends Component {
       link: state.editLink,
       id: state.editId,
     };
-    axios.put("http://192.168.1.239:3001/api/user/connectLink/update", editInfo).then(() => {
-      this.setState({ editable: !this.state.editable });
-    });
+    axios
+      .put('http://172.31.99.35:3001/api/user/connectLink/update', editInfo)
+      .then(() => {
+        this.setState({ editable: !this.state.editable });
+      });
   }
 
   handleDelete(state) {
-    axios.delete(`http://192.168.1.239:3001/api/user/connectLink/delete/${state.id}`).then(result => {
-      AsyncStorage.setItem("USER_LINKS", JSON.stringify(result.data), () => {
-        this.setState({ links: result.data });
+    axios
+      .delete(
+        `http://172.31.99.35:3001/api/user/connectLink/delete/${state.id}`
+      )
+      .then(result => {
+        AsyncStorage.setItem('USER_LINKS', JSON.stringify(result.data), () => {
+          this.setState({ links: result.data });
+        });
       });
-    });
   }
 
   getUserData() {
-    AsyncStorage.getItem("USER_LINKS").then(res => {
+    AsyncStorage.getItem('USER_LINKS').then(res => {
       this.setState({ links: JSON.parse(res) });
     });
   }
 
   componentDidMount() {
-    this.props.getLinksFromNav("LinkedIn-Bfnq6wZRo");
     this.props.navigation.state.params
       ? this.props.getLinksFromNav(this.props.navigation.state.params.uid)
-      : AsyncStorage.getItem("USER_LINKS")
+      : AsyncStorage.getItem('USER_LINKS')
         ? this.props.getLinksFromLocal()
-        : AsyncStorage.getItem("USER_DATA")
-            .then(result => {
-              axios
-                .get(`http://192.168.1.239:3001/api/user/getConnectLinks/${JSON.parse(result).uid}`)
-                .then(result => {
-                  this.setState({ links: result.data, loading: false });
-                })
-                .catch(console.log);
-            })
-            .catch(console.log);
+        : AsyncStorage.getItem('USER_DATA').then(result => {
+            axios
+              .get(
+                `http://172.31.99.35:3001/api/user/getConnectLinks/${
+                  JSON.parse(result).uid
+                }`
+              )
+              .then(result => {
+                this.setState({
+                  links: result.data,
+                  loading: false,
+                  editable: true,
+                });
+              });
+          });
   }
 
   render() {
@@ -97,7 +106,7 @@ class Connect extends Component {
       editableColor,
       addLinkShow,
     } = this.state;
-    const { providers, links } = this.props.linkReducer;
+    const { providers, links } = this.props;
 
     return (
       <Container>
@@ -129,10 +138,11 @@ class Connect extends Component {
         </Content>
         {this.state.ownProfile && (
           <Fab
-            linksLength={links.length}
             openItems={() => this.setState({ editable: !editable })}
             editLinks={() => this.setState({ editable: true })}
             addLink={() => this.setState({ addLink: !addLink })}
+            linksLength={links.length}
+            ownProfile={ownProfile}
             editable={this.state.editable}
           />
         )}
@@ -140,7 +150,7 @@ class Connect extends Component {
           <AddLinkModal
             closeModal={() => {
               this.setState({ addLink: false }, () => {
-                AsyncStorage.getItem("USER_LINKS").then(res => {
+                AsyncStorage.getItem('USER_LINKS').then(res => {
                   this.setState({ links: JSON.parse(res), editable: false });
                 });
               });
@@ -159,8 +169,10 @@ class Connect extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return state;
+const mapStateToProps = ({ linkReducer }) => {
+  return linkReducer;
 };
 
-export default connect(mapStateToProps, { getLinksFromNav, getLinksFromLocal })(Connect);
+export default connect(mapStateToProps, { getLinksFromNav, getLinksFromLocal })(
+  Connect
+);

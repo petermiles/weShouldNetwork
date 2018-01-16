@@ -2,8 +2,7 @@ const getUser = (req, res) => {
   req.app
     .get('db')
     .getUserProfileInfo({ uid: req.params.id })
-    .then((result) => {
-      console.log(result);
+    .then(result => {
       res.json(result[0]);
     });
 };
@@ -12,7 +11,7 @@ const getConnectLinks = (req, res) => {
   req.app
     .get('db')
     .getConnectLinks({ uid: req.params.userid })
-    .then((result) => {
+    .then(result => {
       res.json(result);
     })
     .catch(console.log);
@@ -36,7 +35,7 @@ const deleteConnectLink = (req, res) => {
   req.app
     .get('db')
     .connectLinkDelete({ id: req.params.userid })
-    .then((result) => {
+    .then(result => {
       req.app
         .get('db')
         .connectLinkGet({ uid: result[0].uid })
@@ -49,8 +48,7 @@ const saveFavorite = (req, res) => {
   req.app
     .get('db')
     .favoriteSave(req.body)
-    .then((result) => {
-      console.log(result);
+    .then(result => {
       res.json(result);
     });
 };
@@ -59,9 +57,17 @@ const getFavorites = (req, res) => {
   req.app
     .get('db')
     .favoriteGet({ id: req.params.userid })
-    .then((result) => {
-      console.log(result);
+    .then(result => {
       return res.json(result);
+    });
+};
+
+const checkSaved = (req, res) => {
+  req.app
+    .get('db')
+    .favoriteCheckSaved(req.body)
+    .then(result => {
+      result.length ? res.json(true) : res.json(false);
     });
 };
 
@@ -73,4 +79,5 @@ module.exports = {
   deleteConnectLink,
   saveFavorite,
   getFavorites,
+  checkSaved,
 };
