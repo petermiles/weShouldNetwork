@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content } from 'native-base';
-import { Vibration, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import { Vibration, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import ConnectLinkPage from './connectLink/ConnectLinkPage';
 import AddLinkModal from './editLinks/AddLink/AddLinkModal';
@@ -8,7 +8,12 @@ import { Fab } from './fab/Fab';
 import EditModal from './connectLink/EditModal';
 import { connect } from 'react-redux';
 
-import { getLinksFromNav, getLinksFromLocal } from 'src/ducks/links/actions';
+import {
+  getLinksFromNav,
+  getLinksFromLocal,
+  updateLink,
+  deleteLink,
+} from 'src/ducks/links/actions';
 
 class Connect extends Component {
   constructor(props) {
@@ -47,23 +52,13 @@ class Connect extends Component {
       link: state.editLink,
       id: state.editId,
     };
-    axios
-      .put('http://172.31.99.35:3001/api/user/connectLink/update', editInfo)
-      .then(() => {
-        this.setState({ editable: !this.state.editable });
-      });
+    this.props
+      .updateLink(editInfo)
+      .then(() => this.setState({ editable: false }));
   }
 
   handleDelete(state) {
-    axios
-      .delete(
-        `http://172.31.99.35:3001/api/user/connectLink/delete/${state.id}`
-      )
-      .then(result => {
-        AsyncStorage.setItem('USER_LINKS', JSON.stringify(result.data), () => {
-          this.setState({ links: result.data });
-        });
-      });
+    this.props.deleteLink(state.id);
   }
 
   getUserData() {
@@ -75,7 +70,7 @@ class Connect extends Component {
   componentDidMount() {
     this.props.navigation.state.params
       ? this.props.getLinksFromNav(this.props.navigation.state.params.uid)
-      : this.props.getLinksFromLocal();
+      : this.props.getLinksFromLocal(this.props.uid);
   }
 
   render() {
@@ -152,10 +147,17 @@ class Connect extends Component {
   }
 }
 
-const mapStateToProps = ({ linkReducer }) => {
-  return linkReducer;
+const mapStateToProps = ({ linkReducer, profileReducer }) => {
+  console.log(profileReducer);
+  return {
+    ...linkReducer,
+    uid: profileReducer.uid,
+  };
 };
 
-export default connect(mapStateToProps, { getLinksFromNav, getLinksFromLocal })(
-  Connect
-);
+export default connect(mapStateToProps, {
+  getLinksFromNav,
+  getLinksFromLocal,
+  updateLink,
+  deleteLink,
+})(Connect);

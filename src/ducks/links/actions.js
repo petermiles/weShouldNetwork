@@ -19,7 +19,12 @@ export function getLinksFromNav(uid) {
 export function getLinksFromLocal(uid) {
 	return {
 		type: GET_LINKS_FROM_LOCAL,
-		payload: AsyncStorage.getItem('USER_LINKS'),
+		payload: axios
+			.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${uid}`)
+			.then(res => {
+				console.log(res.data);
+				return res.data;
+			}),
 	};
 }
 
@@ -43,16 +48,21 @@ export function saveLink(link, provider, uid) {
 	};
 }
 
-export function updateLink(state) {
+export function updateLink(editInfo) {
 	return {
 		type: UPDATE_LINK,
-		payload: '',
+		payload: axios
+			.put('http://172.31.99.35:3001/api/user/connectLink/update', editInfo)
+			.then(res => res.data),
 	};
 }
 
-export function deleteLink(state) {
+export function deleteLink(linkId) {
+	console.log(linkId);
 	return {
 		type: DELETE_LINK,
-		payload: '',
+		payload: axios
+			.delete(`http://172.31.99.35:3001/api/user/connectLink/delete/${linkId}`)
+			.then(res => res.data),
 	};
 }

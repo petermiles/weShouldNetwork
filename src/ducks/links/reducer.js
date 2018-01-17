@@ -33,22 +33,22 @@ export default function linkReducer(state = initialState, action) {
 		case GET_LINKS_FROM_LOCAL + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case GET_LINKS_FROM_LOCAL + '_FULFILLED':
+			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
-				links: JSON.parse(action.payload),
-
-				providers: initialState.providers.filter(x =>
-					JSON.parse(action.payload).find(
-						curr => x.toLowerCase() !== curr.servicename.toLowerCase()
-					)
-				),
+				links: action.payload,
 			});
 		case GET_LINKS_FROM_LOCAL + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
 		case SAVE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case SAVE_LINK + '_FULFILLED':
-			return Object.assign({}, state, { loading: false });
+			console.log(action.payload, typeof action.payload);
+			// AsyncStorage.setItem({ USER_LINKS: JSON.parse(action.payload) });
+			return Object.assign({}, state, {
+				loading: false,
+				links: action.payload,
+			});
 		case SAVE_LINK + '_REJECTED':
 			return Object.assign({}, state, {
 				loading: true,
@@ -58,13 +58,24 @@ export default function linkReducer(state = initialState, action) {
 		case UPDATE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case UPDATE_LINK + '_FULFILLED':
-			return Object.assign({}, state, { loading: false });
+			action.payload
+				? AsyncStorage.setItem({ USER_LINKS: JSON.parse(action.payload) })
+				: null;
+			return Object.assign({}, state, {
+				loading: false,
+				links: action.payload,
+			});
 		case UPDATE_LINK + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
 		case DELETE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case DELETE_LINK + '_FULFILLED':
-			return Object.assign({}, state, { loading: false });
+			AsyncStorage.setItem({ USER_LINKS: JSON.stringify(action.payload) });
+			console.log(action.payload);
+			return Object.assign({}, state, {
+				loading: false,
+				links: action.payload,
+			});
 		case DELETE_LINK + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
 		default:

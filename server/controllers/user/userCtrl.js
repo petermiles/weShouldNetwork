@@ -8,10 +8,12 @@ const getUser = (req, res) => {
 };
 
 const getConnectLinks = (req, res) => {
+  console.log(req.params);
   req.app
     .get('db')
-    .getConnectLinks({ uid: req.params.userid })
+    .connectLinkGet({ uid: req.params.uid })
     .then(result => {
+      console.log(result);
       res.json(result);
     })
     .catch(console.log);
@@ -34,7 +36,7 @@ const updateConnectLink = (req, res) => {
 const deleteConnectLink = (req, res) => {
   req.app
     .get('db')
-    .connectLinkDelete({ id: req.params.userid })
+    .connectLinkDelete(req.params)
     .then(result => {
       req.app
         .get('db')
