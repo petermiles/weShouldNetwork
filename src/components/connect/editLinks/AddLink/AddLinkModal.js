@@ -6,6 +6,8 @@ import LinkSlide from './slides/LinkSlide';
 import { ProvidersSlide } from './slides/ProvidersSlide';
 import { ConfirmSlide } from './slides/ConfirmSlide';
 
+import { saveLink } from './../../../../ducks/links/actions';
+
 import axios from 'axios';
 
 class AddLinkModal extends Component {
@@ -33,31 +35,34 @@ class AddLinkModal extends Component {
 	}
 
 	saveLink(link, provider) {
-		this.setState({ loading: true }, () => {
-			AsyncStorage.getItem('USER_DATA').then(result => {
-				axios
-					.post('http://172.31.99.35:3001/api/user/connectLink/add', {
-						link,
-						provider,
-						uid: JSON.parse(result).uid,
-					})
-					.then(result => {
-						AsyncStorage.setItem(
-							'USER_LINKS',
-							JSON.stringify(result.data),
-							() => {
-								AsyncStorage.getItem('USER_LINKS').then(result => {
-									console.log(JSON.parse(result));
-									this.setState({ loading: false }, () => {
-										this.props.closeModal();
-									});
-								});
-							}
-						);
-					})
-					.catch(error => {});
-			});
-		});
+		this.props
+			.saveLink(link, provider, this.props.uid)
+			.then(() => this.props.closeModal());
+		// this.setState({ loading: true }, () => {
+		// 	AsyncStorage.getItem('USER_DATA').then(result => {
+		// 		axios
+		// 			.post('http://172.31.99.35:3001/api/user/connectLink/add', {
+		// 				link,
+		// 				provider,
+		// 				uid: JSON.parse(result).uid,
+		// 			})
+		// 			.then(result => {
+		// 				AsyncStorage.setItem(
+		// 					'USER_LINKS',
+		// 					JSON.stringify(result.data),
+		// 					() => {
+		// 						AsyncStorage.getItem('USER_LINKS').then(result => {
+		// 							console.log(JSON.parse(result));
+		// 							this.setState({ loading: false }, () => {
+		// 								this.props.closeModal();
+		// 							});
+		// 						});
+		// 					}
+		// 				);
+		// 			})
+		// 			.catch(error => {});
+		// 	});
+		// });
 	}
 
 	render() {
@@ -134,8 +139,8 @@ class AddLinkModal extends Component {
 	}
 }
 
-const mapStateToProps = ({ linkReducer }) => {
-	return linkReducer;
+const mapStateToProps = ({ linkReducer, profileReducer }) => {
+	return { linkReducer, uid: profileReducer.uid };
 };
 
-export default connect(mapStateToProps)(AddLinkModal);
+export default connect(mapStateToProps, { saveLink })(AddLinkModal);

@@ -1,7 +1,7 @@
 import {
 	GET_LINKS_FROM_NAV,
 	GET_LINKS_FROM_LOCAL,
-	ADD_LINK,
+	SAVE_LINK,
 	UPDATE_LINK,
 	DELETE_LINK,
 } from './actions';
@@ -12,6 +12,7 @@ let initialState = {
 	links: [],
 	loading: false,
 	error: false,
+	saved: false,
 	providers: ['LinkedIn', 'Twitter', 'Medium', 'Phone', 'Email'],
 	editableName: '',
 	editableLink: '',
@@ -32,22 +33,28 @@ export default function linkReducer(state = initialState, action) {
 		case GET_LINKS_FROM_LOCAL + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case GET_LINKS_FROM_LOCAL + '_FULFILLED':
-			let links = JSON.parse(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
-				links: links,
+				links: JSON.parse(action.payload),
+
 				providers: initialState.providers.filter(x =>
-					links.find(curr => x.toLowerCase() !== curr.servicename.toLowerCase())
+					JSON.parse(action.payload).find(
+						curr => x.toLowerCase() !== curr.servicename.toLowerCase()
+					)
 				),
 			});
 		case GET_LINKS_FROM_LOCAL + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
-		case ADD_LINK + '_PENDING':
+		case SAVE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
-		case ADD_LINK + '_FULFILLED':
+		case SAVE_LINK + '_FULFILLED':
 			return Object.assign({}, state, { loading: false });
-		case ADD_LINK + '_REJECTED':
-			return Object.assign({}, state, { loading: true, error: false });
+		case SAVE_LINK + '_REJECTED':
+			return Object.assign({}, state, {
+				loading: true,
+				links: action.payload,
+				saved: true,
+			});
 		case UPDATE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case UPDATE_LINK + '_FULFILLED':

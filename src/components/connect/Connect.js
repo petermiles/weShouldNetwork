@@ -90,7 +90,7 @@ class Connect extends Component {
       editableColor,
       addLinkShow,
     } = this.state;
-    const { providers, links } = this.props;
+    const { providers, links, saved } = this.props;
 
     return (
       <Container>
@@ -130,24 +130,23 @@ class Connect extends Component {
             editable={this.state.editable}
           />
         )}
-        <KeyboardAvoidingView behavior="padding">
-          <AddLinkModal
-            closeModal={() => {
-              this.setState({ addLink: false }, () => {
-                AsyncStorage.getItem('USER_LINKS').then(res => {
-                  this.setState({ links: JSON.parse(res), editable: false });
-                });
+        <AddLinkModal
+          closeModal={() => {
+            this.setState({ addLink: false }, () => {
+              AsyncStorage.getItem('USER_LINKS').then(res => {
+                this.setState({ links: JSON.parse(res), editable: false });
               });
-            }}
-            updateLink={() => {
-              this.getUserData();
-            }}
-            providers={providers}
-            addLinkShow={addLinkShow}
-            visible={addLink}
-            links={this.props.links}
-          />
-        </KeyboardAvoidingView>
+            });
+          }}
+          updateLink={() => {
+            this.getUserData();
+          }}
+          providers={providers}
+          addLinkShow={addLinkShow}
+          visible={addLink}
+          saved={saved}
+          links={this.props.links}
+        />
       </Container>
     );
   }
