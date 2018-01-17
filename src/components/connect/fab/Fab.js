@@ -11,7 +11,7 @@ export const Fab = props => {
 when the confirm edit button enters, have an animation that reduces the size of it over time and rotates at the same time. gets smaller and rotates down. then have the normal fab button do the opposite at the same time. maybe have like a scale [100, 90, 80, 70, 50, 40, 0] so it doesn't have to completely leave. when it finishes the animation, trigger the other function thatt makes the other bigger. maybe just have the icon change with the animation and change the background color of the actual fab button? idk
  */
 	}
-	if (props.linksLength && props.ownProfile) {
+	if (props.linksLength) {
 		return (
 			<ActionButton
 				spacing={15}

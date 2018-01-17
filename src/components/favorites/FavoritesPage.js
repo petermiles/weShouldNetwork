@@ -90,7 +90,11 @@ class FavoritesPage extends Component {
 }
 
 const mapStateToProps = ({ favoritesReducer, profileReducer }) => {
-	return { favoritesReducer, uid: profileReducer.uid };
+	return {
+		favoritesReducer,
+		uid: profileReducer.uid,
+		transitioning: profileReducer.transitioning,
+	};
 };
 
 export default connect(mapStateToProps, {

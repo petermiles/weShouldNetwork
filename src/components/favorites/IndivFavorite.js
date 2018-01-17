@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { View, Text, Image } from 'react-native';
-
-import styled from 'styled-components/native';
+import { View } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
 
@@ -10,7 +8,6 @@ import Placeholder from 'rn-placeholder';
 
 import {
 	StyledContainer,
-	IndivFavContainer,
 	CenteredRow,
 	ImageContainer,
 	FavoritePicture,
@@ -26,14 +23,12 @@ export default function IndivFavorite(props) {
 		<StyledContainer
 			activeOpacity={0.8}
 			onPress={() => {
-				props.getUserInfo(props.profileuid).then(result => {
-					props.navigate(
-						NavigationActions.navigate({
-							routeName: 'ScannedProfile',
-							params: { ...result },
-						})
-					);
-				});
+				props.navigate(
+					NavigationActions.navigate({
+						routeName: 'ScannedProfile',
+						params: { uid: props.profileuid },
+					})
+				);
 			}}>
 			<CenteredRow>
 				<ImageContainer>

@@ -41,9 +41,7 @@ class ProfileHead extends Component {
 			profilePicURL,
 			ownProfile,
 		} = this.props.profileReducer;
-
 		const { loading, saved } = this.props.favoritesReducer;
-
 		const image = !profilePicURL
 			? require('./placeholder.png')
 			: { uri: profilePicURL };

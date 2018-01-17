@@ -29,6 +29,7 @@ export default function favoritesReducer(state = initialState, action) {
 		case `${GET_FAVORITES}_PENDING`:
 			return Object.assign({}, state, { loading: true });
 		case `${GET_FAVORITES}_FULFILLED`:
+			console.log(action.payload);
 			AsyncStorage.setItem('USER_FAVORITES', JSON.stringify(action.payload));
 			return Object.assign({}, state, {
 				favorites: action.payload,
@@ -36,6 +37,7 @@ export default function favoritesReducer(state = initialState, action) {
 				saved: true,
 			});
 		case `${GET_FAVORITES}_REJECTED`:
+			console.log('rejected');
 			return Object.assign({}, state, { loading: true });
 
 		case `${GET_FAVORITES_FROM_DB}_PENDING`:

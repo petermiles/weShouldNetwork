@@ -30,9 +30,10 @@ class Profile extends Component {
 
   componentDidMount() {
     let userData = AsyncStorage.getItem('USER_DATA');
-    !this.props.navigation.state.params
-      ? userData ? this.props.pullUserFromLocal() : this.props.pullUserFromDb()
-      : null;
+    let navuid = this.props.navigation.state.params;
+    !navuid
+      ? userData ? this.props.pullUserFromLocal() : null
+      : this.props.getUserInfo(navuid.uid);
   }
 
   render() {
@@ -47,7 +48,7 @@ class Profile extends Component {
       ownProfile,
     } = this.props.profileReducer;
 
-    return loading ? null : (
+    return (
       <ProfileContainer>
         <Settings
           visible={settingsVisible}
@@ -62,6 +63,7 @@ class Profile extends Component {
           }}
         />
         <ProfileHead
+          loading={loading}
           handleModal={() => {
             this.setState({ settingsVisible: true });
           }}
@@ -79,7 +81,7 @@ class Profile extends Component {
               }
               size={200}
               bgColor="black"
-              fgColor="white"
+              fgColor={loading ? '#eceff1' : '#eceff1'}
             />
           ) : (
             <QRCodeLoading />

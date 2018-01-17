@@ -6,10 +6,14 @@ export const GET_USER_INFO = 'GET_USER_INFO';
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_NAME = 'CHANGE_NAME';
 export const CHANGE_PICTURE = 'CHANGE_PICTURE';
-export const SCAN_PROFILE = 'SCAN_PROFILE';
+export const VALIDATE_QR = 'VALIDATE_QR';
 export const PULL_USER_FROM_LOCAL = 'PULL_USER_FROM_LOCAL';
 
+let localUser = AsyncStorage.getItem('USER_DATA');
+let favorites = AsyncStorage.getItem('USER_FAVORITES');
+
 export function getUserInfo(uid, auth) {
+	console.log(uid);
 	return {
 		type: GET_USER_INFO,
 		ownProfile: auth,
@@ -42,9 +46,9 @@ export function changePicture() {
 	};
 }
 
-export function scanProfile(uid) {
+export function validateQr(uid) {
 	return {
-		type: SCAN_PROFILE,
+		type: VALIDATE_QR,
 		payload: console.log(uid),
 	};
 }

@@ -7,7 +7,7 @@ import { NavigationActions } from 'react-navigation';
 import { once } from 'lodash';
 import Camera from 'react-native-camera';
 
-import { getUserInfo } from '../../ducks/user/actions';
+import { getUserInfo, validateQr } from '../../ducks/user/actions';
 
 class Scan extends Component {
   constructor(props) {
