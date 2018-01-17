@@ -44,7 +44,7 @@ export default function linkReducer(state = initialState, action) {
 			return Object.assign({}, state, { loading: true });
 		case SAVE_LINK + '_FULFILLED':
 			console.log(action.payload, typeof action.payload);
-			// AsyncStorage.setItem({ USER_LINKS: JSON.parse(action.payload) });
+			AsyncStorage.setItem('USER_LINKS', JSON.stringify(action.payload));
 			return Object.assign({}, state, {
 				loading: false,
 				links: action.payload,
@@ -59,7 +59,7 @@ export default function linkReducer(state = initialState, action) {
 			return Object.assign({}, state, { loading: true });
 		case UPDATE_LINK + '_FULFILLED':
 			action.payload
-				? AsyncStorage.setItem({ USER_LINKS: JSON.parse(action.payload) })
+				? AsyncStorage.setItem('USER_LINKS', JSON.stringify(action.payload))
 				: null;
 			return Object.assign({}, state, {
 				loading: false,
@@ -70,7 +70,7 @@ export default function linkReducer(state = initialState, action) {
 		case DELETE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case DELETE_LINK + '_FULFILLED':
-			AsyncStorage.setItem({ USER_LINKS: JSON.stringify(action.payload) });
+			AsyncStorage.setItem('USER_LINKS', JSON.stringify(action.payload));
 			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
