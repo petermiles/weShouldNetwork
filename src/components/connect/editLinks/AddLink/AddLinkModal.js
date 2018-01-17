@@ -1,60 +1,67 @@
 import React, { Component } from 'react';
-import { Modal, Dimensions, ScrollView, AsyncStorage } from 'react-native';
-
+import { connect } from 'react-redux';
+import { Modal, ScrollView, AsyncStorage } from 'react-native';
 import { ModalContainer, ModalContent } from './styles';
-
 import LinkSlide from './slides/LinkSlide';
 import { ProvidersSlide } from './slides/ProvidersSlide';
 import { ConfirmSlide } from './slides/ConfirmSlide';
 
 import axios from 'axios';
 
-export default class AddLinkModal extends Component {
-  constructor(props) {
-    super(props);
+class AddLinkModal extends Component {
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      selected: '',
-      width: '',
-      link: '',
-      confirmLink: '',
-      sizeChange: false,
-      baseLinks: {
-        website: 'https://',
-        twitter: 'www.twitter.com/',
-        linkedin: 'www.linkedin.com/in/',
-        dribbble: 'www.dribbble.com/',
-        medium: 'www.medium.com/',
-        email: '',
-        phone: '',
-      },
-    };
+		this.state = {
+			selected: '',
+			width: '',
+			link: '',
+			confirmLink: '',
+			sizeChange: false,
+			baseLinks: {
+				website: 'https://',
+				twitter: 'www.twitter.com/',
+				linkedin: 'www.linkedin.com/in/',
+				dribbble: 'www.dribbble.com/',
+				medium: 'www.medium.com/',
+				email: '',
+				phone: '',
+			},
+		};
 
-    this.saveLink = this.saveLink.bind(this);
-  }
+		this.saveLink = this.saveLink.bind(this);
+	}
 
-  saveLink(link, provider) {
-    this.setState({ loading: true }, () => {
-      AsyncStorage.getItem('USER_DATA').then((result) => {
-        axios
-          .post('http://172.31.99.35:3001/api/user/connectLink/add', { link, provider, uid: JSON.parse(result).uid })
-          .then((result) => {
-            AsyncStorage.setItem('USER_LINKS', JSON.stringify(result.data), () => {
-              AsyncStorage.getItem('USER_LINKS').then((result) => {
-                console.log(JSON.parse(result));
-                this.setState({ loading: false }, () => {
-                  this.props.closeModal();
-                });
-              });
-            });
-          })
-          .catch((error) => {});
-      });
-    });
-  }
+	saveLink(link, provider) {
+		this.setState({ loading: true }, () => {
+			AsyncStorage.getItem('USER_DATA').then(result => {
+				axios
+					.post('http://172.31.99.35:3001/api/user/connectLink/add', {
+						link,
+						provider,
+						uid: JSON.parse(result).uid,
+					})
+					.then(result => {
+						AsyncStorage.setItem(
+							'USER_LINKS',
+							JSON.stringify(result.data),
+							() => {
+								AsyncStorage.getItem('USER_LINKS').then(result => {
+									console.log(JSON.parse(result));
+									this.setState({ loading: false }, () => {
+										this.props.closeModal();
+									});
+								});
+							}
+						);
+					})
+					.catch(error => {});
+			});
+		});
+	}
 
-  render() {
-    return (
+	render() {
+		return (
 			<Modal
 				transparent={true}
 				visible={this.props.visible}
@@ -68,7 +75,7 @@ export default class AddLinkModal extends Component {
 							horizontal={true}
 							pagingEnabled={true}
 							ref={scrollview => (this.ScrollView = scrollview)}
-							onContentSizeChange={(width) => {
+							onContentSizeChange={width => {
 								this.setState({ width });
 								this.ScrollView.scrollTo({
 									x: this.state.width,
@@ -78,12 +85,15 @@ export default class AddLinkModal extends Component {
 							}}>
 							<ProvidersSlide
 								closeModal={() => {
-									this.setState({ selected: '', link: '', confirmLink: '' }, () => {
-										this.props.closeModal();
-									});
+									this.setState(
+										{ selected: '', link: '', confirmLink: '' },
+										() => {
+											this.props.closeModal();
+										}
+									);
 								}}
 								providers={this.props.providers}
-								select={(val) => {
+								select={val => {
 									this.setState({ selected: val });
 									this.ScrollView.scrollTo({
 										x: this.state.width,
@@ -96,11 +106,13 @@ export default class AddLinkModal extends Component {
 								<LinkSlide
 									scrollView={this.ScrollView}
 									baseLinks={this.state.baseLinks}
-									sizeChange={(val) => {
+									sizeChange={val => {
 										this.setState({ sizeChange: val });
 									}}
 									linkSave={(link, confirmLink) => {
-										this.setState({ link, confirmLink }, () => this.ScrollView.scrollToEnd());
+										this.setState({ link, confirmLink }, () =>
+											this.ScrollView.scrollToEnd()
+										);
 									}}
 									selected={this.state.selected}
 								/>
@@ -118,6 +130,12 @@ export default class AddLinkModal extends Component {
 					</ModalContent>
 				</ModalContainer>
 			</Modal>
-    );
-  }
+		);
+	}
 }
+
+const mapStateToProps = ({ linkReducer }) => {
+	return linkReducer;
+};
+
+export default connect(mapStateToProps)(AddLinkModal);

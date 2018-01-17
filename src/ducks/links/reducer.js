@@ -1,56 +1,66 @@
-import { GET_LINKS_FROM_NAV, GET_LINKS_FROM_LOCAL, ADD_LINK, UPDATE_LINK, DELETE_LINK } from "./actions";
+import {
+	GET_LINKS_FROM_NAV,
+	GET_LINKS_FROM_LOCAL,
+	ADD_LINK,
+	UPDATE_LINK,
+	DELETE_LINK,
+} from './actions';
 
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from 'react-native';
 
 let initialState = {
 	links: [],
 	loading: false,
 	error: false,
-	providers: ["LinkedIn", "Twitter", "Medium", "Phone", "Email"],
-	editableName: "",
-	editableLink: "",
-	editableColor: "",
+	providers: ['LinkedIn', 'Twitter', 'Medium', 'Phone', 'Email'],
+	editableName: '',
+	editableLink: '',
+	editableColor: '',
 };
 
 export default function linkReducer(state = initialState, action) {
 	switch (action.type) {
-		case GET_LINKS_FROM_NAV + "_PENDING":
+		case GET_LINKS_FROM_NAV + '_PENDING':
 			return Object.assign({}, state, { loading: true });
-		case GET_LINKS_FROM_NAV + "_FULFILLED":
-			return Object.assign({}, state, { loading: false, links: action.payload.data });
-		case GET_LINKS_FROM_NAV + "_REJECTED":
+		case GET_LINKS_FROM_NAV + '_FULFILLED':
+			return Object.assign({}, state, {
+				loading: false,
+				links: action.payload.data,
+			});
+		case GET_LINKS_FROM_NAV + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
-		case GET_LINKS_FROM_LOCAL + "_PENDING":
+		case GET_LINKS_FROM_LOCAL + '_PENDING':
 			return Object.assign({}, state, { loading: true });
-		case GET_LINKS_FROM_LOCAL + "_FULFILLED":
+		case GET_LINKS_FROM_LOCAL + '_FULFILLED':
 			let links = JSON.parse(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
 				links: links,
-				providers: initialState.providers.filter(x => links.find(curr => x.toLowerCase() === curr.servicename.toLowerCase())),
+				providers: initialState.providers.filter(x =>
+					links.find(curr => x.toLowerCase() !== curr.servicename.toLowerCase())
+				),
 			});
-		case GET_LINKS_FROM_LOCAL + "_REJECTED":
+		case GET_LINKS_FROM_LOCAL + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
-		case ADD_LINK + "_PENDING":
+		case ADD_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
-		case ADD_LINK + "_FULFILLED":
+		case ADD_LINK + '_FULFILLED':
 			return Object.assign({}, state, { loading: false });
-		case ADD_LINK + "_REJECTED":
+		case ADD_LINK + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
-		case UPDATE_LINK + "_PENDING":
+		case UPDATE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
-		case UPDATE_LINK + "_FULFILLED":
+		case UPDATE_LINK + '_FULFILLED':
 			return Object.assign({}, state, { loading: false });
-		case UPDATE_LINK + "_REJECTED":
+		case UPDATE_LINK + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
-		case DELETE_LINK + "_PENDING":
+		case DELETE_LINK + '_PENDING':
 			return Object.assign({}, state, { loading: true });
-		case DELETE_LINK + "_FULFILLED":
+		case DELETE_LINK + '_FULFILLED':
 			return Object.assign({}, state, { loading: false });
-		case DELETE_LINK + "_REJECTED":
+		case DELETE_LINK + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
 		default:
 			return state;
 	}
 }
-

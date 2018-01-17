@@ -75,23 +75,7 @@ class Connect extends Component {
   componentDidMount() {
     this.props.navigation.state.params
       ? this.props.getLinksFromNav(this.props.navigation.state.params.uid)
-      : AsyncStorage.getItem('USER_LINKS')
-        ? this.props.getLinksFromLocal()
-        : AsyncStorage.getItem('USER_DATA').then(result => {
-            axios
-              .get(
-                `http://172.31.99.35:3001/api/user/getConnectLinks/${
-                  JSON.parse(result).uid
-                }`
-              )
-              .then(result => {
-                this.setState({
-                  links: result.data,
-                  loading: false,
-                  editable: true,
-                });
-              });
-          });
+      : this.props.getLinksFromLocal();
   }
 
   render() {
