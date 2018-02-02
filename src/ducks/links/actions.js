@@ -58,7 +58,6 @@ export function updateLink(editInfo) {
 }
 
 export function deleteLink(linkId) {
-	console.log(linkId);
 	return {
 		type: DELETE_LINK,
 		payload: axios

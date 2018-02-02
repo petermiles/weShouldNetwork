@@ -29,11 +29,10 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    let userData = AsyncStorage.getItem('USER_DATA');
+    // let userData = AsyncStorage.getItem('USER_DATA');
     let navuid = this.props.navigation.state.params;
-    !navuid
-      ? userData ? this.props.pullUserFromLocal() : null
-      : this.props.getUserInfo(navuid.uid);
+    // console.log(navuid);
+    !navuid ? this.props.pullUserFromLocal() : null;
   }
 
   render() {

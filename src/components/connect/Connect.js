@@ -148,7 +148,6 @@ class Connect extends Component {
 }
 
 const mapStateToProps = ({ linkReducer, profileReducer }) => {
-  console.log(profileReducer);
   return {
     ...linkReducer,
     uid: profileReducer.uid,
