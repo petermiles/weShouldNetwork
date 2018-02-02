@@ -1,15 +1,15 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
-import { Dimensions } from "react-native";
+import { Dimensions } from 'react-native';
 
 export const colors = {
-  linkedin: "#008CC9",
-  dribbble: "#ea4c89",
-  twitter: "#1da1f2",
-  medium: "black",
-  phone: "#66BB6A",
-  email: "#f44336",
-  website: "#4caf50",
+  linkedin: '#008CC9',
+  dribbble: '#ea4c89',
+  twitter: '#1da1f2',
+  medium: 'black',
+  phone: '#66BB6A',
+  email: '#f44336',
+  website: '#4caf50',
 };
 
 export const ModalContainer = styled.View`
@@ -23,7 +23,7 @@ export const ModalContainer = styled.View`
 
 export const ModalContent = styled.View`
   width: 95%;
-  height: ${props => (!props.size ? "48%" : "85%")}
+  height: ${props => (!props.size ? '48%' : '85%')}
   background-color: #FAFAFA
   elevation: 100
 `;
@@ -35,8 +35,8 @@ export const ModalHeader = styled.View`
   right: 0;
   height: 19%
   
-  background-color: ${props => colors[props.color] || " #42A5F5"}
-  width: ${Dimensions.get("window").width * 0.95}
+  background-color: ${props => colors[props.color] || ' #42A5F5'}
+  width: ${Dimensions.get('window').width * 0.95}
 `;
 
 export const ModalHeaderText = styled.Text`
@@ -53,7 +53,7 @@ export const Provider = styled.TouchableOpacity`
   elevation: -5;
   width: 50%
   height: 45.5%
-  background-color: ${props => colors[`${props.color}`] || "white"}
+  background-color: ${props => colors[`${props.color}`] || 'white'}
   justify-content: center;
   alignItems: center
 `;
@@ -111,7 +111,7 @@ export const FooterButton = styled.TouchableOpacity`
   margin-right: 5;
   width: 35%;
   elevation: 2;
-  background: ${props => (!props.save ? "#E53935" : "#43A047")};
+  background: ${props => (!props.save ? '#E53935' : '#43A047')};
   padding-top: 6;
   padding-bottom: 6;
   align-items: center;
@@ -126,7 +126,7 @@ export const ConfirmText = styled.Text`
   padding-top: 15
   color: white;
   font-size: ${props => (props.primary ? 24 : 18)};
-  font-weight: ${props => (props.primary ? "bold;" : 400)}
+  font-weight: ${props => (props.primary ? 'bold;' : 400)}
 `;
 
 export const SaveButton = styled.TouchableOpacity`
@@ -136,7 +136,8 @@ export const SaveButton = styled.TouchableOpacity`
   justify-content: center
   align-items: center
   elevation: 2;
-  background-color: ${props => (props.name === "phone" ? "#66bb6a" : "#42A5F5")};
+  background-color: ${props =>
+    props.name === 'phone' ? '#66bb6a' : '#42A5F5'};
 `;
 
 export const SaveButtonText = styled.Text`
@@ -151,9 +152,9 @@ export const SaveButtonText = styled.Text`
 `;
 
 export const Slide = styled.View`
-  width: ${Dimensions.get("window").width * 0.95} 
+  width: ${Dimensions.get('window').width * 0.95} 
   height: 100%
   justify-content: center
   flex: 1
-  background-color: ${props => props.color || "white"}
+  background-color: ${props => props.color || 'white'}
 `;
