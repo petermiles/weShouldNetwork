@@ -33,7 +33,7 @@ export const SubText = styled.Text`
 export const SignUpButton = styled.TouchableOpacity`
   elevation: 3
   background-color: ${props => props.color || '#81D4FA'}
-  width: 40%;
+  width: 780%;
   align-items: center;
   padding: 2%;
   border-radius: 3
@@ -46,22 +46,13 @@ export const SignUpButtonText = styled.Text`
   font-weight: bold;
 `;
 
-export const Footer = styled.View`
-  position: absolute;
-  bottom: 10%;
-  left: 0;
-  right: 0;
-  flex-direction: row
-  justify-content: center;
-  align-items: center;
-`;
-
-export const FooterButton = styled.TouchableOpacity`
-  elevation: 3
-  background-color: ${props => props.color}
-  width: 40%;
-  align-items: center;
-  padding: 2%;
-  border-radius: 3
-  margin: 1%;
+export const LinkedInButtonText = styled.Text`
+  text-align: center;
+  color: white;
+  padding: 5%;
+  width: 100%;
+  font-size: 20;
+  font-weight: bold;
+  background-color: #0077b5;
+  border-radius: 3;
 `;

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { AsyncStorage } from 'react-native';
 
+export const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_NAME = 'CHANGE_NAME';
@@ -9,11 +10,14 @@ export const CHANGE_PICTURE = 'CHANGE_PICTURE';
 export const VALIDATE_QR = 'VALIDATE_QR';
 export const PULL_USER_FROM_LOCAL = 'PULL_USER_FROM_LOCAL';
 
-let localUser = AsyncStorage.getItem('USER_DATA');
-let favorites = AsyncStorage.getItem('USER_FAVORITES');
+export function createAccount() {
+	return {
+		type: CREATE_ACCOUNT,
+		payload: '',
+	};
+}
 
 export function getUserInfo(uid, auth) {
-	console.log(uid);
 	return {
 		type: GET_USER_INFO,
 		ownProfile: auth,

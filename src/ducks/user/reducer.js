@@ -1,11 +1,9 @@
-import { AsyncStorage } from 'react-native';
-
 import {
+	CREATE_ACCOUNT,
 	CHANGE_EMAIL,
 	CHANGE_NAME,
 	CHANGE_PICTURE,
 	GET_USER_INFO,
-	VALIDATE_QR,
 	PULL_USER_FROM_LOCAL,
 } from './actions';
 
@@ -22,12 +20,14 @@ let initialState = {
 	transitioning: false,
 };
 
-AsyncStorage.getItem('USER_DATA').then(result => {
-	initialState.uid = JSON.parse(result).uid;
-});
-
 export default function profileReducer(state = initialState, action) {
 	switch (action.type) {
+		case `${CREATE_ACCOUNT}_PENDING`:
+			return Object.assign({}, state, { loading: true, transitioning: true });
+		case `${CREATE_ACCOUNT}_FULFILLED`:
+			return Object.assign({}, state, { loading: true, transitioning: true });
+		case `${CREATE_ACCOUNT}_REJECTED`:
+			return Object.assign({}, state, { loading: true, transitioning: true });
 		case GET_USER_INFO + '_PENDING':
 			return Object.assign({}, state, { loading: true, transitioning: true });
 		case GET_USER_INFO + '_FULFILLED':
