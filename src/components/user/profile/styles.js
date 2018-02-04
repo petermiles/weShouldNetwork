@@ -1,9 +1,9 @@
-import styled from "styled-components/native";
-import { Dimensions } from "react-native";
+import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
 export const CenteredView = styled.View`
 	align-items: center;
-	elevation: 2;
+	elevation: 3;
 `;
 
 export const QRCodeLoading = styled.View`
@@ -17,7 +17,7 @@ export const Footer = styled.TouchableOpacity`
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background-color: ${props => (props.ownProfile ? "#66BB6A" : "#2196F3")} 
+	background-color: ${props => (props.ownProfile ? '#66BB6A' : '#2196F3')} 
 	justify-content: center;
 	align-items: center
 	height: 10%;
@@ -30,5 +30,5 @@ export const FooterText = styled.Text`
 `;
 
 export const ProfileContainer = styled.View`
-	height: ${Dimensions.get("window").height * 0.885};
+	height: ${Dimensions.get('window').height * 0.885};
 `;

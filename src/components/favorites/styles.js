@@ -1,6 +1,6 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
-export const StyledContainer = styled.TouchableHighlight`
+export const StyledContainer = styled.TouchableOpacity`
 	width: 95%;
 	height: 110;
 	background-color: #eeeeee;
@@ -51,9 +51,6 @@ export const SearchContainer = styled.View`
 	align-items: center
 	flex-direction: row
 `;
-<<<<<<< HEAD
-=======
-
 export const InfoContainer = styled.View`
 	flex: 1;
 	flex-direction: column;
@@ -72,4 +69,3 @@ export const InfoButton = styled.View`
 	left: 10;
 	elevation: 10;
 `;
->>>>>>> 547d128468ac9b94249870dd4b4876923b461ed8

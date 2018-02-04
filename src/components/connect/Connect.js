@@ -136,7 +136,7 @@ class Connect extends Component {
             />
           ) : null}
         </Content>
-        {this.state.ownProfile && (
+        {!this.props.navigation.state.params && (
           <Fab
             openItems={() => this.setState({ editable: !editable })}
             editLinks={() => this.setState({ editable: true })}

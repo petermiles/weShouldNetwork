@@ -26,7 +26,9 @@ import {
 class ProfileHead extends Component {
 	componentDidMount() {
 		const { profileUid, uid } = this.props.profileReducer;
-		this.props.checkFavoritesForSaved(profileUid, uid);
+		!this.props.profileReducer.ownProfile
+			? this.props.checkFavoritesForSaved(profileUid, uid)
+			: null;
 	}
 
 	render() {
@@ -37,24 +39,26 @@ class ProfileHead extends Component {
 			profileUid,
 			uid,
 			profilePicURL,
+			ownProfile,
 		} = this.props.profileReducer;
-
 		const { loading, saved } = this.props.favoritesReducer;
-
 		const image = !profilePicURL
 			? require('./placeholder.png')
 			: { uri: profilePicURL };
 		if (!this.props.loading) {
 			return (
 				<View>
-					<InfoButton
-						hitSlop={{ top: 15, left: 15, right: 25, bottom: 25 }}
-						onPress={this.props.handleModal}>
-						<Icon
-							name={'settings'}
-							style={{ color: '#757575', fontSize: 30, height: 70 }}
-						/>
-					</InfoButton>
+					{ownProfile && (
+						<InfoButton
+							hitSlop={{ top: 15, left: 15, right: 25, bottom: 25 }}
+							onPress={this.props.handleModal}>
+							<Icon
+								name={'settings'}
+								style={{ color: '#757575', fontSize: 30, height: 70 }}
+							/>
+						</InfoButton>
+					)}
+
 					<CenterView>
 						<ProfileImage source={image} />
 						<MainName> {name} </MainName>

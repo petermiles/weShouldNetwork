@@ -93,8 +93,9 @@ export const FavoriteButtonText = styled.Text`
 
 export const FavoriteButtonPlaceholder = styled.View`
 	height: 40;
-	width: 200;
+	width: ${props => (props.ownProfile ? 0 : 200)};
 	margin-bottom: 20;
+	background-color: ${props => (props.loading ? '#cfd8dc' : 'transparent')};
 `;
 
 export const CenterView = styled.View`

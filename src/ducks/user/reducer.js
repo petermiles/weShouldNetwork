@@ -5,7 +5,7 @@ import {
 	CHANGE_NAME,
 	CHANGE_PICTURE,
 	GET_USER_INFO,
-	SCAN_PROFILE,
+	VALIDATE_QR,
 	PULL_USER_FROM_LOCAL,
 } from './actions';
 
@@ -19,6 +19,7 @@ let initialState = {
 	profilePicURL: '',
 	profileUid: '',
 	ownProfile: true,
+	transitioning: false,
 };
 
 AsyncStorage.getItem('USER_DATA').then(result => {
@@ -28,7 +29,7 @@ AsyncStorage.getItem('USER_DATA').then(result => {
 export default function profileReducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_USER_INFO + '_PENDING':
-			return Object.assign({}, state, { loading: true });
+			return Object.assign({}, state, { loading: true, transitioning: true });
 		case GET_USER_INFO + '_FULFILLED':
 			const { name, position, company, profilepic, uid } = action.payload;
 			return Object.assign({}, state, {
@@ -37,6 +38,7 @@ export default function profileReducer(state = initialState, action) {
 				company,
 				profilePicURL: profilepic,
 				loading: false,
+				transitioning: false,
 				profileUid: uid,
 				ownProfile: initialState.uid === initialState.profileUid,
 			});
