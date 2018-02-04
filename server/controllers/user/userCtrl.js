@@ -3,6 +3,7 @@ const getUser = (req, res) => {
     .get('db')
     .getUserProfileInfo({ uid: req.params.id })
     .then(result => {
+      console.log(result);
       res.json(result[0]);
     });
 };

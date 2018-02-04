@@ -1,32 +1,42 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Vibration, TouchableOpacity } from 'react-native';
+import { Vibration, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { NavigationActions } from 'react-navigation';
 import { once } from 'lodash';
 import Camera from 'react-native-camera';
+import { ErrorContainer, CameraContainer, cameraPreview } from './styles';
 
-import { getUserInfo, validateQr } from '../../ducks/user/actions';
+import { getUserInfo } from '../../ducks/user/actions';
 
 class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hideCamera: false,
+      error: false,
+      loading: false,
     };
 
     this.navigate = this.navigate.bind(this);
   }
 
   navigate(val) {
-    console.log(val, 'here');
     const navigateAction = NavigationActions.navigate({
       routeName: val ? 'ScannedProfile' : 'SignedIn',
       params: { uid: val },
     });
-    this.props.navigation.dispatch(navigateAction);
-    Vibration.vibrate(200);
+    this.setState({ loading: true }, () => {
+      this.props.getUserInfo(val, false).then(result => {
+        result.value
+          ? // this.props.navigation.dispatch(navigateAction)
+            Vibration.vibrate(200)
+          : this.setState({ error: true, hideCamera: false }, () => {
+              Vibration.vibrate(500);
+            });
+      });
+    });
   }
 
   render() {
@@ -34,17 +44,16 @@ class Scan extends Component {
       return null;
     }
     return (
-      <View style={styles.container}>
+      <CameraContainer>
         <Camera
           onBarCodeRead={_.once(event => {
             this.setState({ hideCamera: true }, () => {
-              this.props.getUserInfo(event.data, false).then(result => {
-                this.navigate(event.data);
-              });
+              this.navigate(event.data);
             });
           })}
-          style={styles.preview}
+          style={cameraPreview}
           aspect={Camera.constants.Aspect.fill}>
+          <Text> Test </Text>
           <TouchableOpacity
             style={{
               position: 'absolute',
@@ -63,7 +72,7 @@ class Scan extends Component {
             <Icon name="close" style={{ color: 'white', fontSize: 30 }} />
           </TouchableOpacity>
         </Camera>
-      </View>
+      </CameraContainer>
     );
   }
 }
@@ -73,14 +82,3 @@ const mapStateToProps = ({ profileReducer }) => {
 };
 
 export default connect(mapStateToProps, { getUserInfo })(Scan);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-});
