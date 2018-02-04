@@ -20,9 +20,10 @@ class Scan extends Component {
   }
 
   navigate(val) {
+    console.log(val, 'here');
     const navigateAction = NavigationActions.navigate({
       routeName: val ? 'ScannedProfile' : 'SignedIn',
-      params: { ...val },
+      params: { uid: val },
     });
     this.props.navigation.dispatch(navigateAction);
     Vibration.vibrate(200);
@@ -38,7 +39,7 @@ class Scan extends Component {
           onBarCodeRead={_.once(event => {
             this.setState({ hideCamera: true }, () => {
               this.props.getUserInfo(event.data, false).then(result => {
-                this.navigate(result);
+                this.navigate(event.data);
               });
             });
           })}
