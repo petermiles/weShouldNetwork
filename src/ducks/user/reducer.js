@@ -22,11 +22,10 @@ let initialState = {
 	transitioning: false,
 };
 
-AsyncStorage.getItem('USER_DATA').then(result => {
-	initialState.uid = JSON.parse(result).uid;
-});
-
 export default function profileReducer(state = initialState, action) {
+	AsyncStorage.getItem('USER_DATA').then(result => {
+		result ? (initialState.uid = JSON.parse(result).uid) : null;
+	});
 	switch (action.type) {
 		case GET_USER_INFO + '_PENDING':
 			return Object.assign({}, state, { loading: true, transitioning: true });
