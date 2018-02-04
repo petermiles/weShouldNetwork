@@ -22,3 +22,11 @@ export const cameraPreview = {
 	justifyContent: 'flex-end',
 	alignItems: 'center',
 };
+
+export const ExitCamera = styled.TouchableOpacity`
+	position: absolute;
+	height: 30;
+	top: 20;
+	left: 15;
+	elevation: 3;
+`;

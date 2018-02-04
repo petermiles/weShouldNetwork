@@ -11,6 +11,7 @@ import {
   ErrorText,
   CameraContainer,
   cameraPreview,
+  ExitCamera,
 } from './styles';
 
 import { getUserInfo, pullUserFromLocal } from '../../ducks/user/actions';
@@ -61,20 +62,15 @@ class Scan extends Component {
           })}
           style={cameraPreview}
           aspect={Camera.constants.Aspect.fill}>
-          {this.state.error && (
-            <ErrorContainer>
-              <ErrorText>Please scan a valid QR code</ErrorText>
-            </ErrorContainer>
-          )}
+          <ErrorContainer>
+            {this.state.error ? (
+              <ErrorText>Please Scan A Valid QR Code</ErrorText>
+            ) : (
+              <ErrorText>Scan a QR Code</ErrorText>
+            )}
+          </ErrorContainer>
 
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              height: 30,
-              top: 20,
-              left: 15,
-              elevation: 30,
-            }}
+          <ExitCamera
             activeOpacity={0.8}
             onPress={() => {
               this.setState({ hideCamera: true }, () => {
@@ -83,7 +79,7 @@ class Scan extends Component {
               });
             }}>
             <Icon name="close" style={{ color: 'white', fontSize: 30 }} />
-          </TouchableOpacity>
+          </ExitCamera>
         </Camera>
       </CameraContainer>
     );
