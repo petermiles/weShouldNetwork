@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Vibration, TouchableOpacity } from 'react-native';
+import { Vibration, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { NavigationActions } from 'react-navigation';
 import { once } from 'lodash';
 import Camera from 'react-native-camera';
+import {
+  ErrorContainer,
+  ErrorText,
+  CameraContainer,
+  cameraPreview,
+  ExitCamera,
+} from './styles';
 
-import { getUserInfo, validateQr } from '../../ducks/user/actions';
+import { getUserInfo, pullUserFromLocal } from '../../ducks/user/actions';
 
 class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hideCamera: false,
+      error: false,
+      loading: false,
     };
 
     this.navigate = this.navigate.bind(this);
@@ -23,10 +32,21 @@ class Scan extends Component {
     console.log(val);
     const navigateAction = NavigationActions.navigate({
       routeName: val ? 'ScannedProfile' : 'SignedIn',
-      params: { ...val },
+      params: { uid: val },
     });
-    this.props.navigation.dispatch(navigateAction);
-    Vibration.vibrate(200);
+    this.setState({ loading: true }, () => {
+      this.props.getUserInfo(val, false).then(result => {
+        if (result.value) {
+          Vibration.vibrate(200);
+          this.props.navigation.dispatch(navigateAction);
+        } else {
+          this.props.pullUserFromLocal();
+          this.setState({ error: true, hideCamera: false }, () => {
+            Vibration.vibrate(500);
+          });
+        }
+      });
+    });
   }
 
   render() {
@@ -34,25 +54,24 @@ class Scan extends Component {
       return null;
     }
     return (
-      <View style={styles.container}>
+      <CameraContainer>
         <Camera
           onBarCodeRead={_.once(event => {
             this.setState({ hideCamera: true }, () => {
-              this.props.getUserInfo(event.data, false).then(result => {
-                this.navigate(result);
-              });
+              this.navigate(event.data);
             });
           })}
-          style={styles.preview}
+          style={cameraPreview}
           aspect={Camera.constants.Aspect.fill}>
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              height: 30,
-              top: 20,
-              left: 15,
-              elevation: 30,
-            }}
+          <ErrorContainer>
+            {this.state.error ? (
+              <ErrorText>Please Scan A Valid QR Code</ErrorText>
+            ) : (
+              <ErrorText>Scan a QR Code</ErrorText>
+            )}
+          </ErrorContainer>
+
+          <ExitCamera
             activeOpacity={0.8}
             onPress={() => {
               this.setState({ hideCamera: true }, () => {
@@ -61,9 +80,9 @@ class Scan extends Component {
               });
             }}>
             <Icon name="close" style={{ color: 'white', fontSize: 30 }} />
-          </TouchableOpacity>
+          </ExitCamera>
         </Camera>
-      </View>
+      </CameraContainer>
     );
   }
 }
@@ -72,15 +91,6 @@ const mapStateToProps = ({ profileReducer }) => {
   return profileReducer;
 };
 
-export default connect(mapStateToProps, { getUserInfo })(Scan);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-});
+export default connect(mapStateToProps, { getUserInfo, pullUserFromLocal })(
+  Scan
+);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import ProfileHead from './profileHead/ProfileHead';
 import Settings from '../settings/Settings';
@@ -29,9 +28,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    // let userData = AsyncStorage.getItem('USER_DATA');
     let navuid = this.props.navigation.state.params;
-    // console.log(navuid);
     !navuid ? this.props.pullUserFromLocal() : null;
   }
 
