@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  AsyncStorage,
-} from 'react-native';
 
 import Swiper from 'react-native-swiper';
-
-import SignUpOnBoard from '../SignUpOnBoard/SignUpOnBoard.js';
 
 import {
   Slide,

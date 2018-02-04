@@ -29,6 +29,7 @@ class Scan extends Component {
   }
 
   navigate(val) {
+    console.log(val);
     const navigateAction = NavigationActions.navigate({
       routeName: val ? 'ScannedProfile' : 'SignedIn',
       params: { uid: val },

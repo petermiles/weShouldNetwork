@@ -1,0 +1,65 @@
+import { StackNavigator } from 'react-navigation'
+
+import * as stack from 'src/components/stack'
+
+const Navigator = StackNavigator({
+  Landing: { screen: stack.Landing },
+  Home: { screen: stack.Home },
+})
+
+const initialState = Navigator.router.getStateForAction(
+  Navigator.router.getActionForPathAndParams('Landing')
+)
+
+export const reducer = (state = initialState, action) => {
+  const nextState = Navigator.router.getStateForAction(action, state)
+
+  return nextState || state
+}
+
+export default Navigator
+
+ helper methods that you dispatch
+import { NavigationActions } from 'react-navigation'
+
+export const to = (routeName, params = {}, action) =>
+  NavigationActions.navigate({ routeName, params, action })
+
+export const back = () => NavigationActions.back()
+
+
+
+import { addNavigationHelpers } from 'react-navigation'
+class ScreenRoot extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = { isLoaded: false }
+  }
+
+  componentWillMount () {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      const index = this.props.nav.index
+
+      if (index !== (0 || 1)) return this.props.dispatch(navigator.navigate.back()) // this is just to prevent users to go back to landing page after login
+      return false
+    })
+  }
+
+  componentWillUnmount () {
+    BackHandler.removeEventListener('hardwareBackPress')
+  }
+
+  render () {
+    const { dispatch, nav, isLoading } = this.props
+    const { isLoaded } = this.state
+
+    if (!isLoaded) return <Splash />
+    else if (isLoading) return <Loading />
+    return (
+      <Root>
+        <Navigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
+      </Root>
+    )
+  }
+}
