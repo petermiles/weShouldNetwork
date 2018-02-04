@@ -1,8 +1,16 @@
 import styled from 'styled-components/native';
 
 export const ErrorContainer = styled.View`
-	height: 100
-	background-color: salmon
+	width: 100%;
+	height: 20%;
+	justify-content: center;
+	align-items: center;
+`;
+
+export const ErrorText = styled.Text`
+	font-size: 20
+	color: white;
+	font-weight: bold;
 `;
 
 export const CameraContainer = styled.View`

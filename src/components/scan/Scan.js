@@ -6,9 +6,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationActions } from 'react-navigation';
 import { once } from 'lodash';
 import Camera from 'react-native-camera';
-import { ErrorContainer, CameraContainer, cameraPreview } from './styles';
+import {
+  ErrorContainer,
+  ErrorText,
+  CameraContainer,
+  cameraPreview,
+} from './styles';
 
-import { getUserInfo } from '../../ducks/user/actions';
+import { getUserInfo, pullUserFromLocal } from '../../ducks/user/actions';
 
 class Scan extends Component {
   constructor(props) {
@@ -29,12 +34,15 @@ class Scan extends Component {
     });
     this.setState({ loading: true }, () => {
       this.props.getUserInfo(val, false).then(result => {
-        result.value
-          ? // this.props.navigation.dispatch(navigateAction)
-            Vibration.vibrate(200)
-          : this.setState({ error: true, hideCamera: false }, () => {
-              Vibration.vibrate(500);
-            });
+        if (result.value) {
+          Vibration.vibrate(200);
+          this.props.navigation.dispatch(navigateAction);
+        } else {
+          this.props.pullUserFromLocal();
+          this.setState({ error: true, hideCamera: false }, () => {
+            Vibration.vibrate(500);
+          });
+        }
       });
     });
   }
@@ -53,7 +61,12 @@ class Scan extends Component {
           })}
           style={cameraPreview}
           aspect={Camera.constants.Aspect.fill}>
-          <Text> Test </Text>
+          {this.state.error && (
+            <ErrorContainer>
+              <ErrorText>Please scan a valid QR code</ErrorText>
+            </ErrorContainer>
+          )}
+
           <TouchableOpacity
             style={{
               position: 'absolute',
@@ -81,4 +94,6 @@ const mapStateToProps = ({ profileReducer }) => {
   return profileReducer;
 };
 
-export default connect(mapStateToProps, { getUserInfo })(Scan);
+export default connect(mapStateToProps, { getUserInfo, pullUserFromLocal })(
+  Scan
+);
