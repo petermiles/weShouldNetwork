@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-
-import { SignIn } from 'src/components';
-
-import { TextField } from 'react-native-material-textfield';
+import { View, ScrollView, Dimensions } from 'react-native';
 
 import LinkedInModal from 'react-native-linkedin';
 
@@ -22,18 +12,12 @@ import {
   MainText,
   SubText,
   LinkedInButtonText,
-  SocialMediaSelect,
-  SocialMediaText,
   BackButton,
-  NextButton,
-  Colors,
 } from './styles';
 
 export default class SignUpOnBoard extends Component {
   constructor(props) {
     super(props);
-
-    console.log(SignIn);
 
     this.state = {
       name: '',
@@ -45,8 +29,6 @@ export default class SignUpOnBoard extends Component {
   }
 
   render() {
-    console.log(ClientID, Secret, Redirect);
-
     return (
       <ScrollView horizontal={true} showsButtons={true} pagingEnabled={true}>
         <Slide

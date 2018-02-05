@@ -57,6 +57,7 @@ const saveFavorite = (req, res) => {
 };
 
 const getFavorites = (req, res) => {
+  console.log(req.params);
   req.app
     .get('db')
     .favoriteGet({ id: req.params.userid })

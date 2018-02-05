@@ -22,42 +22,38 @@ export function saveFavorite(profileUid, userUid) {
 }
 
 export function getFavorites(uid) {
+	console.log(uid);
 	return {
 		type: GET_FAVORITES,
-		payload: favorites.then(result => {
-			return result
-				? JSON.parse(result)
-				: axios
-						.get(`http://172.31.99.35:3001/api/user/favorites/get/${uid}`)
-						.then(res => res.data);
+		payload: axios
+			.get(`http://172.31.99.35:3001/api/user/favorites/get/${uid}`)
+			.then(res => res.data),
 
-			// ? favorites.then(res => )
-			// : axios
-			// 		.get(`http://172.31.99.35:3001/api/user/favorites/get/${uid}`)
-			// 		.then(res => res.data),
-			// 	});
-		}),
+		// ? favorites.then(res => JSON.parse(res))
+		// : axios
+		// 		.get(`http://172.31.99.35:3001/api/user/favorites/get/${uid}`)
+		// 		.then(res => res.data),
 	};
 }
 
-export function checkFavoritesForSaved(profileUid, userUid) {
+export function checkFavoritesForSaved(profileUid, userid) {
 	return {
 		type: CHECK_FAVORITES_FOR_SAVED,
-		payload: favorites.then(result => {
-			result
-				? JSON.parse(result).reduce((acc, val) => {
-						val.userid === userUid && val.uid === profileUid
+		payload: favorites
+			? favorites.then(result => {
+					return JSON.parse(result).reduce((acc, val) => {
+						val.userid === userid && val.uid === profileUid
 							? acc.push(val)
 							: null;
 						return acc;
-					}, [])
-				: axios
-						.post('http://172.31.99.35:3001/api/user/favorites/checkSaved', {
-							profileUid,
-							userUid,
-						})
-						.then(res => res.data);
-		}),
+					}, []);
+				})
+			: axios
+					.post('http://172.31.99.35:3001/api/user/favorites/checkSaved', {
+						profileUid,
+						userid,
+					})
+					.then(res => res.data),
 	};
 }
 

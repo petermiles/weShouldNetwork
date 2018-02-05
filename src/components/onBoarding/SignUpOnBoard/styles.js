@@ -1,13 +1,16 @@
-import styled from "styled-components/native";
-import { Dimensions } from "react-native";
+import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
 export const Slide = styled.View`
-  width: ${Dimensions.get("window").width}
-  height: ${props => (props.size ? Dimensions.get("window").height * props.size : Dimensions.get("window").height)}
+  width: ${Dimensions.get('window').width}
+  height: ${props =>
+    props.size
+      ? Dimensions.get('window').height * props.size
+      : Dimensions.get('window').height}
   justify-content: center
   flex: 1
   padding: 2%;
-  background-color: ${props => props.color || "#92BBD9"};
+  background-color: ${props => props.color || '#92BBD9'};
 `;
 
 export const MainText = styled.Text`
@@ -69,12 +72,12 @@ export const NextButton = styled.TouchableOpacity`
   left: 0
 `;
 export const Colors = {
-  LinkedIn: "#008CC9",
-  Dribbble: "#ea4c89",
-  Facebook: "#3b5998",
-  Twitter: "#1da1f2",
-  Medium: "black",
-  Phone: "#ff9800",
-  Email: "#f44336",
-  Website: "#4caf50",
+  LinkedIn: '#008CC9',
+  Dribbble: '#ea4c89',
+  Facebook: '#3b5998',
+  Twitter: '#1da1f2',
+  Medium: 'black',
+  Phone: '#ff9800',
+  Email: '#f44336',
+  Website: '#4caf50',
 };

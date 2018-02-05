@@ -1,8 +1,8 @@
-const axios = require("axios");
+const axios = require('axios');
 
 const createUser = (req, res) => {
 	req.app
-		.get("db")
+		.get('db')
 		.createUser(req.body)
 		.then(result => {
 			res.json(result[0]);
@@ -14,13 +14,16 @@ const createUser = (req, res) => {
 };
 
 const createWithLinkedIn = (req, res) => {
-	axios.defaults.headers.common["Authorization"] = `Bearer ${req.params.id}`;
+	console.log(req.params);
+	axios.defaults.headers.common['Authorization'] = `Bearer ${req.params.id}`;
 	axios
-		.get(`https://api.linkedin.com/v1/people/~:(id,positions,picture-url,first-name,last-name,public-profile-url)?format=json`)
+		.get(
+			`https://api.linkedin.com/v1/people/~:(id,positions,picture-url,first-name,last-name,public-profile-url)?format=json`
+		)
 		.then(result => {
 			const parsedData = {
-				uid: "LinkedIn" + result.data.id,
-				name: result.data.firstName + " " + result.data.lastName,
+				uid: 'LinkedIn' + result.data.id,
+				name: result.data.firstName + ' ' + result.data.lastName,
 				title: result.data.positions.values[0].title,
 				company: result.data.positions.values[0].company.name,
 				url: result.data.publicProfileUrl,
@@ -30,20 +33,18 @@ const createWithLinkedIn = (req, res) => {
 		})
 		.then(data => {
 			let parsedData = {
-				userData: "",
-				userLinks: "",
+				userData: '',
+				userLinks: '',
 			};
 			req.app
-				.get("db")
+				.get('db')
 				.createLinkedInUser(data)
 				.then(result => {
 					parsedData.userData = result[0];
-					console.log(parsedData, "step 1");
 					req.app
-						.get("db")
+						.get('db')
 						.connectLinkGet({ uid: parsedData.userData.uid })
 						.then(result => {
-							console.log(result, "step2");
 							parsedData.userLinks = result;
 							res.json(parsedData);
 						});
@@ -56,5 +57,3 @@ module.exports = {
 	createUser,
 	createWithLinkedIn,
 };
-
-
