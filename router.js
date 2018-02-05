@@ -1,7 +1,5 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import AppOnBoard from './src/components/onBoarding/AppOnBoard/AppOnBoard';
-// import SignUpOnBoard from './src/components/onBoarding/SignUpOnBoard/SignUpOnBoard';
-import EmailSignUp from './src/components/onBoarding/auth/signUp/EmailSignUp';
 import Connect from './src/components/connect/Connect';
 import Profile from './src/components/user/profile/Profile';
 import Scan from './src/components/scan/Scan';
@@ -98,10 +96,6 @@ export const createRootNavigator = (signedIn = false) =>
       },
       OnBoard: {
         screen: AppOnBoard,
-      },
-
-      EmailSignUp: {
-        screen: EmailSignUp,
       },
     },
     {
