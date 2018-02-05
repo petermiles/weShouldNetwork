@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import { AppRegistry, AsyncStorage } from "react-native";
-import { createRootNavigator } from "./router";
+import { AppRegistry, AsyncStorage } from 'react-native';
+import { createRootNavigator } from './router';
 
-import { checkAuth } from "./src/functions/auth";
+import { checkAuth } from './src/functions/auth';
 
-import { Provider } from "react-redux";
-import store from "./src/ducks/store";
+import { Provider } from 'react-redux';
+import store from './src/ducks/store';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -20,8 +20,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem("USER_DATA").then(result => {
-      this.setState({ signedIn: result, checkedSignIn: true });
+    AsyncStorage.getItem('USER_DATA').then(result => {
+      this.setState({ signedIn: result ? true : false, checkedSignIn: true });
     });
   }
 
@@ -39,4 +39,4 @@ export default class App extends React.Component {
   }
 }
 
-AppRegistry.registerComponent("android", () => App);
+AppRegistry.registerComponent('android', () => App);
