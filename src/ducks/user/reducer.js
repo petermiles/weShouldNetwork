@@ -10,6 +10,7 @@ import {
 } from './actions';
 
 let initialState = {
+	baseuid: '',
 	uid: '',
 	loading: false,
 	error: false,
@@ -24,7 +25,10 @@ let initialState = {
 
 export default function profileReducer(state = initialState, action) {
 	AsyncStorage.getItem('USER_DATA').then(result => {
-		initialState.uid = JSON.parse(result).uid;
+		if (result) {
+			initialState.uid = JSON.parse(result).uid;
+			initialState.baseuid = JSON.parse(result).uid;
+		}
 	});
 	switch (action.type) {
 		case `${CREATE_ACCOUNT}_PENDING`:

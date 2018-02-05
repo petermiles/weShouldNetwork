@@ -23,12 +23,14 @@ export default function IndivFavorite(props) {
 		<StyledContainer
 			activeOpacity={0.8}
 			onPress={() => {
-				props.navigate(
-					NavigationActions.navigate({
-						routeName: 'ScannedProfile',
-						params: { uid: props.profileuid },
-					})
-				);
+				if (props.navigate) {
+					props.navigate(
+						NavigationActions.navigate({
+							routeName: 'ScannedProfile',
+							params: { uid: props.profileuid },
+						})
+					);
+				}
 			}}>
 			<CenteredRow>
 				<ImageContainer>

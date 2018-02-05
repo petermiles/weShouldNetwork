@@ -28,8 +28,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    let navuid = this.props.navigation.state.params;
-    !navuid ? this.props.pullUserFromLocal() : null;
+    if (!this.props.navigation.state.params) {
+      this.props.pullUserFromLocal();
+    }
   }
 
   render() {
