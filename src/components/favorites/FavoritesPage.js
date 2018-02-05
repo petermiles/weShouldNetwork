@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import IndivFavorite from './IndivFavorite';
-import axios from 'axios';
 
 import { Search } from './Search';
 import { getUserInfo } from '../../ducks/user/actions';
@@ -69,7 +68,9 @@ class FavoritesPage extends Component {
 									position={favorite.position}
 									company={favorite.company}
 									profileuid={favorite.favoriteuid}
-									getUserInfo={val => this.props.getUserInfo(val)}
+									getUserInfo={() =>
+										this.props.getUserInfo(favorite.favoriteuid)
+									}
 									navigate={this.props.navigation.dispatch}
 								/>
 							);
