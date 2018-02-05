@@ -23,7 +23,7 @@ export function createAccount(token, navigate) {
 				return AsyncStorage.multiSet([
 					['USER_DATA', JSON.stringify(result.data.userData)],
 					['USER_LINKS', JSON.stringify(result.data.userLinks)],
-				]).then(res => {
+				]).then(() => {
 					return result.data;
 				});
 			}),

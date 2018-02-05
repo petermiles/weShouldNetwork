@@ -24,10 +24,11 @@ export default function favoritesReducer(state = initialState, action) {
 				saved: true,
 			});
 		case `${SAVE_FAVORITE}_REJECTED`:
-			return Object.assign({}, state, { loading: true });
+			return Object.assign({}, state, { loading: true, error: true });
 		case `${GET_FAVORITES}_PENDING`:
 			return Object.assign({}, state, { loading: true });
 		case `${GET_FAVORITES}_FULFILLED`:
+			console.log(action.payload);
 			AsyncStorage.setItem('USER_FAVORITES', JSON.stringify(action.payload));
 			return Object.assign({}, state, {
 				favorites: action.payload,
@@ -36,7 +37,7 @@ export default function favoritesReducer(state = initialState, action) {
 			});
 		case `${GET_FAVORITES}_REJECTED`:
 			console.log('rejected');
-			return Object.assign({}, state, { loading: true });
+			return Object.assign({}, state, { loading: true, error: true });
 
 		case `${GET_FAVORITES_FROM_DB}_PENDING`:
 			return Object.assign({}, state, { loading: true });
@@ -47,7 +48,7 @@ export default function favoritesReducer(state = initialState, action) {
 				saved: true,
 			});
 		case `${GET_FAVORITES_FROM_DB}_REJECTED`:
-			return Object.assign({}, state, { loading: true });
+			return Object.assign({}, state, { loading: true, error: true });
 
 		case `${CHECK_FAVORITES_FOR_SAVED}_PENDING`:
 			return Object.assign({}, state, { loading: true });
@@ -57,7 +58,7 @@ export default function favoritesReducer(state = initialState, action) {
 				saved: action.payload,
 			});
 		case `${CHECK_FAVORITES_FOR_SAVED}_REJECTED`:
-			return Object.assign({}, state, { loading: true });
+			return Object.assign({}, state, { loading: true, error: true });
 
 		default:
 			return state;

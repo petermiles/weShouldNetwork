@@ -22,15 +22,17 @@ export function saveFavorite(profileUid, userUid) {
 }
 
 export function getFavorites(uid) {
+	console.log(uid);
 	return {
 		type: GET_FAVORITES,
-		payload: AsyncStorage.getItem('USER_FAVORITES').then(result => {
-			result
-				? JSON.parse(res)
-				: axios
-						.get(`http://172.31.99.35:3001/api/user/favorites/get/${uid}`)
-						.then(res => res.data);
-		}),
+		payload: axios
+			.get(`http://172.31.99.35:3001/api/user/favorites/get/${uid}`)
+			.then(res => res.data),
+
+		// ? favorites.then(res => JSON.parse(res))
+		// : axios
+		// 		.get(`http://172.31.99.35:3001/api/user/favorites/get/${uid}`)
+		// 		.then(res => res.data),
 	};
 }
 

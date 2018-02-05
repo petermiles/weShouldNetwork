@@ -23,11 +23,13 @@ let initialState = {
 };
 
 export default function profileReducer(state = initialState, action) {
+	AsyncStorage.getItem('USER_DATA').then(result => {
+		initialState.uid = JSON.parse(result).uid;
+	});
 	switch (action.type) {
 		case `${CREATE_ACCOUNT}_PENDING`:
 			return Object.assign({}, state, { loading: true, transitioning: true });
 		case `${CREATE_ACCOUNT}_FULFILLED`:
-			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
 				...action.payload.userData,
