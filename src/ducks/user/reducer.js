@@ -1,90 +1,65 @@
-import { AsyncStorage } from 'react-native';
-
 import {
-	CREATE_ACCOUNT,
-	CHANGE_EMAIL,
-	CHANGE_NAME,
-	CHANGE_PICTURE,
-	GET_USER_INFO,
-	PULL_USER_FROM_LOCAL,
+	SAVE_FAVORITE,
+	GET_FAVORITES_FROM_DB,
+	GET_FAVORITES,
+	CHECK_FAVORITES_FOR_SAVED,
 } from './actions';
 
-let initialState = {
-	uid: '',
-	loading: false,
-	error: false,
-	name: '',
-	company: '',
-	position: '',
-	profilePicURL: '',
-	profileUid: '',
-	ownProfile: true,
-	transitioning: false,
+import { AsyncStorage } from 'react-native';
+
+const initialState = {
+	favorites: [],
+	loading: true,
+	saved: false,
 };
 
-export default function profileReducer(state = initialState, action) {
-	AsyncStorage.getItem('USER_DATA').then(result => {
-		initialState.uid = JSON.parse(result).uid;
-	});
+export default function favoritesReducer(state = initialState, action) {
 	switch (action.type) {
-		case `${CREATE_ACCOUNT}_PENDING`:
-			return Object.assign({}, state, { loading: true, transitioning: true });
-		case `${CREATE_ACCOUNT}_FULFILLED`:
+		case `${SAVE_FAVORITE}_PENDING`:
+			return Object.assign({}, state, { loading: true });
+		case `${SAVE_FAVORITE}_FULFILLED`:
 			return Object.assign({}, state, {
+				favorites: action.payload,
 				loading: false,
-				...action.payload.userData,
+				saved: true,
 			});
+		case `${SAVE_FAVORITE}_REJECTED`:
+			return Object.assign({}, state, { loading: true, error: true });
+		case `${GET_FAVORITES}_PENDING`:
+			return Object.assign({}, state, { loading: true });
+		case `${GET_FAVORITES}_FULFILLED`:
+			console.log(action.payload);
+			AsyncStorage.setItem('USER_FAVORITES', JSON.stringify(action.payload));
+			return Object.assign({}, state, {
+				favorites: action.payload,
+				loading: false,
+				saved: true,
+			});
+		case `${GET_FAVORITES}_REJECTED`:
+			console.log('rejected');
+			return Object.assign({}, state, { loading: true, error: true });
 
-		case `${CREATE_ACCOUNT}_REJECTED`:
-			return Object.assign({}, state, { loading: false, error: true });
-		case GET_USER_INFO + '_PENDING':
-			return Object.assign({}, state, { loading: true, transitioning: true });
-		case GET_USER_INFO + '_FULFILLED':
-			const { name, position, company, profilepic, uid } = action.payload;
+		case `${GET_FAVORITES_FROM_DB}_PENDING`:
+			return Object.assign({}, state, { loading: true });
+		case `${GET_FAVORITES_FROM_DB}_FULFILLED`:
 			return Object.assign({}, state, {
-				name,
-				position,
-				company,
-				profilePicURL: profilepic,
+				favorites: action.payload,
 				loading: false,
-				transitioning: false,
-				profileUid: uid,
-				ownProfile: initialState.uid === initialState.profileUid,
+				saved: true,
 			});
-		case `${GET_USER_INFO}_REJECTED`:
+		case `${GET_FAVORITES_FROM_DB}_REJECTED`:
 			return Object.assign({}, state, { loading: true, error: true });
-		case `${CHANGE_EMAIL}_PENDING`:
+
+		case `${CHECK_FAVORITES_FOR_SAVED}_PENDING`:
 			return Object.assign({}, state, { loading: true });
-		case `${CHANGE_EMAIL}_FULFILLED`:
-			return Object.assign({}, state, { loading: false });
-		case `${CHANGE_EMAIL}_REJECTED`:
-			return Object.assign({}, state, { loading: true, error: true });
-		case `${CHANGE_NAME}_PENDING`:
-			return Object.assign({}, state, { loading: true });
-		case `${CHANGE_NAME}_FULFILLED`:
-			return Object.assign({}, state, { loading: false });
-		case `${CHANGE_NAME}_REJECTED`:
-			return Object.assign({}, state, { loading: true, error: true });
-		case `${CHANGE_PICTURE}_PENDING`:
-			return Object.assign({}, state, { loading: true });
-		case `${CHANGE_PICTURE}_FULFILLED`:
-			return Object.assign({}, state, { loading: false });
-		case `${CHANGE_PICTURE}_REJECTED`:
-			return Object.assign({}, state, { loading: true, error: true });
-		case `${PULL_USER_FROM_LOCAL}_PENDING`:
-			return Object.assign({}, state, { loading: true });
-		case `${PULL_USER_FROM_LOCAL}_FULFILLED`:
+		case `${CHECK_FAVORITES_FOR_SAVED}_FULFILLED`:
 			return Object.assign({}, state, {
 				loading: false,
-				name: action.payload.name,
-				position: action.payload.position,
-				company: action.payload.company,
-				profilePicURL: action.payload.profilepic,
-				profileUid: action.payload.uid,
-				ownProfile: state.uid === action.payload.uid,
+				saved: action.payload,
 			});
-		case `${PULL_USER_FROM_LOCAL}_REJECTED`:
+		case `${CHECK_FAVORITES_FOR_SAVED}_REJECTED`:
 			return Object.assign({}, state, { loading: true, error: true });
+
 		default:
 			return state;
 	}

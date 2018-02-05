@@ -1,1 +1,1 @@
-DELETE from user_links where id = ${id} returning uid;
+DELETE from user_links where id = ${linkid} returning uid;

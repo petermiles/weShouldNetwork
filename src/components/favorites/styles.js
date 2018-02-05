@@ -36,7 +36,6 @@ export const FavoriteName = styled.Text`
 `;
 
 export const FavoritePosition = styled.Text`
-
 	font-size: 14
 	font-weight: 500
 `;
@@ -51,6 +50,7 @@ export const SearchContainer = styled.View`
 	align-items: center
 	flex-direction: row
 `;
+
 export const InfoContainer = styled.View`
 	flex: 1;
 	flex-direction: column;

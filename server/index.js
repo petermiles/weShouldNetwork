@@ -22,10 +22,10 @@ const userCtrl = require('./controllers/user/userCtrl');
 app.post('/api/user/createWithLinkedIn/:id', authCtrl.createWithLinkedIn);
 app.get('/api/user/getInfo/:id', userCtrl.getUser);
 
-app.get('/api/user/getConnectLinks/:userid', userCtrl.getConnectLinks);
+app.get('/api/user/getConnectLinks/:uid', userCtrl.getConnectLinks);
 app.post('/api/user/connectLink/add', userCtrl.addConnectLink);
 app.put('/api/user/connectLink/update', userCtrl.updateConnectLink);
-app.delete('/api/user/connectLink/delete/:userid', userCtrl.deleteConnectLink);
+app.delete('/api/user/connectLink/delete/:linkid', userCtrl.deleteConnectLink);
 
 app.get('/api/user/favorites/get/:userid', userCtrl.getFavorites);
 app.post('/api/user/favorites/save', userCtrl.saveFavorite);
