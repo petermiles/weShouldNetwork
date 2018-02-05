@@ -30,22 +30,6 @@ export const SubText = styled.Text`
   padding-right: 10%;
 `;
 
-export const SignUpButton = styled.TouchableOpacity`
-  elevation: 3
-  background-color: ${props => props.color || '#81D4FA'}
-  width: 780%;
-  align-items: center;
-  padding: 2%;
-  border-radius: 3
-  margin: 1%;
-`;
-
-export const SignUpButtonText = styled.Text`
-  font-size: ${props => props.size}
-  color: white;
-  font-weight: bold;
-`;
-
 export const LinkedInButtonText = styled.Text`
   text-align: center;
   color: white;

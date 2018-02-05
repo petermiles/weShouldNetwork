@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 
 import Swiper from 'react-native-swiper';
 
+import { connect } from 'react-redux';
+
 import LinkedInModal from 'react-native-linkedin';
 import { Secret, ClientID, Redirect } from './config.js';
+
+import { createAccount } from '../../../ducks/user/actions';
 
 import {
   Slide,
   Centered,
   MainText,
   SubText,
-  SignUpButton,
-  SignUpButtonText,
   LinkedInButtonText,
 } from './styles';
 
-export default class AppOnBoard extends Component {
+class AppOnBoard extends Component {
   render() {
     return (
       <Swiper dotColor={'white'} activeDotColor={'#B3E5FC'} loop={false}>
@@ -56,7 +58,7 @@ export default class AppOnBoard extends Component {
                 );
               }}
               onSuccess={token => {
-                // createLinkedInAccount(token, this.props.navigation.navigate);
+                this.props.createAccount(token, this.props.navigation.navigate);
               }}
               onError={err => {
                 return err;
@@ -68,3 +70,9 @@ export default class AppOnBoard extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ profileReducer }) => {
+  return profileReducer;
+};
+
+export default connect(mapStateToProps, { createAccount })(AppOnBoard);

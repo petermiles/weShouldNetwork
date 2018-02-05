@@ -8,7 +8,7 @@ import {
 import { AsyncStorage } from 'react-native';
 
 const initialState = {
-	favorites: '',
+	favorites: [],
 	loading: true,
 	saved: false,
 };
@@ -25,11 +25,9 @@ export default function favoritesReducer(state = initialState, action) {
 			});
 		case `${SAVE_FAVORITE}_REJECTED`:
 			return Object.assign({}, state, { loading: true });
-
 		case `${GET_FAVORITES}_PENDING`:
 			return Object.assign({}, state, { loading: true });
 		case `${GET_FAVORITES}_FULFILLED`:
-			console.log(action.payload);
 			AsyncStorage.setItem('USER_FAVORITES', JSON.stringify(action.payload));
 			return Object.assign({}, state, {
 				favorites: action.payload,

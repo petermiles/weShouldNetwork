@@ -1,3 +1,5 @@
+import { AsyncStorage } from 'react-native';
+
 import {
 	CREATE_ACCOUNT,
 	CHANGE_EMAIL,
@@ -25,9 +27,14 @@ export default function profileReducer(state = initialState, action) {
 		case `${CREATE_ACCOUNT}_PENDING`:
 			return Object.assign({}, state, { loading: true, transitioning: true });
 		case `${CREATE_ACCOUNT}_FULFILLED`:
-			return Object.assign({}, state, { loading: true, transitioning: true });
+			console.log(action.payload);
+			return Object.assign({}, state, {
+				loading: false,
+				...action.payload.userData,
+			});
+
 		case `${CREATE_ACCOUNT}_REJECTED`:
-			return Object.assign({}, state, { loading: true, transitioning: true });
+			return Object.assign({}, state, { loading: false, error: true });
 		case GET_USER_INFO + '_PENDING':
 			return Object.assign({}, state, { loading: true, transitioning: true });
 		case GET_USER_INFO + '_FULFILLED':

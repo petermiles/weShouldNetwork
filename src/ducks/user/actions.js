@@ -10,10 +10,23 @@ export const CHANGE_PICTURE = 'CHANGE_PICTURE';
 export const VALIDATE_QR = 'VALIDATE_QR';
 export const PULL_USER_FROM_LOCAL = 'PULL_USER_FROM_LOCAL';
 
-export function createAccount() {
+export function createAccount(token, navigate) {
 	return {
 		type: CREATE_ACCOUNT,
-		payload: '',
+		navigate: navigate,
+		payload: axios
+			.post(
+				'http://172.31.99.35:3001/api/user/createWithLinkedIn/' +
+					token.access_token
+			)
+			.then(result => {
+				return AsyncStorage.multiSet([
+					['USER_DATA', JSON.stringify(result.data.userData)],
+					['USER_LINKS', JSON.stringify(result.data.userLinks)],
+				]).then(res => {
+					return result.data;
+				});
+			}),
 	};
 }
 
