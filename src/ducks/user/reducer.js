@@ -34,25 +34,24 @@ export default function profileReducer(state = initialState, action) {
 		case `${CREATE_ACCOUNT}_PENDING`:
 			return Object.assign({}, state, { loading: true, transitioning: true });
 		case `${CREATE_ACCOUNT}_FULFILLED`:
+			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
-				...action.payload.userData,
+				userInfo: { ...action.payload },
 			});
-
 		case `${CREATE_ACCOUNT}_REJECTED`:
 			return Object.assign({}, state, { loading: false, error: true });
 		case GET_USER_INFO + '_PENDING':
 			return Object.assign({}, state, { loading: true, transitioning: true });
 		case GET_USER_INFO + '_FULFILLED':
-			const { name, position, company, profilepic, uid } = action.payload;
 			return Object.assign({}, state, {
-				name,
-				position,
-				company,
-				profilePicURL: profilepic,
+				name: action.payload.name,
+				position: action.payload.position,
+				company: action.payload.company,
+				profilePicURL: action.payload.profilepic,
 				loading: false,
 				transitioning: false,
-				profileUid: uid,
+				profileUid: action.payload.uid,
 				ownProfile: initialState.uid === initialState.profileUid,
 			});
 		case `${GET_USER_INFO}_REJECTED`:

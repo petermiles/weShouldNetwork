@@ -19,7 +19,7 @@ app.use(cors());
 const authCtrl = require('./controllers/auth/authCtrl');
 const userCtrl = require('./controllers/user/userCtrl');
 
-app.post('/api/user/createWithLinkedIn/:id', authCtrl.createWithLinkedIn);
+app.post('/api/user/authWithLinkedIn/:id', authCtrl.createWithLinkedIn);
 app.get('/api/user/getInfo/:id', userCtrl.getUser);
 
 app.get('/api/user/getConnectLinks/:userid', userCtrl.getConnectLinks);

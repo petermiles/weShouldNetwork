@@ -1,14 +1,14 @@
-import React from "react";
+import React, { Component } from 'react';
+import { AppRegistry, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
+import { createRootNavigator } from './router';
 
-import { AppRegistry, AsyncStorage } from "react-native";
-import { createRootNavigator } from "./router";
+import { checkAuth } from './src/functions/auth';
 
-import { checkAuth } from "./src/functions/auth";
+import { Provider } from 'react-redux';
+import store from './src/ducks/store';
 
-import { Provider } from "react-redux";
-import store from "./src/ducks/store";
-
-export default class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
 
@@ -19,8 +19,12 @@ export default class App extends React.Component {
     };
   }
 
+  componentWillReceiveProps(newProps) {
+    console.log(newProps);
+  }
+
   componentDidMount() {
-    AsyncStorage.getItem("USER_DATA").then(result => {
+    AsyncStorage.getItem('USER_DATA').then(result => {
       this.setState({ signedIn: result, checkedSignIn: true });
     });
   }
@@ -33,10 +37,16 @@ export default class App extends React.Component {
     const Layout = createRootNavigator(signedIn);
     return (
       <Provider store={store}>
-        <Layout props={checkAuth} />
+        <Layout props={checkAuth} uid={this.props.uid} />
       </Provider>
     );
   }
 }
 
-AppRegistry.registerComponent("android", () => App);
+const mapStateToProps = ({ profileReducer }) => {
+  return { uid: profileReducer.uid };
+};
+
+export default connect(mapStateToProps, {})(App);
+
+AppRegistry.registerComponent('android', () => App);
