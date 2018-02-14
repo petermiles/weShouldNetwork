@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { AsyncStorage } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 import { connect } from 'react-redux';
@@ -18,28 +18,34 @@ import {
 } from './styles';
 
 class AppOnBoard extends Component {
+  componentWillReceiveProps(nextProps) {
+    AsyncStorage.setItem('USER_DATA', JSON.stringify(nextProps.userInfo)).then(
+      () => {
+        nextProps.navigation.navigate('SignedIn');
+      }
+    );
+  }
+
   render() {
     return (
       <Swiper dotColor={'white'} activeDotColor={'#B3E5FC'} loop={false}>
         <Slide color={'#90CAF9'}>
           <MainText>We Should Network</MainText>
           <SubText>
-            {' '}
-            An easier way to share and save networking information{' '}
+            An easier way to share and save networking information
           </SubText>
         </Slide>
         <Slide color={'#64B5F6'}>
           <MainText marginBottom="10%">Scan a QR Code</MainText>
           <SubText>
-            {' '}
-            Get taken directly to their profile with all of their information{' '}
+            Get taken directly to their profile with all of their information
           </SubText>
         </Slide>
         <Slide color={'#42A5F5'}>
           <MainText>Save Their Information</MainText>
           <SubText>
             All of your saved networking contacts are easily accessible within
-            the app{' '}
+            the app
           </SubText>
         </Slide>
         <Slide color={'#2196F3'}>
@@ -58,7 +64,7 @@ class AppOnBoard extends Component {
                 );
               }}
               onSuccess={token => {
-                this.props.createAccount(token, this.props.navigation.navigate);
+                this.props.createAccount(token);
               }}
               onError={err => {
                 return err;
@@ -72,7 +78,7 @@ class AppOnBoard extends Component {
 }
 
 const mapStateToProps = ({ profileReducer }) => {
-  return profileReducer;
+  return { userInfo: profileReducer.userInfo };
 };
 
 export default connect(mapStateToProps, { createAccount })(AppOnBoard);

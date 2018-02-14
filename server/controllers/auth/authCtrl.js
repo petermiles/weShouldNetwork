@@ -14,44 +14,55 @@ const createUser = (req, res) => {
 };
 
 const createWithLinkedIn = (req, res) => {
-	console.log(req.params);
 	axios.defaults.headers.common['Authorization'] = `Bearer ${req.params.id}`;
 	axios
 		.get(
 			`https://api.linkedin.com/v1/people/~:(id,positions,picture-url,first-name,last-name,public-profile-url)?format=json`
 		)
-		.then(result => {
-			const parsedData = {
-				uid: 'LinkedIn' + result.data.id,
-				name: result.data.firstName + ' ' + result.data.lastName,
-				title: result.data.positions.values[0].title,
-				company: result.data.positions.values[0].company.name,
-				url: result.data.publicProfileUrl,
-				pic: result.data.pictureUrl,
-			};
-			return parsedData;
-		})
-		.then(data => {
-			let parsedData = {
-				userData: '',
-				userLinks: '',
-			};
+		.then(linkedinResult => {
 			req.app
 				.get('db')
-				.createLinkedInUser(data)
-				.then(result => {
-					parsedData.userData = result[0];
-					req.app
-						.get('db')
-						.connectLinkGet({ uid: parsedData.userData.uid })
-						.then(result => {
-							parsedData.userLinks = result;
-							res.json(parsedData);
-						});
-				})
-				.catch(console.log);
-		})
-		.catch(console.log);
+				.userCheckAuth({ uid: linkedinResult.data.id })
+				.then(checkAuthResult => {
+					if (checkAuthResult.length) {
+						return res.json(checkAuthResult[0]);
+					} else {
+						req.app
+							.get('db')
+							.createLinkedInUser({
+								uid: linkedinResult.data.id,
+								name:
+									linkedinResult.data.firstName +
+									' ' +
+									linkedinResult.data.lastName,
+								title: linkedinResult.data.positions.values[0].title,
+								company: linkedinResult.data.positions.values[0].company.name,
+								url: linkedinResult.data.publicProfileUrl,
+								pic: linkedinResult.data.pictureUrl,
+							})
+							.then(result => {
+								console.log('done');
+								return res.json(result);
+							});
+					}
+				});
+		});
+
+	// 			.then(result => {
+	// 				console.log(result);
+
+	// 				return parsedData;
+	// 			})
+	// 			.then(data => {
+	// 				let parsedData = {
+	// 					userData: '',
+	// 					userLinks: '',
+	// 				};
+
+	// 			})
+	// 			.catch(console.log);
+	// 	}
+	// });
 };
 module.exports = {
 	createUser,

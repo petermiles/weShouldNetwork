@@ -16,16 +16,11 @@ export function createAccount(token, navigate) {
 		navigate: navigate,
 		payload: axios
 			.post(
-				'http://172.31.99.35:3001/api/user/createWithLinkedIn/' +
+				'http://172.31.99.35:3001/api/user/authWithLinkedIn/' +
 					token.access_token
 			)
 			.then(result => {
-				return AsyncStorage.multiSet([
-					['USER_DATA', JSON.stringify(result.data.userData)],
-					['USER_LINKS', JSON.stringify(result.data.userLinks)],
-				]).then(() => {
-					return result.data;
-				});
+				return result.data;
 			}),
 	};
 }

@@ -46,7 +46,6 @@ export const SignedIn = TabNavigator(
     Profile: {
       screen: Profile,
       path: '/profile/:user',
-      initialRouteParams: { user: 'test' },
       navigationOptions: {
         tabBarLabel: 'Profile',
         swipeEnabled: true,
@@ -75,8 +74,9 @@ export const SignedIn = TabNavigator(
   }
 );
 
-export const createRootNavigator = (signedIn = false) =>
-  StackNavigator(
+export const createRootNavigator = (signedIn = false, uid) => {
+  console.log(uid);
+  return StackNavigator(
     {
       SignedIn: {
         screen: SignedIn,
@@ -104,3 +104,4 @@ export const createRootNavigator = (signedIn = false) =>
       initialRouteName: signedIn ? 'SignedIn' : 'OnBoard',
     }
   );
+};

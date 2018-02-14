@@ -24,12 +24,14 @@ export default function IndivFavorite(props) {
 			activeOpacity={0.8}
 			onPress={() => {
 				if (props.navigate) {
-					props.navigate(
-						NavigationActions.navigate({
-							routeName: 'ScannedProfile',
-							params: { uid: props.profileuid },
-						})
-					);
+					props.getUserInfo().then(() => {
+						props.navigate(
+							NavigationActions.navigate({
+								routeName: 'ScannedProfile',
+								params: { uid: props.profileuid },
+							})
+						);
+					});
 				}
 			}}>
 			<CenteredRow>
