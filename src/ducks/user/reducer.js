@@ -34,7 +34,6 @@ export default function profileReducer(state = initialState, action) {
 		case `${CREATE_ACCOUNT}_PENDING`:
 			return Object.assign({}, state, { loading: true, transitioning: true });
 		case `${CREATE_ACCOUNT}_FULFILLED`:
-			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
 				userInfo: { ...action.payload },

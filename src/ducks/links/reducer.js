@@ -25,13 +25,14 @@ export default function linkReducer(state = initialState, action) {
 		case GET_LINKS_FROM_NAV + '_FULFILLED':
 			return Object.assign({}, state, {
 				loading: false,
-				links: action.payload.data,
+				links: action.payload,
 			});
 		case GET_LINKS_FROM_NAV + '_REJECTED':
 			return Object.assign({}, state, { loading: true, error: false });
 		case GET_LINKS_FROM_LOCAL + '_PENDING':
 			return Object.assign({}, state, { loading: true });
 		case GET_LINKS_FROM_LOCAL + '_FULFILLED':
+			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
 				links: action.payload,

@@ -76,7 +76,8 @@ class Connect extends Component {
     this.props.getLinksFromNav(
       this.props.navigation.state.params
         ? this.props.navigation.state.params.uid
-        : this.props.uid
+        : this.props.uid,
+      this.props.uid
     );
   }
 
@@ -94,7 +95,7 @@ class Connect extends Component {
     } = this.state;
     const { providers, links } = this.props;
 
-    return (
+    return this.props.loading ? null : (
       <Container>
         <Content>
           <ConnectLinkPage
@@ -156,7 +157,11 @@ class Connect extends Component {
 }
 
 const mapStateToProps = ({ linkReducer, profileReducer }) => {
-  return { ...linkReducer, uid: profileReducer.baseuid };
+  return {
+    ...linkReducer,
+    uid: profileReducer.baseuid,
+    loading: linkReducer.loading,
+  };
 };
 
 export default connect(mapStateToProps, { getLinksFromNav, getLinksFromLocal })(

@@ -22,7 +22,6 @@ export function saveFavorite(profileUid, userUid) {
 }
 
 export function getFavorites(uid) {
-	console.log(uid);
 	return {
 		type: GET_FAVORITES,
 		payload: favorites.then(result => {
@@ -39,7 +38,6 @@ export function checkFavoritesForSaved(profileUid, userid) {
 	return {
 		type: CHECK_FAVORITES_FOR_SAVED,
 		payload: favorites.then(result => {
-			console.log(JSON.parse(result));
 			if (result) {
 				let res = JSON.parse(result).reduce((acc, val) => {
 					val.userid === userid && val.uid === profileUid
@@ -47,7 +45,7 @@ export function checkFavoritesForSaved(profileUid, userid) {
 						: null;
 					return acc;
 				}, []);
-				console.log(res);
+
 				return res;
 			} else {
 				axios

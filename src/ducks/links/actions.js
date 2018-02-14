@@ -7,14 +7,26 @@ export const ADD_LINK = 'ADD_LINK';
 export const UPDATE_LINK = 'UPDATE_LINK';
 export const DELETE_LINK = 'DELETE_LINK';
 
-export function getLinksFromNav(uid) {
+export function getLinksFromNav(uid, baseuid) {
 	return {
 		type: GET_LINKS_FROM_NAV,
-		payload: axios
-			.get(`http://172.31.99.35:3001/api/user/getConnectLinks/${uid}`)
-			.then(res => res),
+		payload: AsyncStorage.getItem('USER_LINKS').then(result => {
+			if (result) {
+				return JSON.parse(result);
+			} else {
+				axios
+					.get('http://172.31.99.35:3001/api/user/getConnectLinks/${uid}')
+					.then(result => {
+						if (uid === baseuid) {
+							AsyncStorage.setItem('USER_LINKS', JSON.stringify(result.data));
+						}
+						return result.data;
+					});
+			}
+		}),
 	};
 }
+
 export function getLinksFromLocal(uid) {
 	return {
 		type: GET_LINKS_FROM_LOCAL,
