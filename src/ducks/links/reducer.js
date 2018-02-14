@@ -1,66 +1,93 @@
-import {
-	GET_LINKS_FROM_NAV,
-	GET_LINKS_FROM_LOCAL,
-	ADD_LINK,
-	UPDATE_LINK,
-	DELETE_LINK,
-} from './actions';
-
 import { AsyncStorage } from 'react-native';
 
+import {
+	CREATE_ACCOUNT,
+	CHANGE_EMAIL,
+	CHANGE_NAME,
+	CHANGE_PICTURE,
+	GET_USER_INFO,
+	PULL_USER_FROM_LOCAL,
+} from './actions';
+
 let initialState = {
-	links: [],
+	baseuid: '',
+	uid: '',
 	loading: false,
 	error: false,
-	providers: ['LinkedIn', 'Twitter', 'Medium', 'Phone', 'Email'],
-	editableName: '',
-	editableLink: '',
-	editableColor: '',
+	name: '',
+	company: '',
+	position: '',
+	profilePicURL: '',
+	profileUid: '',
+	ownProfile: true,
+	transitioning: false,
 };
 
-export default function linkReducer(state = initialState, action) {
+export default function profileReducer(state = initialState, action) {
+	AsyncStorage.getItem('USER_DATA').then(result => {
+		if (result) {
+			initialState.uid = JSON.parse(result).uid;
+			initialState.baseuid = JSON.parse(result).uid;
+		}
+	});
 	switch (action.type) {
-		case GET_LINKS_FROM_NAV + '_PENDING':
-			return Object.assign({}, state, { loading: true });
-		case GET_LINKS_FROM_NAV + '_FULFILLED':
+		case `${CREATE_ACCOUNT}_PENDING`:
+			return Object.assign({}, state, { loading: true, transitioning: true });
+		case `${CREATE_ACCOUNT}_FULFILLED`:
+			console.log(action.payload);
 			return Object.assign({}, state, {
 				loading: false,
-				links: action.payload.data,
+				userInfo: { ...action.payload },
 			});
-		case GET_LINKS_FROM_NAV + '_REJECTED':
-			return Object.assign({}, state, { loading: true, error: false });
-		case GET_LINKS_FROM_LOCAL + '_PENDING':
+		case `${CREATE_ACCOUNT}_REJECTED`:
+			return Object.assign({}, state, { loading: false, error: true });
+		case GET_USER_INFO + '_PENDING':
+			return Object.assign({}, state, { loading: true, transitioning: true });
+		case GET_USER_INFO + '_FULFILLED':
+			return Object.assign({}, state, {
+				name: action.payload.name,
+				position: action.payload.position,
+				company: action.payload.company,
+				profilePicURL: action.payload.profilepic,
+				loading: false,
+				transitioning: false,
+				profileUid: action.payload.uid,
+				ownProfile: initialState.uid === initialState.profileUid,
+			});
+		case `${GET_USER_INFO}_REJECTED`:
+			return Object.assign({}, state, { loading: true, error: true });
+		case `${CHANGE_EMAIL}_PENDING`:
 			return Object.assign({}, state, { loading: true });
-		case GET_LINKS_FROM_LOCAL + '_FULFILLED':
+		case `${CHANGE_EMAIL}_FULFILLED`:
+			return Object.assign({}, state, { loading: false });
+		case `${CHANGE_EMAIL}_REJECTED`:
+			return Object.assign({}, state, { loading: true, error: true });
+		case `${CHANGE_NAME}_PENDING`:
+			return Object.assign({}, state, { loading: true });
+		case `${CHANGE_NAME}_FULFILLED`:
+			return Object.assign({}, state, { loading: false });
+		case `${CHANGE_NAME}_REJECTED`:
+			return Object.assign({}, state, { loading: true, error: true });
+		case `${CHANGE_PICTURE}_PENDING`:
+			return Object.assign({}, state, { loading: true });
+		case `${CHANGE_PICTURE}_FULFILLED`:
+			return Object.assign({}, state, { loading: false });
+		case `${CHANGE_PICTURE}_REJECTED`:
+			return Object.assign({}, state, { loading: true, error: true });
+		case `${PULL_USER_FROM_LOCAL}_PENDING`:
+			return Object.assign({}, state, { loading: true });
+		case `${PULL_USER_FROM_LOCAL}_FULFILLED`:
 			return Object.assign({}, state, {
 				loading: false,
-				links: action.payload,
-				providers: initialState.providers.filter(x =>
-					action.payload.find(
-						curr => x.toLowerCase() === curr.servicename.toLowerCase()
-					)
-				),
+				name: action.payload.name,
+				position: action.payload.position,
+				company: action.payload.company,
+				profilePicURL: action.payload.profilepic,
+				profileUid: action.payload.uid,
+				ownProfile: state.uid === action.payload.uid,
 			});
-		case GET_LINKS_FROM_LOCAL + '_REJECTED':
-			return Object.assign({}, state, { loading: true, error: false });
-		case ADD_LINK + '_PENDING':
-			return Object.assign({}, state, { loading: true });
-		case ADD_LINK + '_FULFILLED':
-			return Object.assign({}, state, { loading: false });
-		case ADD_LINK + '_REJECTED':
-			return Object.assign({}, state, { loading: true, error: false });
-		case UPDATE_LINK + '_PENDING':
-			return Object.assign({}, state, { loading: true });
-		case UPDATE_LINK + '_FULFILLED':
-			return Object.assign({}, state, { loading: false });
-		case UPDATE_LINK + '_REJECTED':
-			return Object.assign({}, state, { loading: true, error: false });
-		case DELETE_LINK + '_PENDING':
-			return Object.assign({}, state, { loading: true });
-		case DELETE_LINK + '_FULFILLED':
-			return Object.assign({}, state, { loading: false });
-		case DELETE_LINK + '_REJECTED':
-			return Object.assign({}, state, { loading: true, error: false });
+		case `${PULL_USER_FROM_LOCAL}_REJECTED`:
+			return Object.assign({}, state, { loading: true, error: true });
 		default:
 			return state;
 	}

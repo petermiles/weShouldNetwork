@@ -13,7 +13,7 @@ class FavoritesPage extends Component {
 
 		this.state = {
 			favorites: [],
-			searchedFavorites: [],
+			searchedFavorites: '',
 			loading: true,
 			noResults: false,
 		};
@@ -49,18 +49,18 @@ class FavoritesPage extends Component {
 
 	render() {
 		let { favorites, loading } = this.props.favoritesReducer;
-		let favs = this.state.searchedFavorites.length
+		let favs = this.state.searchedFavorites
 			? this.state.searchedFavorites
 			: favorites;
 		return (
 			<View>
 				<Search changeSearchText={text => this.handleSearch(text)} />
 				<ScrollView>
-					{favs.length ? (
+					{favs ? (
 						favs.map((favorite, i) => {
 							return (
 								<IndivFavorite
-									last={favs.length === i + 1}
+									last={favorites.length === i + 1}
 									key={i}
 									loading={loading}
 									name={favorite.name}
