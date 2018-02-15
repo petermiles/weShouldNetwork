@@ -34,28 +34,19 @@ export function getFavorites(uid) {
 	};
 }
 
-export function checkFavoritesForSaved(profileUid, userid) {
+export function checkFavoritesForSaved(profileUid, useruid) {
+	console.log(profileUid, useruid);
 	return {
 		type: CHECK_FAVORITES_FOR_SAVED,
-		payload: favorites.then(result => {
-			if (result) {
-				let res = JSON.parse(result).reduce((acc, val) => {
-					val.userid === userid && val.uid === profileUid
-						? acc.push(val)
-						: null;
-					return acc;
-				}, []);
-
-				return res;
-			} else {
-				axios
-					.post('http://172.31.99.35:3001/api/user/favorites/checkSaved', {
-						profileUid,
-						userid,
-					})
-					.then(res => res.data);
-			}
-		}),
+		payload: axios
+			.post('http://172.31.99.35:3001/api/user/favorites/checkSaved', {
+				profileUid,
+				useruid,
+			})
+			.then(res => {
+				console.log(res);
+				return res.data;
+			}),
 	};
 }
 

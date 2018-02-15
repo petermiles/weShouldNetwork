@@ -25,9 +25,9 @@ import {
 
 class ProfileHead extends Component {
 	componentDidMount() {
-		const { profileUid, uid } = this.props.profileReducer;
-		if (this.props.profileReducer.ownProfile) {
-			this.props.checkFavoritesForSaved(profileUid, uid);
+		const { profileUid, baseuid, ownProfile } = this.props.profileReducer;
+		if (!ownProfile) {
+			this.props.checkFavoritesForSaved(profileUid, baseuid);
 		}
 	}
 
@@ -37,7 +37,7 @@ class ProfileHead extends Component {
 			position,
 			company,
 			profileUid,
-			uid,
+			baseuid,
 			profilePicURL,
 			ownProfile,
 		} = this.props.profileReducer;
@@ -68,10 +68,10 @@ class ProfileHead extends Component {
 							loading={loading}
 							saved={saved}
 							profileUid={profileUid}
-							userUid={uid}
-							ownProfile={profileUid === uid}
+							userUid={baseuid}
+							ownProfile={profileUid === baseuid}
 							saveItem={() => {
-								this.props.saveFavorite(profileUid, uid);
+								this.props.saveFavorite(profileUid, baseuid);
 							}}
 						/>
 					</CenterView>

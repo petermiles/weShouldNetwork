@@ -55,7 +55,7 @@ class Scan extends Component {
     return (
       <CameraContainer>
         <Camera
-          onBarCodeRead={_.once(event => {
+          onBarCodeRead={once(event => {
             this.setState({ hideCamera: true }, () => {
               this.navigate(event.data);
             });
